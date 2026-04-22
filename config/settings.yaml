@@ -1,0 +1,23 @@
+# JISP global settings (placeholder).
+# Environment variables (see .env.example) override these values at runtime.
+
+app:
+  name: jisp
+  version: 0.0.1
+
+api:
+  host: 0.0.0.0
+  port: 8000
+
+database:
+  host: db
+  port: 5432
+  name: jisp
+  user: jisp
+
+ollama:
+  host: http://ollama:11434
+  model: kimi
+
+region:
+  default: us

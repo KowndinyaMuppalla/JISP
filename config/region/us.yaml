@@ -1,0 +1,7 @@
+# JISP regional configuration — United States (placeholder).
+region: us
+sources:
+  usgs:
+    enabled: true
+  epa:
+    enabled: true

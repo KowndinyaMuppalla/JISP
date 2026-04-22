@@ -1,0 +1,4 @@
+-- JISP PostgreSQL extensions placeholder.
+-- Required extensions (to be created in later steps):
+--   CREATE EXTENSION IF NOT EXISTS postgis;
+--   CREATE EXTENSION IF NOT EXISTS timescaledb;

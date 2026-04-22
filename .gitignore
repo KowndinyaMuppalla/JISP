@@ -1,0 +1,45 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# --- Environment ---
+.env
+.env.*
+!.env.example
+
+# --- IDE ---
+.vscode/
+.idea/
+*.swp
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Data (raw/processed artifacts are not committed) ---
+# Ignore file contents under these roots, but preserve directory structure
+# via .gitkeep markers.
+data/raw/**/*
+!data/raw/**/
+!data/raw/**/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/reference/**/*
+!data/reference/**/
+!data/reference/**/.gitkeep
+
+# --- Docker ---
+*.pid

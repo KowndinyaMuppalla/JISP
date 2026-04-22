@@ -1,0 +1,9 @@
+[project]
+name = "jisp"
+version = "0.0.1"
+description = "JISP – Jacobs Spatial Intelligence Platform"
+requires-python = ">=3.11"
+readme = "README.md"
+
+# Dependencies are enumerated in requirements.txt during scaffolding.
+# A full project table will be populated as implementation steps proceed.

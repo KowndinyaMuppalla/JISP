@@ -1,0 +1,7 @@
+# JISP regional configuration — Australia / New Zealand (placeholder).
+region: anz
+sources:
+  bom:
+    enabled: true
+  ea:
+    enabled: true

@@ -1,0 +1,3 @@
+-- JISP spatial schema placeholder — no DDL yet.
+-- Tables for assets, geometries, and related PostGIS-backed entities
+-- will be defined in later steps.

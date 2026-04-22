@@ -1,0 +1,6 @@
+# JISP – Jacobs Spatial Intelligence Platform
+# Runtime dependencies will be populated as implementation steps proceed.
+# Approved stack only (see README.md): Python, PostgreSQL, PostGIS, TimescaleDB,
+# GDAL/OGR, GeoPandas, Rasterio, xarray, scikit-learn, PySAL, HDBSCAN/DBSCAN,
+# OpenGeoAI, OpenCL (PyOpenCL/Numba), SHAP, Ollama, Kimi LLM, FastAPI, Pydantic,
+# MapLibre GL JS (frontend), Streamlit.

@@ -9,3 +9,7 @@
 fastapi>=0.110
 pydantic>=2.6
 uvicorn[standard]>=0.29  # ASGI server required to run FastAPI
+
+# --- Step 5: Database & Audit Logging ---
+sqlalchemy>=2.0  # ORM for PostgreSQL audit persistence
+psycopg2-binary>=2.9  # PostgreSQL adapter

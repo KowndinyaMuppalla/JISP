@@ -1,9 +1,10 @@
 # JISP local-only stack for Docker Desktop.
 #
-# Step 4 scope: run JISP API + Ollama with GPU acceleration.
+# Services:
 #   - `ollama`       : Ollama server (GPU-enabled via NVIDIA Container Toolkit)
 #   - `ollama-init`  : one-shot sidecar that pulls `llama3.3` on first boot
 #   - `api`          : JISP FastAPI service (built from docker/api.Dockerfile)
+#   - `ui`           : Streamlit management demo (built from docker/ui.Dockerfile)
 #
 # `db` and `geoai` Dockerfiles exist in this folder per the approved
 # structure; their compose services will be added in a later step.
@@ -89,6 +90,23 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
+    restart: unless-stopped
+
+  # Streamlit management-demo dashboard. Talks to the API container over
+  # the compose network (JISP_API_BASE_URL=http://api:8000), not localhost.
+  ui:
+    build:
+      context: ..
+      dockerfile: docker/ui.Dockerfile
+    container_name: jisp-ui
+    ports:
+      - "8501:8501"
+    environment:
+      JISP_API_BASE_URL: http://api:8000
+      JISP_API_TIMEOUT_SECONDS: ${JISP_API_TIMEOUT_SECONDS:-90}
+    depends_on:
+      api:
+        condition: service_healthy
     restart: unless-stopped
 
 volumes:

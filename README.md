@@ -51,19 +51,35 @@ A self-contained demo dashboard showcases the reasoning layer end-to-end using
 seeded assets. No database or ingestion required — the UI calls the live
 `/explain` endpoint and displays a LLaMA 3.3 explanation on a map.
 
+### Option A — Docker Compose (recommended)
+
+Brings up Ollama, the API, and the Streamlit UI as a single stack:
+
 ```bash
-# 1. Install deps (once)
-pip install -r requirements.txt
-
-# 2. Start the API (needs Ollama running with llama3.3 pulled)
-uvicorn api.main:app --host 0.0.0.0 --port 8000
-
-# 3. In a second terminal, launch the dashboard
-./scripts/run_demo_ui.sh
-#   then open http://localhost:8501
+docker compose -f docker/docker-compose.yml up --build
+# or in Docker Desktop, hit ▶ on the jisp-api and jisp-ui containers
 ```
 
+Then open **http://localhost:8501**. The first boot pulls `llama3.3` (~40 GB,
+one-time); subsequent starts reuse the `ollama-data` volume.
+
+### Option B — local Python (no Docker for UI)
+
+Use this if Ollama + API are already up (e.g. only `jisp-ollama` and `jisp-api`
+running in Docker Desktop):
+
+```bash
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+./scripts/run_demo_ui.sh     # opens on :8501
+```
+
+### Using the demo
+
 Click a finding in the sidebar, hit **Explain with LLaMA 3.3**, and the map +
-explanation panel update with a real observational narrative. See
-`ui/dashboards/` for the demo source and `MVP_TASKS.md` for what else is
-needed to replace the seeded data with a real ingestion-and-detection pipeline.
+explanation panel update with a real observational narrative. First click takes
+10–30 s while the model warms up; later clicks are faster.
+
+See `ui/dashboards/` for the demo source and `MVP_TASKS.md` for what still
+needs to land to replace the seeded data with a real ingestion-and-detection
+pipeline.

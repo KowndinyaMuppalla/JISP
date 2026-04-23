@@ -27,7 +27,6 @@ env
 data
 docs
 tests
-ui
 scripts
 
 *.md

@@ -1,0 +1,22 @@
+# Optional GPU override for the JISP stack.
+#
+# Layer on top of the base compose file when the host has an NVIDIA GPU
+# exposed to Docker (NVIDIA Container Toolkit installed):
+#
+#     docker compose \
+#       -f docker/docker-compose.yml \
+#       -f docker/docker-compose.gpu.yml \
+#       up --build
+#
+# On machines without a GPU, just use the base file alone — it runs
+# Ollama on CPU.
+
+services:
+  ollama:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

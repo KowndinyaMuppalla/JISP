@@ -1,8 +1,8 @@
 # JISP local-only stack for Docker Desktop.
 #
 # Services:
-#   - `ollama`       : Ollama server (GPU-enabled via NVIDIA Container Toolkit)
-#   - `ollama-init`  : one-shot sidecar that pulls `llama3.3` on first boot
+#   - `ollama`       : Ollama server (CPU by default; GPU via override file)
+#   - `ollama-init`  : one-shot sidecar that pulls the reasoning model on first boot
 #   - `api`          : JISP FastAPI service (built from docker/api.Dockerfile)
 #   - `ui`           : Streamlit management demo (built from docker/ui.Dockerfile)
 #
@@ -13,16 +13,20 @@
 #     docker compose -f docker/docker-compose.yml up --build
 #
 # Environment overrides are read from a `.env` at the repo root
-# (see `.env.example`). The model pull is 40+ GB on first boot; subsequent
-# starts reuse the `ollama-data` named volume.
+# (see `.env.example`). On first boot the init container pulls the model
+# named by $JISP_OLLAMA_MODEL (default: llama3.2, ~2 GB). Subsequent starts
+# reuse the `ollama-data` named volume.
 #
-# GPU NOTE
-# --------
-# The `ollama` service declares an NVIDIA GPU reservation via the
-# `deploy.resources.reservations.devices` block below. This requires
-# NVIDIA Container Toolkit installed on the host. On machines without
-# an NVIDIA GPU, comment out that block to fall back to CPU-only
-# execution (not recommended per the JISP spec, but unblocks dev).
+# GPU acceleration (optional)
+# ---------------------------
+# The base compose file is CPU-only so it runs on any Windows/Mac/Linux
+# Docker Desktop without NVIDIA Container Toolkit. If you do have an
+# NVIDIA GPU exposed to Docker, layer the GPU override on top:
+#
+#     docker compose \\
+#       -f docker/docker-compose.yml \\
+#       -f docker/docker-compose.gpu.yml \\
+#       up --build
 
 services:
 
@@ -39,13 +43,6 @@ services:
       timeout: 5s
       retries: 10
       start_period: 30s
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
     restart: unless-stopped
 
   # One-shot pull of the reasoning model. Exits 0 after the pull
@@ -103,7 +100,7 @@ services:
       - "8501:8501"
     environment:
       JISP_API_BASE_URL: http://api:8000
-      JISP_API_TIMEOUT_SECONDS: ${JISP_API_TIMEOUT_SECONDS:-90}
+      JISP_API_TIMEOUT_SECONDS: ${JISP_API_TIMEOUT_SECONDS:-120}
     depends_on:
       api:
         condition: service_healthy

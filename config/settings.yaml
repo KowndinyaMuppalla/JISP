@@ -17,7 +17,7 @@ database:
 
 ollama:
   host: http://ollama:11434
-  model: llama3.3
+  model: llama3.2
 
 region:
   default: us

@@ -12,12 +12,12 @@ through the FastAPI /explain endpoint — the UI never calls Ollama directly.
 """
 
 from __future__ import annotations
-
+import api_client
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
 
-from ui.dashboards import api_client
+
 from ui.dashboards.demo_data import (
     DEMO_ASSETS,
     DEMO_FLOOD_ZONE_GEOJSON,
@@ -233,7 +233,7 @@ with main:
     action_col, spacer = st.columns([1, 3])
     with action_col:
         explain_clicked = st.button(
-            "🧠 Explain with LLaMA 3.3",
+            "🧠 Alert Reasoning",
             type="primary",
             use_container_width=True,
             disabled=not health.ok,
@@ -247,7 +247,7 @@ with main:
     if explain_clicked:
         st.session_state.last_error = None
         st.session_state.last_explanation = None
-        with st.spinner("Generating explanation — LLaMA 3.3 typically takes 5–20 s…"):
+        with st.spinner("Generating AI model explanation..."):
             try:
                 resp = api_client.explain(
                     subject=selected.id,

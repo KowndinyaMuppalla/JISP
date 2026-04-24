@@ -22,7 +22,7 @@ from dataclasses import dataclass
 
 
 DEFAULT_OLLAMA_HOST = "http://localhost:11434"
-DEFAULT_OLLAMA_MODEL = "llama3.3"
+DEFAULT_OLLAMA_MODEL = "llama3.2"
 DEFAULT_TIMEOUT_SECONDS = 60.0
 
 

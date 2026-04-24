@@ -130,7 +130,7 @@ class TestExplanationModel:
         record = Explanation(
             subject="ASSET-12345",
             template="asset_risk",
-            model="llama3.3",
+            model="llama3.2",
             explanation_text="Asset is 2.5 km from active flood zone.",
             explanation_length=38,
             execution_time_ms=125.5,
@@ -153,7 +153,7 @@ class TestExplanationModel:
         record = Explanation(
             subject="ASSET-99",
             template="flood_explanation",
-            model="llama3.3",
+            model="llama3.2",
             context_keys=["finding_type", "severity_raw", "metrics"],
             explanation_text="Flood extent increased by 15%.",
             explanation_length=31,
@@ -267,7 +267,7 @@ class TestAuditLogger:
             meta = ExplanationMetadata(
                 subject="ASSET-456",
                 template="asset_risk",
-                model="llama3.3",
+                model="llama3.2",
                 context_keys=["metrics", "signals"],
                 finding_type="flood_proximity",
             )
@@ -308,7 +308,7 @@ class TestAuditLogger:
             record = Explanation(
                 subject=f"ASSET-{i}",
                 template="asset_risk" if i % 2 == 0 else "flood_explanation",
-                model="llama3.3",
+                model="llama3.2",
                 explanation_text=f"Explanation {i}",
                 explanation_length=20,
                 execution_time_ms=100.0,

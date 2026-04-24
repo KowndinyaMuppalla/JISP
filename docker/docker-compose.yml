@@ -62,7 +62,7 @@ services:
     entrypoint: ["/bin/sh", "-c"]
     command:
       - |
-        MODEL="${JISP_OLLAMA_MODEL:-llama3.3}"
+        MODEL="${JISP_OLLAMA_MODEL:-llama3.2}"
         echo "[jisp] pulling $$MODEL ..."
         ollama pull "$$MODEL"
         echo "[jisp] $$MODEL ready"
@@ -77,7 +77,7 @@ services:
       - "8000:8000"
     environment:
       JISP_OLLAMA_HOST: http://ollama:11434
-      JISP_OLLAMA_MODEL: ${JISP_OLLAMA_MODEL:-llama3.3}
+      JISP_OLLAMA_MODEL: ${JISP_OLLAMA_MODEL:-llama3.2}
       JISP_OLLAMA_TIMEOUT_SECONDS: ${JISP_OLLAMA_TIMEOUT_SECONDS:-60}
     depends_on:
       ollama:

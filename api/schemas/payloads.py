@@ -108,9 +108,9 @@ class ExplainResponse(BaseModel):
     Fields:
         subject: Echo of the request subject.
         template: Echo of the template used.
-        explanation: Narrative explanation from LLaMA 3.3. Factual, observational.
+        explanation: Narrative explanation from LLaMA 3.2. Factual, observational.
                      No prediction, no scoring, no recommendations.
-        model: Model name (e.g., "llama3.3") for audit purposes.
+        model: Model name (e.g., "llama3.2") for audit purposes.
 
     Guarantees:
         - Explanation is based only on signals in the input context.

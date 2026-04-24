@@ -79,7 +79,7 @@ class Explanation(Base):
     api_request_id = Column(Integer, ForeignKey("api_requests.id"), nullable=True)
     subject = Column(String(255), nullable=False, index=True)  # e.g., "ASSET-12345"
     template = Column(String(100), nullable=False, index=True)  # asset_risk, flood_explanation, etc.
-    model = Column(String(100), nullable=False, default="llama3.3")  # LLaMA model version
+    model = Column(String(100), nullable=False, default="llama3.2")  # LLaMA model version
     context_keys = Column(JSON, nullable=True)  # Keys present in the GeoAI context dict
     explanation_text = Column(Text, nullable=False)
     explanation_length = Column(Integer, nullable=False)  # Character count

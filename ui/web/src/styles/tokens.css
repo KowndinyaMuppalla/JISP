@@ -1,0 +1,101 @@
+/* JISP design tokens — single source of truth for colors, spacing, typography.
+   Dark "ops console" theme. Override in :root[data-theme="light"] later if needed. */
+
+:root {
+  /* ----- Surfaces ----- */
+  --bg-base:        #06080c;            /* deepest — body background behind map  */
+  --bg-canvas:      #0a0e14;            /* map background (matches basemap)       */
+  --bg-surface:     rgba(15, 20, 28, 0.78);   /* panels — translucent for blur    */
+  --bg-surface-2:   rgba(20, 27, 37, 0.92);   /* nested cards / popovers          */
+  --bg-elevated:    rgba(28, 38, 52, 0.94);   /* hovered items                    */
+  --bg-input:       rgba(255, 255, 255, 0.04);
+
+  /* ----- Borders ----- */
+  --border-subtle:  rgba(255, 255, 255, 0.06);
+  --border-soft:    rgba(255, 255, 255, 0.10);
+  --border-strong:  rgba(255, 255, 255, 0.18);
+
+  /* ----- Text ----- */
+  --fg-primary:     #e6edf3;
+  --fg-secondary:   #9ba6b3;
+  --fg-tertiary:    #5e6b7a;
+  --fg-inverse:     #06080c;
+
+  /* ----- Brand / accent (geospatial teal — distinct from any specific corp brand) ----- */
+  --accent:         #00d9b2;
+  --accent-bright:  #2af0c8;
+  --accent-dim:     rgba(0, 217, 178, 0.18);
+  --accent-glow:    rgba(0, 217, 178, 0.35);
+
+  /* ----- Risk ramp (matches PostGIS risk_score 0..1) ----- */
+  --risk-0:         #2ec27e;            /* excellent  */
+  --risk-1:         #57c785;            /* good       */
+  --risk-2:         #e6c84a;            /* fair       */
+  --risk-3:         #f08a3c;            /* poor       */
+  --risk-4:         #e64545;            /* critical   */
+
+  /* Region accents (used in legend dots only — not on the map itself) */
+  --region-us:      #4d8cff;
+  --region-uk:      #b06bff;
+  --region-anz:     #ff9f4a;
+  --region-apac:    #ff66c4;
+
+  /* ----- Typography ----- */
+  --font-sans:      "Inter", "InterVariable", system-ui, -apple-system,
+                    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono:      ui-monospace, "JetBrains Mono", "Fira Code", "SF Mono",
+                    Menlo, Consolas, monospace;
+
+  --fs-xs:          11px;
+  --fs-sm:          12px;
+  --fs-md:          13px;
+  --fs-lg:          14px;
+  --fs-xl:          16px;
+  --fs-2xl:         20px;
+  --fs-3xl:         28px;
+
+  --fw-regular:     400;
+  --fw-medium:      500;
+  --fw-semibold:    600;
+
+  /* ----- Spacing (4px base) ----- */
+  --space-1:        4px;
+  --space-2:        8px;
+  --space-3:        12px;
+  --space-4:        16px;
+  --space-5:        20px;
+  --space-6:        24px;
+  --space-8:        32px;
+
+  /* ----- Radii ----- */
+  --radius-sm:      6px;
+  --radius-md:      10px;
+  --radius-lg:      14px;
+  --radius-xl:      20px;
+
+  /* ----- Shadows ----- */
+  --shadow-sm:      0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md:      0 8px 24px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.35);
+  --shadow-lg:      0 24px 48px rgba(0,0,0,0.5), 0 4px 10px rgba(0,0,0,0.4);
+  --shadow-glow:    0 0 0 1px var(--accent-dim), 0 0 24px var(--accent-glow);
+
+  /* ----- Layout ----- */
+  --topbar-h:       56px;
+  --statusbar-h:    32px;
+  --left-w:         280px;
+  --right-w:        380px;
+  --panel-gap:      14px;
+
+  --transition-fast: 120ms cubic-bezier(.2,.8,.2,1);
+  --transition-med:  200ms cubic-bezier(.2,.8,.2,1);
+
+  --backdrop:       saturate(140%) blur(18px);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms;
+    --transition-med:  0ms;
+  }
+}

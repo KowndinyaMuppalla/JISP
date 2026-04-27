@@ -1,0 +1,91 @@
+/* MapLibre overrides + custom popup styles. */
+
+.maplibregl-canvas { outline: none; }
+
+/* Hide MapLibre's default attribution control's pin look — keep the text. */
+.maplibregl-ctrl-attrib {
+  background: rgba(10, 14, 20, 0.65) !important;
+  color: var(--fg-tertiary) !important;
+  font-size: var(--fs-xs) !important;
+  border-radius: var(--radius-sm) !important;
+  backdrop-filter: blur(6px);
+}
+.maplibregl-ctrl-attrib a { color: var(--fg-secondary) !important; }
+
+.maplibregl-ctrl-group {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-md) !important;
+  backdrop-filter: var(--backdrop) !important;
+  overflow: hidden;
+}
+.maplibregl-ctrl-group button {
+  background: transparent !important;
+  color: var(--fg-secondary) !important;
+}
+.maplibregl-ctrl-group button:hover {
+  background: var(--bg-input) !important;
+  color: var(--fg-primary) !important;
+}
+.maplibregl-ctrl-group button + button { border-top-color: var(--border-subtle) !important; }
+
+/* Filter the default control icons so they're light on dark */
+.maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+  filter: invert(1) brightness(0.85) opacity(0.85);
+}
+
+/* Position MapLibre controls clear of our floating panels */
+.maplibregl-ctrl-top-right {
+  top: calc(var(--topbar-h) + var(--panel-gap) * 2) !important;
+  right: calc(var(--right-w) + var(--panel-gap) * 2) !important;
+}
+.maplibregl-ctrl-bottom-right {
+  bottom: calc(var(--statusbar-h) + var(--panel-gap) * 2) !important;
+  right: var(--panel-gap) !important;
+}
+.maplibregl-ctrl-bottom-left {
+  bottom: calc(var(--statusbar-h) + var(--panel-gap) * 2) !important;
+  left: calc(var(--left-w) + var(--panel-gap) * 2) !important;
+}
+
+/* When right panel is hidden, controls slide back to the edge */
+body[data-asset-panel="hidden"] .maplibregl-ctrl-top-right {
+  right: var(--panel-gap) !important;
+}
+body[data-layer-panel="collapsed"] .maplibregl-ctrl-bottom-left {
+  left: var(--panel-gap) !important;
+}
+
+/* Custom hover popup */
+.jisp-popup .maplibregl-popup-content {
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  color: var(--fg-primary);
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  padding: var(--space-2) var(--space-3);
+  backdrop-filter: var(--backdrop);
+  box-shadow: var(--shadow-md);
+}
+.jisp-popup .maplibregl-popup-tip { display: none; }
+
+.jisp-popup__name { font-weight: var(--fw-medium); }
+.jisp-popup__meta {
+  font-size: var(--fs-xs);
+  color: var(--fg-tertiary);
+  margin-top: 2px;
+}
+.jisp-popup__risk {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.jisp-popup__risk-dot {
+  display: inline-block;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--risk-2);
+}

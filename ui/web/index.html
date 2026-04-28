@@ -4,6 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="color-scheme" content="light" />
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>JISP — Jacobs Spatial Intelligence Platform</title>
 
   <!-- Source Sans Pro — Streamlit's default body font. -->
@@ -26,10 +29,15 @@
     crossorigin="anonymous"
   ></script>
 
-  <link rel="stylesheet" href="./src/styles/tokens.css" />
-  <link rel="stylesheet" href="./src/styles/layout.css" />
-  <link rel="stylesheet" href="./src/styles/panels.css" />
-  <link rel="stylesheet" href="./src/styles/map.css" />
+  <!--
+    Cache-busting `?v=` markers — bump when CSS/JS changes so browsers
+    don't serve stale stylesheets between deploys. Match the value
+    across every file below; bump on each release.
+  -->
+  <link rel="stylesheet" href="./src/styles/tokens.css?v=2" />
+  <link rel="stylesheet" href="./src/styles/layout.css?v=2" />
+  <link rel="stylesheet" href="./src/styles/panels.css?v=2" />
+  <link rel="stylesheet" href="./src/styles/map.css?v=2" />
 </head>
 <body>
   <!-- Map canvas — full bleed, behind every panel. -->
@@ -254,6 +262,6 @@
     </div>
   </noscript>
 
-  <script type="module" src="./src/main.js"></script>
+  <script type="module" src="./src/main.js?v=2"></script>
 </body>
 </html>

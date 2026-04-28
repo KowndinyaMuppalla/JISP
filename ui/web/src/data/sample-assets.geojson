@@ -1,0 +1,3948 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "jisp-us-water-001",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -87.59567966126701,
+            41.89547439000328
+          ],
+          [
+            -87.59927878629196,
+            41.88798038185508
+          ],
+          [
+            -87.6032059136863,
+            41.87579951382737
+          ],
+          [
+            -87.60446663977575,
+            41.8652533097223
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-water-001",
+        "asset_code": "US-WATER-001",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "hdpe",
+        "material_name": "High-density polyethylene",
+        "name": "Water main / pipe US-WATER-001",
+        "install_year": null,
+        "diameter_mm": 200,
+        "length_m": 172.4,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.213,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-water-002",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -104.99561627307928,
+            39.74122950362882
+          ],
+          [
+            -104.98858197559706,
+            39.7299353204932
+          ],
+          [
+            -104.98861936923593,
+            39.71621268590919
+          ],
+          [
+            -104.99394416545908,
+            39.70663609261041
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-water-002",
+        "asset_code": "US-WATER-002",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Water main / pipe US-WATER-002",
+        "install_year": null,
+        "diameter_mm": 400,
+        "length_m": 515.6,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.393,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-water-003",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -87.6364414036487,
+            41.870771994791
+          ],
+          [
+            -87.6237090528118,
+            41.86869733150801
+          ],
+          [
+            -87.61386829758301,
+            41.86883576749371
+          ],
+          [
+            -87.60086493939674,
+            41.8719883718993
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-water-003",
+        "asset_code": "US-WATER-003",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Water main / pipe US-WATER-003",
+        "install_year": 1925,
+        "diameter_mm": 150,
+        "length_m": 1125.0,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.56,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-water-004",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -71.05093158185184,
+            42.35033477060743
+          ],
+          [
+            -71.04367189790185,
+            42.35943172337426
+          ],
+          [
+            -71.03715888447232,
+            42.364078610053284
+          ],
+          [
+            -71.03025728327724,
+            42.373708348799056
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-water-004",
+        "asset_code": "US-WATER-004",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Water main / pipe US-WATER-004",
+        "install_year": 2020,
+        "diameter_mm": 600,
+        "length_m": 866.6,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.388,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-water-005",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -104.99072498773393,
+            39.73058557378463
+          ],
+          [
+            -104.98743303512403,
+            39.743231047663656
+          ],
+          [
+            -104.9847756537057,
+            39.75426314649651
+          ],
+          [
+            -104.98331835631993,
+            39.76259239279089
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-water-005",
+        "asset_code": "US-WATER-005",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "ci",
+        "material_name": "Cast iron",
+        "name": "Water main / pipe US-WATER-005",
+        "install_year": 1962,
+        "diameter_mm": 150,
+        "length_m": 1612.2,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.879,
+        "risk_condition_class": "critical",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-water-006",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -71.09191519745883,
+            42.35054926531255
+          ],
+          [
+            -71.09593301739335,
+            42.35946252872765
+          ],
+          [
+            -71.09860197222137,
+            42.36833622439777
+          ],
+          [
+            -71.09767077079746,
+            42.378606393021
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-water-006",
+        "asset_code": "US-WATER-006",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Water main / pipe US-WATER-006",
+        "install_year": 1981,
+        "diameter_mm": 150,
+        "length_m": 751.9,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.49,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-water-007",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -104.97928993673872,
+            39.753735898500246
+          ],
+          [
+            -104.97988005814385,
+            39.76385227264861
+          ],
+          [
+            -104.97914760467621,
+            39.775826067897825
+          ],
+          [
+            -104.97338679612923,
+            39.78501871415354
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-water-007",
+        "asset_code": "US-WATER-007",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "pvc",
+        "material_name": "Polyvinyl chloride",
+        "name": "Water main / pipe US-WATER-007",
+        "install_year": 1991,
+        "diameter_mm": 100,
+        "length_m": 262.2,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.542,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-water-008",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -87.6387952835197,
+            41.85903854260783
+          ],
+          [
+            -87.64880448448208,
+            41.852837782158545
+          ],
+          [
+            -87.66033969798313,
+            41.850380909899656
+          ],
+          [
+            -87.66925794647436,
+            41.841474995111646
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-water-008",
+        "asset_code": "US-WATER-008",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "ci",
+        "material_name": "Cast iron",
+        "name": "Water main / pipe US-WATER-008",
+        "install_year": 1933,
+        "diameter_mm": 200,
+        "length_m": 653.2,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.852,
+        "risk_condition_class": "critical",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-water-009",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -104.95259091296994,
+            39.73581240744874
+          ],
+          [
+            -104.96070813038841,
+            39.74541182598932
+          ],
+          [
+            -104.96732922555226,
+            39.74831568164117
+          ],
+          [
+            -104.9751237388439,
+            39.758069102143736
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-water-009",
+        "asset_code": "US-WATER-009",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "ac",
+        "material_name": "Asbestos cement",
+        "name": "Water main / pipe US-WATER-009",
+        "install_year": 1926,
+        "diameter_mm": 150,
+        "length_m": 964.0,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.917,
+        "risk_condition_class": "critical",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-water-010",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -87.66799617132708,
+            41.88741910169153
+          ],
+          [
+            -87.65562999585806,
+            41.89327992485293
+          ],
+          [
+            -87.64538645859788,
+            41.89600952484344
+          ],
+          [
+            -87.6361861277277,
+            41.89702297229736
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-water-010",
+        "asset_code": "US-WATER-010",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "ac",
+        "material_name": "Asbestos cement",
+        "name": "Water main / pipe US-WATER-010",
+        "install_year": 1936,
+        "diameter_mm": 200,
+        "length_m": 1669.0,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.875,
+        "risk_condition_class": "critical",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-water-011",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -71.0944044839497,
+            42.33646410793414
+          ],
+          [
+            -71.1061626849761,
+            42.3412363884098
+          ],
+          [
+            -71.11607072749025,
+            42.34856203694395
+          ],
+          [
+            -71.12215475653744,
+            42.35649910468079
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-water-011",
+        "asset_code": "US-WATER-011",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "ac",
+        "material_name": "Asbestos cement",
+        "name": "Water main / pipe US-WATER-011",
+        "install_year": null,
+        "diameter_mm": 100,
+        "length_m": 1000.8,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.587,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-water-012",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -71.04441195302691,
+            42.36710855703104
+          ],
+          [
+            -71.04825123033142,
+            42.37432236547018
+          ],
+          [
+            -71.05892869478397,
+            42.38257629824499
+          ],
+          [
+            -71.06905479127256,
+            42.3906111533189
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-water-012",
+        "asset_code": "US-WATER-012",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "ac",
+        "material_name": "Asbestos cement",
+        "name": "Water main / pipe US-WATER-012",
+        "install_year": 1970,
+        "diameter_mm": 200,
+        "length_m": 1452.9,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.858,
+        "risk_condition_class": "critical",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-water-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.00760357600542,
+          42.332815112450774
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-water-001",
+        "asset_code": "US-WATER-001",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "water_treatment_plant",
+        "class_name": "Water treatment plant",
+        "material_code": "conc",
+        "material_name": "Concrete",
+        "name": "Water treatment plant US-WATER-001",
+        "install_year": 1928,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.594,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-water-002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.04633054400759,
+          42.36497143934491
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-water-002",
+        "asset_code": "US-WATER-002",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "water_treatment_plant",
+        "class_name": "Water treatment plant",
+        "material_code": "conc",
+        "material_name": "Concrete",
+        "name": "Water treatment plant US-WATER-002",
+        "install_year": 1949,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.567,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-pumps-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9455809282143,
+          39.71321809365912
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-pumps-001",
+        "asset_code": "US-PUMPS-001",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "pump_station",
+        "class_name": "Pump station",
+        "material_code": "conc",
+        "material_name": "Concrete",
+        "name": "Pump station US-PUMPS-001",
+        "install_year": null,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.351,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-pumps-002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.9674014671806,
+          39.75335457640755
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-pumps-002",
+        "asset_code": "US-PUMPS-002",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "pump_station",
+        "class_name": "Pump station",
+        "material_code": "conc",
+        "material_name": "Concrete",
+        "name": "Pump station US-PUMPS-002",
+        "install_year": 1953,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.7,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-pumps-003",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.65280434419984,
+          41.89249570535783
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-pumps-003",
+        "asset_code": "US-PUMPS-003",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "pump_station",
+        "class_name": "Pump station",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Pump station US-PUMPS-003",
+        "install_year": 1948,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.62,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-reser-001",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -105.01880120168303,
+              39.73296976069304
+            ],
+            [
+              -105.02080120168304,
+              39.736433862308175
+            ],
+            [
+              -105.02480120168303,
+              39.736433862308175
+            ],
+            [
+              -105.02680120168304,
+              39.73296976069304
+            ],
+            [
+              -105.02480120168303,
+              39.7295056590779
+            ],
+            [
+              -105.02080120168304,
+              39.7295056590779
+            ],
+            [
+              -105.01880120168303,
+              39.73296976069304
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-reser-001",
+        "asset_code": "US-RESER-001",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "reservoir",
+        "class_name": "Service reservoir",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Service reservoir US-RESER-001",
+        "install_year": null,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.268,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-reser-002",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -71.07660248639063,
+              42.342101186584145
+            ],
+            [
+              -71.07860248639064,
+              42.34556528819928
+            ],
+            [
+              -71.08260248639063,
+              42.34556528819928
+            ],
+            [
+              -71.08460248639064,
+              42.342101186584145
+            ],
+            [
+              -71.08260248639063,
+              42.33863708496901
+            ],
+            [
+              -71.07860248639064,
+              42.33863708496901
+            ],
+            [
+              -71.07660248639063,
+              42.342101186584145
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-reser-002",
+        "asset_code": "US-RESER-002",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "reservoir",
+        "class_name": "Service reservoir",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Service reservoir US-RESER-002",
+        "install_year": 1977,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.537,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-valve-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.0811116738088,
+          42.36310566384558
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-valve-001",
+        "asset_code": "US-VALVE-001",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "valve",
+        "class_name": "Valve",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Valve US-VALVE-001",
+        "install_year": 1935,
+        "diameter_mm": 400,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.655,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-valve-002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.01400273822487,
+          42.34962819202224
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-valve-002",
+        "asset_code": "US-VALVE-002",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "valve",
+        "class_name": "Valve",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Valve US-VALVE-002",
+        "install_year": 1939,
+        "diameter_mm": 400,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.729,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-valve-003",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.96831246828692,
+          39.739682775425166
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-valve-003",
+        "asset_code": "US-VALVE-003",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "valve",
+        "class_name": "Valve",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Valve US-VALVE-003",
+        "install_year": 1966,
+        "diameter_mm": 150,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.724,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-valve-004",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.617930508367,
+          41.858175358135654
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-valve-004",
+        "asset_code": "US-VALVE-004",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "valve",
+        "class_name": "Valve",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Valve US-VALVE-004",
+        "install_year": 1978,
+        "diameter_mm": 100,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.59,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-valve-005",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.94577382573553,
+          39.72493063586123
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-valve-005",
+        "asset_code": "US-VALVE-005",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "valve",
+        "class_name": "Valve",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Valve US-VALVE-005",
+        "install_year": 1971,
+        "diameter_mm": 100,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.602,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-hydra-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.68204195160247,
+          41.898306190559694
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-hydra-001",
+        "asset_code": "US-HYDRA-001",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "hydrant",
+        "class_name": "Fire hydrant",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Fire hydrant US-HYDRA-001",
+        "install_year": 1927,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.541,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-hydra-002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -104.96622238262468,
+          39.725713761226835
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-hydra-002",
+        "asset_code": "US-HYDRA-002",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "hydrant",
+        "class_name": "Fire hydrant",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Fire hydrant US-HYDRA-002",
+        "install_year": null,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.237,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-hydra-003",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.66242862004744,
+          41.90966482533362
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-hydra-003",
+        "asset_code": "US-HYDRA-003",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "hydrant",
+        "class_name": "Fire hydrant",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Fire hydrant US-HYDRA-003",
+        "install_year": 1991,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.385,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-hydra-004",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.00608919509354,
+          42.35163133760646
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-hydra-004",
+        "asset_code": "US-HYDRA-004",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "hydrant",
+        "class_name": "Fire hydrant",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Fire hydrant US-HYDRA-004",
+        "install_year": 1993,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.455,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-senso-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.59918397839728,
+          41.887316789460655
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-senso-001",
+        "asset_code": "US-SENSO-001",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "sensor",
+        "class_name": "In-network sensor",
+        "material_code": null,
+        "material_name": null,
+        "name": "In-network sensor US-SENSO-001",
+        "install_year": 1975,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.39,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-senso-002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.01166151123651,
+          39.718032265055804
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-senso-002",
+        "asset_code": "US-SENSO-002",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "sensor",
+        "class_name": "In-network sensor",
+        "material_code": null,
+        "material_name": null,
+        "name": "In-network sensor US-SENSO-002",
+        "install_year": 1973,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.374,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-senso-003",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.03626970503232,
+          42.343262572813096
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-senso-003",
+        "asset_code": "US-SENSO-003",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "sensor",
+        "class_name": "In-network sensor",
+        "material_code": null,
+        "material_name": null,
+        "name": "In-network sensor US-SENSO-003",
+        "install_year": 2023,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.188,
+        "risk_condition_class": "excellent",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-senso-004",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -87.63316935066156,
+          41.860960284082445
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-senso-004",
+        "asset_code": "US-SENSO-004",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "sensor",
+        "class_name": "In-network sensor",
+        "material_code": null,
+        "material_name": null,
+        "name": "In-network sensor US-SENSO-004",
+        "install_year": 1961,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.418,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-us-dam-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -71.05105847589799,
+          42.353647252748836
+        ]
+      },
+      "properties": {
+        "id": "jisp-us-dam-001",
+        "asset_code": "US-DAM-001",
+        "region_code": "us",
+        "region_name": "United States",
+        "class_code": "dam",
+        "class_name": "Dam",
+        "material_code": "conc",
+        "material_name": "Concrete",
+        "name": "Dam US-DAM-001",
+        "install_year": null,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.635,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-water-001",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -2.26405744811984,
+            53.477615371853986
+          ],
+          [
+            -2.258057148312711,
+            53.486988012212336
+          ],
+          [
+            -2.2491138856552455,
+            53.49787710943877
+          ],
+          [
+            -2.2471783393742193,
+            53.509926643088235
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-water-001",
+        "asset_code": "UK-WATER-001",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Water main / pipe UK-WATER-001",
+        "install_year": 1929,
+        "diameter_mm": 150,
+        "length_m": 1476.7,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.647,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-water-002",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -2.2556322426448823,
+            53.49319523449553
+          ],
+          [
+            -2.2561464009608128,
+            53.485609227522126
+          ],
+          [
+            -2.251257353289597,
+            53.47415547556794
+          ],
+          [
+            -2.245317540752875,
+            53.46953689120419
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-water-002",
+        "asset_code": "UK-WATER-002",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Water main / pipe UK-WATER-002",
+        "install_year": 2013,
+        "diameter_mm": 600,
+        "length_m": 526.7,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.495,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-water-003",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -2.2691902455027373,
+            53.471209790085496
+          ],
+          [
+            -2.258908901483187,
+            53.46697445094446
+          ],
+          [
+            -2.248623907874644,
+            53.4636807926054
+          ],
+          [
+            -2.236097541782644,
+            53.460716440778555
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-water-003",
+        "asset_code": "UK-WATER-003",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "ci",
+        "material_name": "Cast iron",
+        "name": "Water main / pipe UK-WATER-003",
+        "install_year": 1935,
+        "diameter_mm": 200,
+        "length_m": 1273.9,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.846,
+        "risk_condition_class": "critical",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-water-004",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -0.10916759690330244,
+            51.490618834853024
+          ],
+          [
+            -0.10560454065211101,
+            51.482834072581966
+          ],
+          [
+            -0.10392761561435758,
+            51.47258054251587
+          ],
+          [
+            -0.10164263159074796,
+            51.46408490831359
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-water-004",
+        "asset_code": "UK-WATER-004",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "pvc",
+        "material_name": "Polyvinyl chloride",
+        "name": "Water main / pipe UK-WATER-004",
+        "install_year": 2019,
+        "diameter_mm": 150,
+        "length_m": 731.1,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.342,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-water-005",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -0.11976857490159648,
+            51.52106496914438
+          ],
+          [
+            -0.11091717018625928,
+            51.526211728812974
+          ],
+          [
+            -0.09807122988904315,
+            51.532631342404464
+          ],
+          [
+            -0.08418656380076789,
+            51.53630120433312
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-water-005",
+        "asset_code": "UK-WATER-005",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "pvc",
+        "material_name": "Polyvinyl chloride",
+        "name": "Water main / pipe UK-WATER-005",
+        "install_year": 1947,
+        "diameter_mm": 100,
+        "length_m": 1383.2,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.665,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-water-006",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -0.14926753008286006,
+            51.49380009243608
+          ],
+          [
+            -0.1582434518110617,
+            51.484180920674206
+          ],
+          [
+            -0.16647024224516596,
+            51.47801282571794
+          ],
+          [
+            -0.18009329728819637,
+            51.474071718751595
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-water-006",
+        "asset_code": "UK-WATER-006",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "hdpe",
+        "material_name": "High-density polyethylene",
+        "name": "Water main / pipe UK-WATER-006",
+        "install_year": 1977,
+        "diameter_mm": 200,
+        "length_m": 1212.9,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.536,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-water-007",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -0.14135249671485123,
+            51.50371488273864
+          ],
+          [
+            -0.13281315355236908,
+            51.512242817814496
+          ],
+          [
+            -0.12151295071984827,
+            51.516184816666865
+          ],
+          [
+            -0.1123308447028134,
+            51.52170546641877
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-water-007",
+        "asset_code": "UK-WATER-007",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Water main / pipe UK-WATER-007",
+        "install_year": 1988,
+        "diameter_mm": 150,
+        "length_m": 209.6,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.461,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-water-008",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -2.2515316348712555,
+            53.4805800578378
+          ],
+          [
+            -2.259088560121849,
+            53.4833267818495
+          ],
+          [
+            -2.266575590691917,
+            53.48356345037333
+          ],
+          [
+            -2.2760932255599866,
+            53.47839745536472
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-water-008",
+        "asset_code": "UK-WATER-008",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "ac",
+        "material_name": "Asbestos cement",
+        "name": "Water main / pipe UK-WATER-008",
+        "install_year": 1958,
+        "diameter_mm": 100,
+        "length_m": 1471.4,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.899,
+        "risk_condition_class": "critical",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-water-009",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -2.253695951816599,
+            53.46194860613305
+          ],
+          [
+            -2.2452556443586293,
+            53.458424388572716
+          ],
+          [
+            -2.233175205741523,
+            53.458380272582154
+          ],
+          [
+            -2.222341460296819,
+            53.45470130164517
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-water-009",
+        "asset_code": "UK-WATER-009",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "ac",
+        "material_name": "Asbestos cement",
+        "name": "Water main / pipe UK-WATER-009",
+        "install_year": 1932,
+        "diameter_mm": 250,
+        "length_m": 884.6,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.946,
+        "risk_condition_class": "critical",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-water-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.2781470072000367,
+          53.50524392892625
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-water-001",
+        "asset_code": "UK-WATER-001",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "water_treatment_plant",
+        "class_name": "Water treatment plant",
+        "material_code": "conc",
+        "material_name": "Concrete",
+        "name": "Water treatment plant UK-WATER-001",
+        "install_year": 1984,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.504,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-pumps-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.08794849863337342,
+          51.486886211466086
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-pumps-001",
+        "asset_code": "UK-PUMPS-001",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "pump_station",
+        "class_name": "Pump station",
+        "material_code": "conc",
+        "material_name": "Concrete",
+        "name": "Pump station UK-PUMPS-001",
+        "install_year": null,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.341,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-pumps-002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.198015336156668,
+          53.46970737623496
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-pumps-002",
+        "asset_code": "UK-PUMPS-002",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "pump_station",
+        "class_name": "Pump station",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Pump station UK-PUMPS-002",
+        "install_year": 1972,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.66,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-reser-001",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -2.213220679513051,
+              53.476332881883906
+            ],
+            [
+              -2.215220679513051,
+              53.47979698349904
+            ],
+            [
+              -2.2192206795130507,
+              53.47979698349904
+            ],
+            [
+              -2.221220679513051,
+              53.476332881883906
+            ],
+            [
+              -2.219220679513051,
+              53.47286878026877
+            ],
+            [
+              -2.215220679513051,
+              53.47286878026877
+            ],
+            [
+              -2.213220679513051,
+              53.476332881883906
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-reser-001",
+        "asset_code": "UK-RESER-001",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "reservoir",
+        "class_name": "Service reservoir",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Service reservoir UK-RESER-001",
+        "install_year": 2010,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.385,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-reser-002",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -2.207472848605777,
+              53.50437944256118
+            ],
+            [
+              -2.209472848605777,
+              53.50784354417632
+            ],
+            [
+              -2.2134728486057766,
+              53.50784354417632
+            ],
+            [
+              -2.215472848605777,
+              53.50437944256118
+            ],
+            [
+              -2.213472848605777,
+              53.500915340946044
+            ],
+            [
+              -2.209472848605777,
+              53.500915340946044
+            ],
+            [
+              -2.207472848605777,
+              53.50437944256118
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-reser-002",
+        "asset_code": "UK-RESER-002",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "reservoir",
+        "class_name": "Service reservoir",
+        "material_code": "conc",
+        "material_name": "Concrete",
+        "name": "Service reservoir UK-RESER-002",
+        "install_year": 2013,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.39,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-valve-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.275522096176981,
+          53.504079451780626
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-valve-001",
+        "asset_code": "UK-VALVE-001",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "valve",
+        "class_name": "Valve",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Valve UK-VALVE-001",
+        "install_year": 1938,
+        "diameter_mm": 250,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.706,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-valve-002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.12575237701315856,
+          51.51416351413768
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-valve-002",
+        "asset_code": "UK-VALVE-002",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "valve",
+        "class_name": "Valve",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Valve UK-VALVE-002",
+        "install_year": 1926,
+        "diameter_mm": 150,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.737,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-valve-003",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.07152517071498705,
+          51.50061341405893
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-valve-003",
+        "asset_code": "UK-VALVE-003",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "valve",
+        "class_name": "Valve",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Valve UK-VALVE-003",
+        "install_year": 2010,
+        "diameter_mm": 600,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.391,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-valve-004",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.2435101891591644,
+          53.45058699081792
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-valve-004",
+        "asset_code": "UK-VALVE-004",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "valve",
+        "class_name": "Valve",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Valve UK-VALVE-004",
+        "install_year": null,
+        "diameter_mm": 600,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.466,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-hydra-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.199115508247994,
+          53.49623448102616
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-hydra-001",
+        "asset_code": "UK-HYDRA-001",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "hydrant",
+        "class_name": "Fire hydrant",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Fire hydrant UK-HYDRA-001",
+        "install_year": 1978,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.531,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-hydra-002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2.2338389307295956,
+          53.46793942882806
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-hydra-002",
+        "asset_code": "UK-HYDRA-002",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "hydrant",
+        "class_name": "Fire hydrant",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Fire hydrant UK-HYDRA-002",
+        "install_year": 1969,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.523,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-senso-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.18472034355571718,
+          51.48745074041471
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-senso-001",
+        "asset_code": "UK-SENSO-001",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "sensor",
+        "class_name": "In-network sensor",
+        "material_code": null,
+        "material_name": null,
+        "name": "In-network sensor UK-SENSO-001",
+        "install_year": 2003,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.295,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-senso-002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.10263250961647165,
+          51.524419175181414
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-senso-002",
+        "asset_code": "UK-SENSO-002",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "sensor",
+        "class_name": "In-network sensor",
+        "material_code": null,
+        "material_name": null,
+        "name": "In-network sensor UK-SENSO-002",
+        "install_year": 1969,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.417,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-uk-senso-003",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.16564667391883345,
+          51.485202748954215
+        ]
+      },
+      "properties": {
+        "id": "jisp-uk-senso-003",
+        "asset_code": "UK-SENSO-003",
+        "region_code": "uk",
+        "region_name": "United Kingdom",
+        "class_code": "sensor",
+        "class_name": "In-network sensor",
+        "material_code": null,
+        "material_name": null,
+        "name": "In-network sensor UK-SENSO-003",
+        "install_year": 1927,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.444,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-water-001",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            151.23526277698352,
+            -33.87977918598691
+          ],
+          [
+            151.24901498557804,
+            -33.87749269490364
+          ],
+          [
+            151.2573737853096,
+            -33.871883794279796
+          ],
+          [
+            151.26457164928104,
+            -33.8712379902543
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-water-001",
+        "asset_code": "ANZ_AU-WATER-001",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "ac",
+        "material_name": "Asbestos cement",
+        "name": "Water main / pipe ANZ_AU-WATER-001",
+        "install_year": 1973,
+        "diameter_mm": 600,
+        "length_m": 1754.1,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.855,
+        "risk_condition_class": "critical",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-water-002",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            151.18140327007808,
+            -33.888214602605736
+          ],
+          [
+            151.19032581011857,
+            -33.895416460118376
+          ],
+          [
+            151.20316815640984,
+            -33.89891313127612
+          ],
+          [
+            151.2098768735346,
+            -33.905820492649255
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-water-002",
+        "asset_code": "ANZ_AU-WATER-002",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Water main / pipe ANZ_AU-WATER-002",
+        "install_year": null,
+        "diameter_mm": 600,
+        "length_m": 289.7,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.365,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-water-003",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            144.98578129358054,
+            -37.80962901432473
+          ],
+          [
+            144.99680400370173,
+            -37.81499109344185
+          ],
+          [
+            145.00333631949505,
+            -37.82028881119966
+          ],
+          [
+            145.01076059324785,
+            -37.82196643329579
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-water-003",
+        "asset_code": "ANZ_AU-WATER-003",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Water main / pipe ANZ_AU-WATER-003",
+        "install_year": 1966,
+        "diameter_mm": 200,
+        "length_m": 1290.8,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.605,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-water-004",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            151.2120533265627,
+            -33.86219013334064
+          ],
+          [
+            151.22292590717308,
+            -33.85975779025554
+          ],
+          [
+            151.23284897462338,
+            -33.84994174284744
+          ],
+          [
+            151.24336721072635,
+            -33.845486703219535
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-water-004",
+        "asset_code": "ANZ_AU-WATER-004",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Water main / pipe ANZ_AU-WATER-004",
+        "install_year": 2023,
+        "diameter_mm": 100,
+        "length_m": 1306.6,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.463,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-water-005",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            144.99520547024196,
+            -37.797176290290864
+          ],
+          [
+            144.98917891036214,
+            -37.80421700068074
+          ],
+          [
+            144.97886014975504,
+            -37.80708038589556
+          ],
+          [
+            144.96634312039052,
+            -37.809170956491116
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-water-005",
+        "asset_code": "ANZ_AU-WATER-005",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "ac",
+        "material_name": "Asbestos cement",
+        "name": "Water main / pipe ANZ_AU-WATER-005",
+        "install_year": 1940,
+        "diameter_mm": 600,
+        "length_m": 276.3,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.893,
+        "risk_condition_class": "critical",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-water-006",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            151.18551770395243,
+            -33.862789970519955
+          ],
+          [
+            151.18436340770558,
+            -33.8757469690805
+          ],
+          [
+            151.17914047283514,
+            -33.88609376176728
+          ],
+          [
+            151.17072404236126,
+            -33.89455730726982
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-water-006",
+        "asset_code": "ANZ_AU-WATER-006",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Water main / pipe ANZ_AU-WATER-006",
+        "install_year": 1964,
+        "diameter_mm": 250,
+        "length_m": 189.2,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.552,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-water-007",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            151.22130325768416,
+            -33.87847477603786
+          ],
+          [
+            151.22017258536073,
+            -33.86862221129893
+          ],
+          [
+            151.21297841060203,
+            -33.85832609422912
+          ],
+          [
+            151.2068259228263,
+            -33.854224658607606
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-water-007",
+        "asset_code": "ANZ_AU-WATER-007",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "hdpe",
+        "material_name": "High-density polyethylene",
+        "name": "Water main / pipe ANZ_AU-WATER-007",
+        "install_year": 1948,
+        "diameter_mm": 100,
+        "length_m": 392.0,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.513,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-water-008",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            144.97515509820963,
+            -37.8230988420826
+          ],
+          [
+            144.96739000746615,
+            -37.814340231182506
+          ],
+          [
+            144.95847609911152,
+            -37.8098817726063
+          ],
+          [
+            144.94902091148387,
+            -37.808738856918175
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-water-008",
+        "asset_code": "ANZ_AU-WATER-008",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "hdpe",
+        "material_name": "High-density polyethylene",
+        "name": "Water main / pipe ANZ_AU-WATER-008",
+        "install_year": null,
+        "diameter_mm": 200,
+        "length_m": 814.1,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.205,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-water-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.9707450735581,
+          -37.78189044481298
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-water-001",
+        "asset_code": "ANZ_AU-WATER-001",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "water_treatment_plant",
+        "class_name": "Water treatment plant",
+        "material_code": "conc",
+        "material_name": "Concrete",
+        "name": "Water treatment plant ANZ_AU-WATER-001",
+        "install_year": 2007,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.316,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-pumps-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.97992758462897,
+          -37.79301336531372
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-pumps-001",
+        "asset_code": "ANZ_AU-PUMPS-001",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "pump_station",
+        "class_name": "Pump station",
+        "material_code": "conc",
+        "material_name": "Concrete",
+        "name": "Pump station ANZ_AU-PUMPS-001",
+        "install_year": 1935,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.676,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-pumps-002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          151.26160320254354,
+          -33.90075306248905
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-pumps-002",
+        "asset_code": "ANZ_AU-PUMPS-002",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "pump_station",
+        "class_name": "Pump station",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Pump station ANZ_AU-PUMPS-002",
+        "install_year": 1929,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.633,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-reser-001",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              151.23505081041682,
+              -33.867530801684325
+            ],
+            [
+              151.23305081041684,
+              -33.86406670006919
+            ],
+            [
+              151.22905081041682,
+              -33.86406670006919
+            ],
+            [
+              151.22705081041684,
+              -33.867530801684325
+            ],
+            [
+              151.22905081041682,
+              -33.87099490329946
+            ],
+            [
+              151.23305081041684,
+              -33.87099490329946
+            ],
+            [
+              151.23505081041682,
+              -33.867530801684325
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-reser-001",
+        "asset_code": "ANZ_AU-RESER-001",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "reservoir",
+        "class_name": "Service reservoir",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Service reservoir ANZ_AU-RESER-001",
+        "install_year": 1947,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.596,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-reser-002",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              144.99370319808628,
+              -37.82305137956518
+            ],
+            [
+              144.9917031980863,
+              -37.81958727795004
+            ],
+            [
+              144.98770319808628,
+              -37.81958727795004
+            ],
+            [
+              144.9857031980863,
+              -37.82305137956518
+            ],
+            [
+              144.98770319808628,
+              -37.826515481180316
+            ],
+            [
+              144.9917031980863,
+              -37.826515481180316
+            ],
+            [
+              144.99370319808628,
+              -37.82305137956518
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-reser-002",
+        "asset_code": "ANZ_AU-RESER-002",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "reservoir",
+        "class_name": "Service reservoir",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Service reservoir ANZ_AU-RESER-002",
+        "install_year": 1982,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.509,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-valve-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          151.22601485992413,
+          -33.84429518748546
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-valve-001",
+        "asset_code": "ANZ_AU-VALVE-001",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "valve",
+        "class_name": "Valve",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Valve ANZ_AU-VALVE-001",
+        "install_year": 1996,
+        "diameter_mm": 100,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.512,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-valve-002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.9974042243128,
+          -37.80363627916262
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-valve-002",
+        "asset_code": "ANZ_AU-VALVE-002",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "valve",
+        "class_name": "Valve",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Valve ANZ_AU-VALVE-002",
+        "install_year": 2023,
+        "diameter_mm": 600,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.368,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-valve-003",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.9436203642857,
+          -37.81830056786872
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-valve-003",
+        "asset_code": "ANZ_AU-VALVE-003",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "valve",
+        "class_name": "Valve",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Valve ANZ_AU-VALVE-003",
+        "install_year": 2017,
+        "diameter_mm": 300,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.496,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-senso-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.92015827427906,
+          -37.782201809684786
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-senso-001",
+        "asset_code": "ANZ_AU-SENSO-001",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "sensor",
+        "class_name": "In-network sensor",
+        "material_code": null,
+        "material_name": null,
+        "name": "In-network sensor ANZ_AU-SENSO-001",
+        "install_year": 1943,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.496,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-senso-002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.94420940611755,
+          -37.81553127879475
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-senso-002",
+        "asset_code": "ANZ_AU-SENSO-002",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "sensor",
+        "class_name": "In-network sensor",
+        "material_code": null,
+        "material_name": null,
+        "name": "In-network sensor ANZ_AU-SENSO-002",
+        "install_year": null,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.191,
+        "risk_condition_class": "excellent",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-senso-003",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.93267309480652,
+          -37.833975665932336
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-senso-003",
+        "asset_code": "ANZ_AU-SENSO-003",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "sensor",
+        "class_name": "In-network sensor",
+        "material_code": null,
+        "material_name": null,
+        "name": "In-network sensor ANZ_AU-SENSO-003",
+        "install_year": 1930,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.402,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_au-dam-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.92795084468463,
+          -37.82792313654752
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_au-dam-001",
+        "asset_code": "ANZ_AU-DAM-001",
+        "region_code": "anz_au",
+        "region_name": "Australia",
+        "class_code": "dam",
+        "class_name": "Dam",
+        "material_code": "conc",
+        "material_name": "Concrete",
+        "name": "Dam ANZ_AU-DAM-001",
+        "install_year": 1983,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.772,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_nz-water-001",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            174.7466946616578,
+            -41.26953954443194
+          ],
+          [
+            174.75513394427801,
+            -41.270856573022094
+          ],
+          [
+            174.76512259103782,
+            -41.27606373844658
+          ],
+          [
+            174.7713566469164,
+            -41.28770930070743
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_nz-water-001",
+        "asset_code": "ANZ_NZ-WATER-001",
+        "region_code": "anz_nz",
+        "region_name": "New Zealand",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "ci",
+        "material_name": "Cast iron",
+        "name": "Water main / pipe ANZ_NZ-WATER-001",
+        "install_year": 1972,
+        "diameter_mm": 250,
+        "length_m": 915.1,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.779,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_nz-water-002",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            174.74744328167344,
+            -41.294513074995095
+          ],
+          [
+            174.75502452683781,
+            -41.29172416761957
+          ],
+          [
+            174.76246535928155,
+            -41.29030891163734
+          ],
+          [
+            174.7701143192907,
+            -41.283675179848125
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_nz-water-002",
+        "asset_code": "ANZ_NZ-WATER-002",
+        "region_code": "anz_nz",
+        "region_name": "New Zealand",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "pvc",
+        "material_name": "Polyvinyl chloride",
+        "name": "Water main / pipe ANZ_NZ-WATER-002",
+        "install_year": 1957,
+        "diameter_mm": 200,
+        "length_m": 277.3,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.666,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_nz-water-003",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            174.79298372332659,
+            -41.301768306178204
+          ],
+          [
+            174.7981566374407,
+            -41.29572805072427
+          ],
+          [
+            174.8097631343941,
+            -41.29087534776513
+          ],
+          [
+            174.81751161699066,
+            -41.27940778927131
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_nz-water-003",
+        "asset_code": "ANZ_NZ-WATER-003",
+        "region_code": "anz_nz",
+        "region_name": "New Zealand",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Water main / pipe ANZ_NZ-WATER-003",
+        "install_year": null,
+        "diameter_mm": 300,
+        "length_m": 1436.0,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.432,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_nz-water-004",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            174.76233714907337,
+            -41.269623853365566
+          ],
+          [
+            174.77439332676644,
+            -41.26223146453204
+          ],
+          [
+            174.78728615733428,
+            -41.258002927623146
+          ],
+          [
+            174.79744389323704,
+            -41.252318909318
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_nz-water-004",
+        "asset_code": "ANZ_NZ-WATER-004",
+        "region_code": "anz_nz",
+        "region_name": "New Zealand",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "hdpe",
+        "material_name": "High-density polyethylene",
+        "name": "Water main / pipe ANZ_NZ-WATER-004",
+        "install_year": 1949,
+        "diameter_mm": 150,
+        "length_m": 1632.0,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.557,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_nz-water-005",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            174.7534911928239,
+            -41.282306422446815
+          ],
+          [
+            174.76133648883928,
+            -41.28720159690579
+          ],
+          [
+            174.76518740542818,
+            -41.293722424569786
+          ],
+          [
+            174.7669964902461,
+            -41.30634441833927
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_nz-water-005",
+        "asset_code": "ANZ_NZ-WATER-005",
+        "region_code": "anz_nz",
+        "region_name": "New Zealand",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "pvc",
+        "material_name": "Polyvinyl chloride",
+        "name": "Water main / pipe ANZ_NZ-WATER-005",
+        "install_year": 1929,
+        "diameter_mm": 300,
+        "length_m": 423.6,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.661,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_nz-water-006",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            174.73063606901488,
+            -36.84300914665783
+          ],
+          [
+            174.74064887318872,
+            -36.83952495029735
+          ],
+          [
+            174.75383651782988,
+            -36.84028801187232
+          ],
+          [
+            174.76334498085072,
+            -36.83895006809635
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_nz-water-006",
+        "asset_code": "ANZ_NZ-WATER-006",
+        "region_code": "anz_nz",
+        "region_name": "New Zealand",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "di",
+        "material_name": "Ductile iron",
+        "name": "Water main / pipe ANZ_NZ-WATER-006",
+        "install_year": 1988,
+        "diameter_mm": 400,
+        "length_m": 458.0,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.505,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_nz-water-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          174.77689173184046,
+          -41.29165873716153
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_nz-water-001",
+        "asset_code": "ANZ_NZ-WATER-001",
+        "region_code": "anz_nz",
+        "region_name": "New Zealand",
+        "class_code": "water_treatment_plant",
+        "class_name": "Water treatment plant",
+        "material_code": "conc",
+        "material_name": "Concrete",
+        "name": "Water treatment plant ANZ_NZ-WATER-001",
+        "install_year": 1945,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.524,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_nz-pumps-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          174.74411513316358,
+          -41.31782380586086
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_nz-pumps-001",
+        "asset_code": "ANZ_NZ-PUMPS-001",
+        "region_code": "anz_nz",
+        "region_name": "New Zealand",
+        "class_code": "pump_station",
+        "class_name": "Pump station",
+        "material_code": "conc",
+        "material_name": "Concrete",
+        "name": "Pump station ANZ_NZ-PUMPS-001",
+        "install_year": 2008,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.461,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_nz-pumps-002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          174.70718919095796,
+          -36.875016056075154
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_nz-pumps-002",
+        "asset_code": "ANZ_NZ-PUMPS-002",
+        "region_code": "anz_nz",
+        "region_name": "New Zealand",
+        "class_code": "pump_station",
+        "class_name": "Pump station",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Pump station ANZ_NZ-PUMPS-002",
+        "install_year": 1933,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.623,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_nz-reser-001",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              174.79826103183595,
+              -41.29441378596796
+            ],
+            [
+              174.79626103183597,
+              -41.290949684352825
+            ],
+            [
+              174.79226103183595,
+              -41.290949684352825
+            ],
+            [
+              174.79026103183597,
+              -41.29441378596796
+            ],
+            [
+              174.79226103183595,
+              -41.2978778875831
+            ],
+            [
+              174.79626103183597,
+              -41.2978778875831
+            ],
+            [
+              174.79826103183595,
+              -41.29441378596796
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_nz-reser-001",
+        "asset_code": "ANZ_NZ-RESER-001",
+        "region_code": "anz_nz",
+        "region_name": "New Zealand",
+        "class_code": "reservoir",
+        "class_name": "Service reservoir",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Service reservoir ANZ_NZ-RESER-001",
+        "install_year": 1968,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.64,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_nz-senso-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          174.80881992191934,
+          -41.27768455673955
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_nz-senso-001",
+        "asset_code": "ANZ_NZ-SENSO-001",
+        "region_code": "anz_nz",
+        "region_name": "New Zealand",
+        "class_code": "sensor",
+        "class_name": "In-network sensor",
+        "material_code": null,
+        "material_name": null,
+        "name": "In-network sensor ANZ_NZ-SENSO-001",
+        "install_year": 1958,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.477,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-anz_nz-senso-002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          174.76801419270032,
+          -41.26470856871141
+        ]
+      },
+      "properties": {
+        "id": "jisp-anz_nz-senso-002",
+        "asset_code": "ANZ_NZ-SENSO-002",
+        "region_code": "anz_nz",
+        "region_name": "New Zealand",
+        "class_code": "sensor",
+        "class_name": "In-network sensor",
+        "material_code": null,
+        "material_name": null,
+        "name": "In-network sensor ANZ_NZ-SENSO-002",
+        "install_year": 2022,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.21,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-apac-water-001",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            103.80098501767804,
+            1.368720532401205
+          ],
+          [
+            103.80909966267996,
+            1.3712324652544072
+          ],
+          [
+            103.81982408071103,
+            1.375155063475884
+          ],
+          [
+            103.82923349636117,
+            1.3746495041234252
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-apac-water-001",
+        "asset_code": "APAC-WATER-001",
+        "region_code": "apac",
+        "region_name": "Asia Pacific",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "hdpe",
+        "material_name": "High-density polyethylene",
+        "name": "Water main / pipe APAC-WATER-001",
+        "install_year": null,
+        "diameter_mm": 600,
+        "length_m": 1424.3,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.297,
+        "risk_condition_class": "good",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-apac-water-002",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            103.78562757985345,
+            1.3661189432446355
+          ],
+          [
+            103.7884685651585,
+            1.376992365370718
+          ],
+          [
+            103.79230608775349,
+            1.3847617931246596
+          ],
+          [
+            103.79178804671325,
+            1.3986951616833714
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-apac-water-002",
+        "asset_code": "APAC-WATER-002",
+        "region_code": "apac",
+        "region_name": "Asia Pacific",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Water main / pipe APAC-WATER-002",
+        "install_year": null,
+        "diameter_mm": 400,
+        "length_m": 1510.4,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.403,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-apac-water-003",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            103.85535332125689,
+            1.3547985572685388
+          ],
+          [
+            103.86131412678425,
+            1.366555923290779
+          ],
+          [
+            103.86171491741479,
+            1.3760907455069742
+          ],
+          [
+            103.85786713943598,
+            1.386747272096196
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-apac-water-003",
+        "asset_code": "APAC-WATER-003",
+        "region_code": "apac",
+        "region_name": "Asia Pacific",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Water main / pipe APAC-WATER-003",
+        "install_year": 2007,
+        "diameter_mm": 300,
+        "length_m": 287.3,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.491,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-apac-water-004",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            103.85890682895486,
+            1.3640688676726394
+          ],
+          [
+            103.86634217715483,
+            1.3592787562325312
+          ],
+          [
+            103.87715963617349,
+            1.3502188336599144
+          ],
+          [
+            103.8813180478396,
+            1.342410139030125
+          ]
+        ]
+      },
+      "properties": {
+        "id": "jisp-apac-water-004",
+        "asset_code": "APAC-WATER-004",
+        "region_code": "apac",
+        "region_name": "Asia Pacific",
+        "class_code": "water_pipe",
+        "class_name": "Water main / pipe",
+        "material_code": "hdpe",
+        "material_name": "High-density polyethylene",
+        "name": "Water main / pipe APAC-WATER-004",
+        "install_year": 1995,
+        "diameter_mm": 600,
+        "length_m": 440.3,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.444,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-apac-water-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          103.77041232492502,
+          1.361548679176547
+        ]
+      },
+      "properties": {
+        "id": "jisp-apac-water-001",
+        "asset_code": "APAC-WATER-001",
+        "region_code": "apac",
+        "region_name": "Asia Pacific",
+        "class_code": "water_treatment_plant",
+        "class_name": "Water treatment plant",
+        "material_code": "conc",
+        "material_name": "Concrete",
+        "name": "Water treatment plant APAC-WATER-001",
+        "install_year": 1927,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.599,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-apac-senso-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          103.83562526354679,
+          1.354456890947323
+        ]
+      },
+      "properties": {
+        "id": "jisp-apac-senso-001",
+        "asset_code": "APAC-SENSO-001",
+        "region_code": "apac",
+        "region_name": "Asia Pacific",
+        "class_code": "sensor",
+        "class_name": "In-network sensor",
+        "material_code": null,
+        "material_name": null,
+        "name": "In-network sensor APAC-SENSO-001",
+        "install_year": null,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.189,
+        "risk_condition_class": "excellent",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-apac-senso-002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          103.83679127499865,
+          1.3779438093969796
+        ]
+      },
+      "properties": {
+        "id": "jisp-apac-senso-002",
+        "asset_code": "APAC-SENSO-002",
+        "region_code": "apac",
+        "region_name": "Asia Pacific",
+        "class_code": "sensor",
+        "class_name": "In-network sensor",
+        "material_code": null,
+        "material_name": null,
+        "name": "In-network sensor APAC-SENSO-002",
+        "install_year": 1932,
+        "diameter_mm": null,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "medium"
+        },
+        "risk_score": 0.435,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-apac-valve-001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          103.8426661985284,
+          1.3293377772547461
+        ]
+      },
+      "properties": {
+        "id": "jisp-apac-valve-001",
+        "asset_code": "APAC-VALVE-001",
+        "region_code": "apac",
+        "region_name": "Asia Pacific",
+        "class_code": "valve",
+        "class_name": "Valve",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Valve APAC-VALVE-001",
+        "install_year": 1955,
+        "diameter_mm": 250,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "low"
+        },
+        "risk_score": 0.757,
+        "risk_condition_class": "poor",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "jisp-apac-valve-002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          103.78071809275947,
+          1.34888690731784
+        ]
+      },
+      "properties": {
+        "id": "jisp-apac-valve-002",
+        "asset_code": "APAC-VALVE-002",
+        "region_code": "apac",
+        "region_name": "Asia Pacific",
+        "class_code": "valve",
+        "class_name": "Valve",
+        "material_code": "steel",
+        "material_name": "Steel",
+        "name": "Valve APAC-VALVE-002",
+        "install_year": 2006,
+        "diameter_mm": 200,
+        "length_m": null,
+        "attributes": {
+          "owner": "Sample Water Authority",
+          "criticality": "high"
+        },
+        "risk_score": 0.578,
+        "risk_condition_class": "fair",
+        "risk_computed_at": "2026-04-26T08:00:00Z",
+        "source": "mock"
+      }
+    }
+  ]
+}

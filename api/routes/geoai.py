@@ -8,6 +8,7 @@ import asyncpg
 from fastapi import APIRouter, HTTPException, BackgroundTasks
 
 from geoai.models.risk_models import score_assets_batch, MODEL_VERSION
+from geoai.inspections.anomaly_detection import detect_zscore, detect_rolling_drop
 from reasoning.ollama_client import generate, OllamaUnavailableError
 from reasoning.reasoning_service import explain
 
@@ -31,14 +32,49 @@ async def _run_pipeline(region: Optional[str] = None):
         asset_dicts = [dict(r) for r in rows]
         results = score_assets_batch(asset_dicts)
 
+        # ── Run anomaly detection on observations ─────────────────────
+        anomaly_map = {}  # asset_id -> list of anomaly results
+        obs_rows = await conn.fetch(
+            """SELECT asset_id::text, metric,
+                      array_agg(value ORDER BY time) AS values
+               FROM observations
+               WHERE quality_flag < 2
+               GROUP BY asset_id, metric
+               HAVING count(*) >= 5""")
+
+        for obs in obs_rows:
+            aid = obs["asset_id"]
+            vals = list(obs["values"])
+            metric = obs["metric"]
+            z = detect_zscore(aid, metric, vals)
+            d = detect_rolling_drop(aid, metric, vals)
+            for det in [z, d]:
+                if det.anomaly_flag:
+                    anomaly_map.setdefault(aid, []).append(det)
+
+        # Insert alerts for new anomalies
+        async with conn.transaction():
+            for aid, detections in anomaly_map.items():
+                for det in detections:
+                    await conn.execute(
+                        """INSERT INTO asset_alerts
+                               (asset_id, alert_type, severity, message, metric, value, threshold)
+                           VALUES ($1::uuid, $2, $3, $4, $5, $6, $7)""",
+                        aid, det.anomaly_type,
+                        4 if "spike" in det.anomaly_type else 3,
+                        det.message, det.metric, det.value, det.threshold)
+
         # Write risk scores + update asset risk_tier
         async with conn.transaction():
             for r in results:
+                has_anomaly = r.asset_id in anomaly_map
+                anomaly_types = [d.anomaly_type for d in anomaly_map.get(r.asset_id, [])]
                 await conn.execute(
-                    """INSERT INTO risk_scores (asset_id,risk_score,risk_tier,model_version,shap_values,features_used,anomaly_flag)
-                       VALUES ($1::uuid,$2,$3,$4,$5::jsonb,$6::jsonb,$7)""",
+                    """INSERT INTO risk_scores (asset_id,risk_score,risk_tier,model_version,shap_values,features_used,anomaly_flag,anomaly_types)
+                       VALUES ($1::uuid,$2,$3,$4,$5::jsonb,$6::jsonb,$7,$8)""",
                     r.asset_id, r.risk_score, r.risk_tier, MODEL_VERSION,
-                    json.dumps(r.shap_values), json.dumps(r.features_used), r.anomaly_flag)
+                    json.dumps(r.shap_values), json.dumps(r.features_used),
+                    has_anomaly, anomaly_types)
                 await conn.execute(
                     "UPDATE assets SET risk_tier=$1 WHERE asset_id=$2::uuid",
                     r.risk_tier, r.asset_id)

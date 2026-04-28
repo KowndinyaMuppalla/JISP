@@ -128,11 +128,11 @@ async def seed():
                        diameter_mm,install_year,condition_score,capacity_ml,is_critical,
                        depth_m,owner,source)
                        VALUES ($1,$2,$3,ST_SetSRID(ST_MakePoint($4,$5),4326),
-                               $6,$7,$8,$9,$10,$11,$12,$13)
+                               $6,$7,$8,$9,$10,$11,$12,$13,$14)
                        ON CONFLICT DO NOTHING RETURNING asset_id""",
                     a["region_code"], a["asset_class"], a["name"],
                     a["lon"], a["lat"],
-                    a.get("material"), a.get("diameter_mm"), a.get("condition_score"),
+                    a.get("material"), a.get("diameter_mm"), a.get("install_year"), a.get("condition_score"),
                     a.get("capacity_ml"), a.get("is_critical",False),
                     a.get("depth_m"), a.get("owner"), a.get("source","seed"))
                 if row:
@@ -152,6 +152,26 @@ async def seed():
                         str(o["days_ago"]), asset_id, o["metric"], o["value"], o["unit"], "simulated")
                     obs_count += 1
         print(f"  ✓ {obs_count} observations seeded")
+
+        # ── Inject realistic anomalies into 15% of sensor/WTP assets ──
+        anomaly_assets = [a for a in asset_ids if a[1] in ("SENSOR","WTP","PUMP")][:8]
+        anomaly_count = 0
+        async with conn.transaction():
+            for asset_id, asset_class in anomaly_assets:
+                metric = "pressure_psi" if asset_class in ("SENSOR","PUMP") else "flow_lps"
+                # Insert a spike in last 2 days (3x normal value)
+                await conn.execute(
+                    "INSERT INTO observations (time,asset_id,metric,value,unit,source) "
+                    "VALUES (now()-'1 day'::interval,$1::uuid,$2,$3,$4,$5)",
+                    asset_id, metric, 180.0 if "psi" in metric else 850.0,
+                    "psi" if "psi" in metric else "lps", "simulated_anomaly")
+                await conn.execute(
+                    "INSERT INTO observations (time,asset_id,metric,value,unit,source) "
+                    "VALUES (now()-'12 hours'::interval,$1::uuid,$2,$3,$4,$5)",
+                    asset_id, metric, 195.0 if "psi" in metric else 900.0,
+                    "psi" if "psi" in metric else "lps", "simulated_anomaly")
+                anomaly_count += 1
+        print(f"  ✓ {anomaly_count} anomaly injections seeded")
         print(f"\nSeed complete. Regions: US={sum(1 for a in ALL_ASSETS if a['region_code']=='US')} "
               f"UK={sum(1 for a in ALL_ASSETS if a['region_code']=='UK')} "
               f"ANZ={sum(1 for a in ALL_ASSETS if a['region_code']=='ANZ')} "

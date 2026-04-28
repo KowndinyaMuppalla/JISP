@@ -139,7 +139,7 @@ body{font-family:'Segoe UI',sans-serif;background:#0A1628;color:#fff;display:fle
 
 <script>
 const API = window.location.hostname === 'localhost' ? 'http://localhost:8000/api/v1' : '/api/v1';
-let allAssets = [], selectedId = null, obsChart = null;
+let allAssets = [], selectedId = null, obsChart = null, mapReady = false;
 
 // ── Map init ─────────────────────────────────────────────────────
 const map = new maplibregl.Map({
@@ -154,14 +154,15 @@ const map = new maplibregl.Map({
   center: [0, 20], zoom: 2
 });
 
-map.on('load', () => { loadAssets(); addAssetLayer(); });
+map.on('load', () => { mapReady = true; addAssetLayer(); loadAssets(); });
 
 function addAssetLayer() {
+  if (map.getSource('assets')) return;
   map.addSource('assets', { type:'geojson', data:{type:'FeatureCollection',features:[]} });
   map.addLayer({
     id:'assets-circle', type:'circle', source:'assets',
     paint: {
-      'circle-radius': ['interpolate',['linear'],['zoom'],3,4,10,10],
+      'circle-radius': ['interpolate',['linear'],['zoom'],2,5,6,8,10,14],
       'circle-color': ['match',['get','risk_tier'],
         'critical','#E74C3C','high','#F7941D','medium','#F1C40F','low','#00A896','#555'],
       'circle-opacity': 0.85,
@@ -203,7 +204,7 @@ async function loadAssets() {
     allAssets = data.assets || [];
     const filtered = q ? allAssets.filter(a=>a.name.toLowerCase().includes(q.toLowerCase())) : allAssets;
     renderList(filtered);
-    renderMap(filtered);
+    renderMap(filtered, true);
     updateStatsBar(filtered);
     document.getElementById('sb-status').textContent = `${filtered.length} assets loaded`;
   } catch(e) {
@@ -223,14 +224,33 @@ function renderList(assets) {
     </div>`).join('');
 }
 
-function renderMap(assets) {
-  const features = assets.filter(a=>a.lon&&a.lat).map(a=>({
+function renderMap(assets, shouldFitBounds=false) {
+  const valid = assets.filter(a=>a.lon!==undefined && a.lon!==null && a.lat!==undefined && a.lat!==null);
+  const features = valid.map(a=>({
     type:'Feature',
     geometry:{type:'Point',coordinates:[a.lon,a.lat]},
     properties:{...a}
   }));
-  if(map.getSource('assets')) {
+  
+  if (map.getSource('assets')) {
     map.getSource('assets').setData({type:'FeatureCollection',features});
+  }
+  
+  if (shouldFitBounds && valid.length > 0) {
+    const lons = valid.map(a=>a.lon);
+    const lats = valid.map(a=>a.lat);
+    const minLon = Math.min(...lons);
+    const maxLon = Math.max(...lons);
+    const minLat = Math.min(...lats);
+    const maxLat = Math.max(...lats);
+    
+    setTimeout(() => {
+      map.fitBounds([[minLon,minLat],[maxLon,maxLat]], {
+        padding: 60,
+        maxZoom: 10,
+        duration: 1000
+      });
+    }, 50);
   }
 }
 
@@ -255,10 +275,28 @@ async function openPanel(assetId, name) {
     const a = await aRes.json();
     const obs = await obsRes.json();
     renderPanel(a, obs.observations||[]);
-    // Fly to asset
-    if(a.geojson) {
-      const c = a.geojson.type==='Point' ? a.geojson.coordinates : [a.lon||0, a.lat||0];
-      map.flyTo({center:c, zoom:Math.max(map.getZoom(),12)});
+    
+    // Extract coordinates from geojson (handles both string and object)
+    let coords = null;
+    if (a.geojson) {
+      const geoj = typeof a.geojson === 'string' ? JSON.parse(a.geojson) : a.geojson;
+      if (geoj.type === 'Point' && Array.isArray(geoj.coordinates)) {
+        coords = geoj.coordinates;
+      }
+    }
+    
+    // Fallback to lon/lat if geojson not available
+    if (!coords && a.lon !== undefined && a.lat !== undefined) {
+      coords = [a.lon, a.lat];
+    }
+    
+    // Fly to asset location
+    if (coords) {
+      map.flyTo({
+        center: coords,
+        zoom: Math.max(map.getZoom(), 13),
+        duration: 800
+      });
     }
   } catch(e) {
     document.getElementById('panel-body').innerHTML = `<div style="color:#E74C3C;font-size:11px">Error loading asset: ${e.message}</div>`;
@@ -278,9 +316,7 @@ function renderPanel(a, obs) {
       <div class="shap-bar"><div class="shap-fill" style="width:${Math.min(100,parseFloat(v))}%"></div></div>
     </div>`).join('');
 
-  // Group obs by metric for chart
   const metrics = [...new Set(obs.map(o=>o.metric))].slice(0,2);
-  const latestObs = obs.slice(0,10).reverse();
 
   document.getElementById('panel-body').innerHTML = `
     <div class="stat-row">
@@ -305,35 +341,35 @@ function renderPanel(a, obs) {
     <button onclick="fetchExplanation('${a.asset_id}')" style="width:100%;padding:6px;background:#065A82;border:none;color:#fff;border-radius:4px;cursor:pointer;font-size:11px;margin-top:8px">Regenerate Explanation</button>
   `;
 
-  // Draw chart
   if(obs.length && metrics.length) {
-    const ctx = document.getElementById('obs-chart');
-    if(obsChart) obsChart.destroy();
-    const metric = metrics[0];
-    const filtered = obs.filter(o=>o.metric===metric).slice(-15);
-    obsChart = new Chart(ctx, {
-      type:'line',
-      data:{
-        labels: filtered.map((_,i)=>`-${filtered.length-i}d`),
-        datasets:[{
-          label: metric.replace(/_/g,' '),
-          data: filtered.map(o=>parseFloat(o.value).toFixed(2)),
-          borderColor:'#00A896', backgroundColor:'#00A89622',
-          tension:0.4, fill:true, pointRadius:2
-        }]
-      },
-      options:{
-        responsive:true,
-        plugins:{legend:{labels:{color:'#8BAABF',font:{size:9}}}},
-        scales:{
-          x:{ticks:{color:'#8BAABF',font:{size:8}}},
-          y:{ticks:{color:'#8BAABF',font:{size:8}}}
+    setTimeout(() => {
+      const ctx = document.getElementById('obs-chart');
+      if(obsChart) obsChart.destroy();
+      const metric = metrics[0];
+      const filtered = obs.filter(o=>o.metric===metric).slice(-15);
+      obsChart = new Chart(ctx, {
+        type:'line',
+        data:{
+          labels: filtered.map((_,i)=>`-${filtered.length-i}d`),
+          datasets:[{
+            label: metric.replace(/_/g,' '),
+            data: filtered.map(o=>parseFloat(o.value).toFixed(2)),
+            borderColor:'#00A896', backgroundColor:'#00A89622',
+            tension:0.4, fill:true, pointRadius:2
+          }]
+        },
+        options:{
+          responsive:true,
+          plugins:{legend:{labels:{color:'#8BAABF',font:{size:9}}}},
+          scales:{
+            x:{ticks:{color:'#8BAABF',font:{size:8}}},
+            y:{ticks:{color:'#8BAABF',font:{size:8}}}
+          }
         }
-      }
-    });
+      });
+    }, 100);
   }
 
-  // Auto-fetch explanation
   fetchExplanation(a.asset_id);
 }
 
@@ -363,7 +399,6 @@ function closePanel() {
   selectedId = null;
 }
 
-// ── GeoAI pipeline ────────────────────────────────────────────────
 async function runGeoAI() {
   const btn = document.getElementById('run-ai-btn');
   btn.textContent = '⏳ Running...'; btn.disabled = true;
@@ -380,7 +415,6 @@ async function runGeoAI() {
   }
 }
 
-// ── Inspection queue ──────────────────────────────────────────────
 async function loadQueue() {
   const region = document.getElementById('region-filter').value;
   let url = `${API}/geoai/inspection-queue?limit=100`;

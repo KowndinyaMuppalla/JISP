@@ -83,11 +83,11 @@ code, kbd { font-family: var(--font-mono); }
   width: 28px;
   height: 28px;
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--accent), #1a8aff);
-  color: var(--fg-inverse);
+  background: var(--accent);
+  color: #FFFFFF;
   font-size: 18px;
   font-weight: 700;
-  box-shadow: 0 4px 12px var(--accent-glow);
+  box-shadow: 0 2px 6px var(--accent-glow);
 }
 .brand__name { font-size: var(--fs-xl); }
 .brand__sub  {
@@ -175,8 +175,8 @@ code, kbd { font-family: var(--font-mono); }
 .modal__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(6px);
+  background: rgba(38, 39, 48, 0.40);
+  backdrop-filter: blur(2px);
 }
 .modal__dialog {
   position: relative;

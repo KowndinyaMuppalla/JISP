@@ -44,25 +44,26 @@ function loadMaplibre() {
 }
 
 /**
- * Dark raster basemap (CARTO Dark Matter via raster tiles).
- * Inlined as a JSON style so we don't depend on a separate style.json
- * fetch — raster image tiles are CORS-friendlier than vector style fetches
- * and survive most corporate proxies.
+ * Light raster basemap (CARTO Positron via raster tiles).
+ * Matches the Streamlit-style light UI theme. Inlined as a JSON style so
+ * we don't depend on a separate style.json fetch — raster image tiles are
+ * CORS-friendlier than vector style fetches and survive most corporate
+ * proxies.
  *
- * If even this is blocked, the map will still show the dark background
- * layer and your asset overlays — only the basemap imagery is missing.
+ * If tiles are blocked, the white background layer still renders and the
+ * asset overlays remain visible — only the basemap imagery is missing.
  */
 const BASEMAP_STYLE = {
   version: 8,
   glyphs: "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
   sources: {
-    "carto-dark": {
+    "carto-light": {
       type: "raster",
       tiles: [
-        "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-        "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-        "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-        "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+        "https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+        "https://b.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+        "https://c.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+        "https://d.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
       ],
       tileSize: 256,
       maxzoom: 19,
@@ -75,13 +76,13 @@ const BASEMAP_STYLE = {
     {
       id: "background",
       type: "background",
-      paint: { "background-color": "#0a0e14" },
+      paint: { "background-color": "#FFFFFF" },
     },
     {
-      id: "carto-dark",
+      id: "carto-light",
       type: "raster",
-      source: "carto-dark",
-      paint: { "raster-opacity": 0.95 },
+      source: "carto-light",
+      paint: { "raster-opacity": 1.0 },
     },
   ],
 };
@@ -103,7 +104,7 @@ const RISK_COLOR_EXPR = [
   0.8, "#e64545",
 ];
 
-const SELECTED_COLOR = "#2af0c8";
+const SELECTED_COLOR = "#FF4B4B";
 
 
 export class JispMap {
@@ -192,14 +193,14 @@ export class JispMap {
     m.addSource("assets",        { type: "geojson", data: assets, promoteId: "id" });
     m.addSource("cluster-zones", { type: "geojson", data: zones,  promoteId: "id" });
 
-    // ---- Cluster zones (lowest layer) ----
+    // ---- Cluster zones (lowest layer) — Streamlit red ----
     m.addLayer({
       id: "cluster-zones-fill",
       type: "fill",
       source: "cluster-zones",
       paint: {
-        "fill-color":   "#e64545",
-        "fill-opacity": 0.10,
+        "fill-color":   "#FF4B4B",
+        "fill-opacity": 0.12,
       },
     });
     m.addLayer({
@@ -207,9 +208,9 @@ export class JispMap {
       type: "line",
       source: "cluster-zones",
       paint: {
-        "line-color":     "#e64545",
-        "line-opacity":   0.55,
-        "line-width":     1.5,
+        "line-color":     "#FF4B4B",
+        "line-opacity":   0.65,
+        "line-width":     1.6,
         "line-dasharray": [3, 2],
       },
     });
@@ -244,9 +245,9 @@ export class JispMap {
       source: "assets",
       filter: ["in", "$type", "LineString"],
       paint: {
-        "line-color":   "#0a0e14",
-        "line-width":   ["interpolate", ["linear"], ["zoom"], 4, 1.5, 12, 6.0],
-        "line-opacity": 0.9,
+        "line-color":   "#FFFFFF",
+        "line-width":   ["interpolate", ["linear"], ["zoom"], 4, 2.0, 12, 7.0],
+        "line-opacity": 0.95,
       },
     });
     m.addLayer({
@@ -282,7 +283,7 @@ export class JispMap {
       paint: {
         "circle-color":         RISK_COLOR_EXPR,
         "circle-radius":        ["interpolate", ["linear"], ["zoom"], 3, 3, 12, 7],
-        "circle-stroke-color":  "#0a0e14",
+        "circle-stroke-color":  "#FFFFFF",
         "circle-stroke-width":  1.2,
       },
     });

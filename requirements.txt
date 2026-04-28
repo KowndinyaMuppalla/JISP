@@ -1,11 +1,22 @@
-# JISP – Jacobs Spatial Intelligence Platform
-# Runtime dependencies will be populated as implementation steps proceed.
-# Approved stack only (see README.md): Python, PostgreSQL, PostGIS, TimescaleDB,
-# GDAL/OGR, GeoPandas, Rasterio, xarray, scikit-learn, PySAL, HDBSCAN/DBSCAN,
-# OpenGeoAI, OpenCL (PyOpenCL/Numba), SHAP, Ollama, Llama 3.3, FastAPI, Pydantic,
-# MapLibre GL JS (frontend), Streamlit.
-
-# --- Step 2: minimal FastAPI app ---
 fastapi>=0.110
+uvicorn[standard]>=0.29
 pydantic>=2.6
-uvicorn[standard]>=0.29  # ASGI server required to run FastAPI
+asyncpg>=0.29
+psycopg2-binary>=2.9
+sqlalchemy>=2.0
+geopandas>=0.14
+fiona>=1.9
+shapely>=2.0
+pyproj>=3.6
+scikit-learn>=1.4
+hdbscan>=0.8
+networkx>=3.2
+shap>=0.44
+pandas>=2.1
+numpy>=1.26
+requests>=2.31
+python-multipart>=0.0.9
+aiofiles>=23.2
+apscheduler>=3.10
+websockets>=12.0
+httpx>=0.27

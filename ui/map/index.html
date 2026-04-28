@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JISP — Jacobs Spatial Intelligence Platform</title>
+<script src="https://unpkg.com/maplibre-gl@4.1.0/dist/maplibre-gl.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.1.0/dist/maplibre-gl.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#0A1628;color:#fff;display:flex;height:100vh;overflow:hidden}
+#sidebar{width:340px;min-width:340px;background:#0D2137;display:flex;flex-direction:column;border-right:1px solid #1C3A52;z-index:10;overflow:hidden}
+#header{padding:14px 16px;background:#065A82;border-bottom:1px solid #1C7293}
+#header h1{font-size:18px;font-weight:700;color:#fff;letter-spacing:1px}
+#header p{font-size:10px;color:#8BAABF;margin-top:2px}
+#controls{padding:10px 12px;border-bottom:1px solid #1C3A52}
+#controls select,#controls input{width:100%;padding:6px 8px;margin-bottom:6px;background:#112233;
+  border:1px solid #1C3A52;color:#fff;border-radius:4px;font-size:12px}
+#controls button{width:100%;padding:7px;background:#00A896;border:none;color:#fff;
+  border-radius:4px;cursor:pointer;font-size:12px;font-weight:600;margin-bottom:4px}
+#controls button:hover{background:#028080}
+#controls button.danger{background:#E74C3C}
+#asset-list{flex:1;overflow-y:auto;padding:8px}
+.asset-card{background:#112233;border:1px solid #1C3A52;border-radius:6px;padding:10px;margin-bottom:6px;cursor:pointer;transition:border-color .2s}
+.asset-card:hover{border-color:#00A896}
+.asset-card.selected{border-color:#00A896;background:#0A2040}
+.asset-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:3px}
+.asset-meta{font-size:10px;color:#8BAABF}
+.risk-badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:9px;font-weight:700;float:right}
+.critical{background:#E74C3C}.high{background:#F7941D}.medium{background:#F1C40F;color:#000}
+.low{background:#00A896}.unknown{background:#555}
+#map{flex:1;position:relative}
+#panel{position:absolute;top:10px;right:10px;width:340px;background:#0D2137;border:1px solid #1C3A52;
+  border-radius:8px;z-index:5;display:none;max-height:calc(100vh - 80px);overflow-y:auto}
+#panel-header{padding:12px 14px;background:#065A82;border-radius:8px 8px 0 0;display:flex;justify-content:space-between;align-items:center}
+#panel-header h3{font-size:14px;font-weight:700}
+#panel-close{background:none;border:none;color:#fff;cursor:pointer;font-size:18px;padding:0 4px}
+#panel-body{padding:14px}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.stat-box{background:#112233;border-radius:5px;padding:8px 10px;border-left:3px solid #00A896}
+.stat-val{font-size:18px;font-weight:700;color:#00A896}
+.stat-lbl{font-size:9px;color:#8BAABF;margin-top:2px}
+.explain-box{background:#0A1628;border:1px solid #1C3A52;border-radius:5px;padding:10px;margin-top:10px;font-size:11px;line-height:1.6;color:#E8F4F8}
+.explain-box.loading{color:#8BAABF;font-style:italic}
+.shap-bar{height:6px;background:#1C3A52;border-radius:3px;margin:2px 0}
+.shap-fill{height:100%;border-radius:3px;background:#00A896}
+#chart-container{margin-top:12px;background:#112233;border-radius:5px;padding:8px}
+#chart-container canvas{max-height:150px}
+#loader{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:#0D2137;border:1px solid #1C3A52;border-radius:8px;padding:20px 32px;
+  z-index:20;font-size:13px;color:#00A896;display:none}
+#map-controls{position:absolute;bottom:30px;left:10px;z-index:5;display:flex;flex-direction:column;gap:6px}
+.map-btn{background:#0D2137;border:1px solid #1C3A52;color:#fff;padding:8px 12px;
+  border-radius:5px;cursor:pointer;font-size:11px}
+.map-btn:hover{background:#065A82}
+#region-toggle{position:absolute;top:10px;left:10px;z-index:5;display:flex;flex-direction:column;gap:4px}
+.region-btn{padding:5px 10px;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600;
+  border:1px solid transparent}
+.region-btn.active{border-color:#00A896}
+#stats-bar{position:absolute;bottom:0;left:0;right:0;background:#0D2137aa;
+  display:flex;gap:20px;padding:6px 16px;font-size:10px;color:#8BAABF;border-top:1px solid #1C3A52;z-index:5}
+#stats-bar span b{color:#00A896}
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <div id="header">
+    <h1>JISP</h1>
+    <p>Jacobs Spatial Intelligence Platform</p>
+  </div>
+  <div id="controls">
+    <select id="region-filter">
+      <option value="">All Regions</option>
+      <option value="US">United States</option>
+      <option value="UK">United Kingdom</option>
+      <option value="ANZ">Australia & NZ</option>
+      <option value="APAC">Asia Pacific</option>
+    </select>
+    <select id="class-filter">
+      <option value="">All Asset Classes</option>
+      <option value="WTP">Water Treatment Plant</option>
+      <option value="WWTP">Wastewater Treatment Plant</option>
+      <option value="PUMP">Pump Station</option>
+      <option value="PIPE_W">Water Main</option>
+      <option value="PIPE_S">Sewer Main</option>
+      <option value="RESERVOIR">Reservoir</option>
+      <option value="DAM">Dam</option>
+      <option value="SENSOR">Sensor</option>
+    </select>
+    <select id="risk-filter">
+      <option value="">All Risk Tiers</option>
+      <option value="critical">Critical</option>
+      <option value="high">High</option>
+      <option value="medium">Medium</option>
+      <option value="low">Low</option>
+    </select>
+    <input type="text" id="search" placeholder="Search assets...">
+    <button onclick="loadAssets()">🔍 Search</button>
+    <button onclick="runGeoAI()" id="run-ai-btn">⚡ Run GeoAI Pipeline</button>
+    <button onclick="loadQueue()" style="background:#1C7293">📋 Inspection Queue</button>
+  </div>
+  <div id="asset-list"><div style="color:#8BAABF;font-size:11px;padding:10px">Loading assets...</div></div>
+</div>
+
+<div id="map">
+  <div id="loader">⏳ Processing...</div>
+
+  <div id="region-toggle">
+    <button class="region-btn active" onclick="setRegion('')" data-r="">All</button>
+    <button class="region-btn" onclick="setRegion('US')" data-r="US" style="background:#065A82aa">US</button>
+    <button class="region-btn" onclick="setRegion('UK')" data-r="UK" style="background:#1C7293aa">UK</button>
+    <button class="region-btn" onclick="setRegion('ANZ')" data-r="ANZ" style="background:#00A896aa">ANZ</button>
+    <button class="region-btn" onclick="setRegion('APAC')" data-r="APAC" style="background:#F7941Daa">APAC</button>
+  </div>
+
+  <div id="map-controls">
+    <button class="map-btn" onclick="map.flyTo({zoom:map.getZoom()+1})">＋</button>
+    <button class="map-btn" onclick="map.flyTo({zoom:map.getZoom()-1})">－</button>
+    <button class="map-btn" onclick="map.flyTo({center:[0,20],zoom:2})">🌍</button>
+  </div>
+
+  <div id="stats-bar">
+    <span>Assets: <b id="sb-total">–</b></span>
+    <span>Critical: <b id="sb-critical" style="color:#E74C3C">–</b></span>
+    <span>High: <b id="sb-high" style="color:#F7941D">–</b></span>
+    <span>Anomalies: <b id="sb-anomaly" style="color:#F1C40F">–</b></span>
+    <span id="sb-status" style="color:#00A896">Ready</span>
+  </div>
+
+  <div id="panel">
+    <div id="panel-header">
+      <h3 id="panel-title">Asset Detail</h3>
+      <button id="panel-close" onclick="closePanel()">✕</button>
+    </div>
+    <div id="panel-body"></div>
+  </div>
+</div>
+
+<script>
+const API = window.location.hostname === 'localhost' ? 'http://localhost:8000/api/v1' : '/api/v1';
+let allAssets = [], selectedId = null, obsChart = null;
+
+// ── Map init ─────────────────────────────────────────────────────
+const map = new maplibregl.Map({
+  container: 'map',
+  style: {
+    version: 8,
+    sources: {
+      'osm': { type:'raster', tiles:['https://tile.openstreetmap.org/{z}/{x}/{y}.png'], tileSize:256, attribution:'© OSM' }
+    },
+    layers: [{ id:'osm-tiles', type:'raster', source:'osm', paint:{'raster-opacity':0.25} }]
+  },
+  center: [0, 20], zoom: 2
+});
+
+map.on('load', () => { loadAssets(); addAssetLayer(); });
+
+function addAssetLayer() {
+  map.addSource('assets', { type:'geojson', data:{type:'FeatureCollection',features:[]} });
+  map.addLayer({
+    id:'assets-circle', type:'circle', source:'assets',
+    paint: {
+      'circle-radius': ['interpolate',['linear'],['zoom'],3,4,10,10],
+      'circle-color': ['match',['get','risk_tier'],
+        'critical','#E74C3C','high','#F7941D','medium','#F1C40F','low','#00A896','#555'],
+      'circle-opacity': 0.85,
+      'circle-stroke-width': ['case',['==',['get','asset_id'],['literal',selectedId||'']],3,0.8],
+      'circle-stroke-color': '#fff'
+    }
+  });
+  map.addLayer({
+    id:'assets-label', type:'symbol', source:'assets',
+    minzoom: 10,
+    layout: {
+      'text-field': ['get','name'],
+      'text-size': 9, 'text-offset': [0,1.2],
+      'text-anchor': 'top'
+    },
+    paint: { 'text-color':'#fff', 'text-halo-color':'#0A1628', 'text-halo-width':1 }
+  });
+  map.on('click', 'assets-circle', e => {
+    const f = e.features[0];
+    if (f) openPanel(f.properties.asset_id, f.properties.name);
+  });
+  map.on('mouseenter','assets-circle',()=>map.getCanvas().style.cursor='pointer');
+  map.on('mouseleave','assets-circle',()=>map.getCanvas().style.cursor='');
+}
+
+// ── Load assets ───────────────────────────────────────────────────
+async function loadAssets() {
+  const region = document.getElementById('region-filter').value;
+  const ac     = document.getElementById('class-filter').value;
+  const risk   = document.getElementById('risk-filter').value;
+  const q      = document.getElementById('search').value.trim();
+  let url = `${API}/assets?limit=500`;
+  if(region) url+=`&region=${region}`;
+  if(ac)     url+=`&asset_class=${ac}`;
+  if(risk)   url+=`&risk_tier=${risk}`;
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    allAssets = data.assets || [];
+    const filtered = q ? allAssets.filter(a=>a.name.toLowerCase().includes(q.toLowerCase())) : allAssets;
+    renderList(filtered);
+    renderMap(filtered);
+    updateStatsBar(filtered);
+    document.getElementById('sb-status').textContent = `${filtered.length} assets loaded`;
+  } catch(e) {
+    document.getElementById('asset-list').innerHTML = `<div style="color:#E74C3C;font-size:11px;padding:10px">API error: ${e.message}<br>Is the API running?</div>`;
+  }
+}
+
+function renderList(assets) {
+  const el = document.getElementById('asset-list');
+  if(!assets.length){ el.innerHTML='<div style="color:#8BAABF;font-size:11px;padding:10px">No assets found</div>'; return; }
+  el.innerHTML = assets.map(a => `
+    <div class="asset-card${a.asset_id===selectedId?' selected':''}" onclick="openPanel('${a.asset_id}','${a.name.replace(/'/g,"\\'")}')">
+      <span class="risk-badge ${a.risk_tier||'unknown'}">${(a.risk_tier||'?').toUpperCase()}</span>
+      <div class="asset-name">${a.name}</div>
+      <div class="asset-meta">${a.asset_class} · ${a.region_code} · ${a.material||'?'}</div>
+      ${a.anomaly_flag?'<div style="font-size:9px;color:#F7941D;margin-top:3px">⚠ Anomaly flagged</div>':''}
+    </div>`).join('');
+}
+
+function renderMap(assets) {
+  const features = assets.filter(a=>a.lon&&a.lat).map(a=>({
+    type:'Feature',
+    geometry:{type:'Point',coordinates:[a.lon,a.lat]},
+    properties:{...a}
+  }));
+  if(map.getSource('assets')) {
+    map.getSource('assets').setData({type:'FeatureCollection',features});
+  }
+}
+
+function updateStatsBar(assets) {
+  document.getElementById('sb-total').textContent = assets.length;
+  document.getElementById('sb-critical').textContent = assets.filter(a=>a.risk_tier==='critical').length;
+  document.getElementById('sb-high').textContent = assets.filter(a=>a.risk_tier==='high').length;
+  document.getElementById('sb-anomaly').textContent = assets.filter(a=>a.anomaly_flag).length;
+}
+
+// ── Asset panel ───────────────────────────────────────────────────
+async function openPanel(assetId, name) {
+  selectedId = assetId;
+  document.getElementById('panel').style.display = 'block';
+  document.getElementById('panel-title').textContent = name;
+  document.getElementById('panel-body').innerHTML = '<div style="color:#8BAABF;font-size:11px">Loading...</div>';
+  try {
+    const [aRes, obsRes] = await Promise.all([
+      fetch(`${API}/assets/${assetId}`),
+      fetch(`${API}/assets/${assetId}/observations?limit=30`)
+    ]);
+    const a = await aRes.json();
+    const obs = await obsRes.json();
+    renderPanel(a, obs.observations||[]);
+    // Fly to asset
+    if(a.geojson) {
+      const c = a.geojson.type==='Point' ? a.geojson.coordinates : [a.lon||0, a.lat||0];
+      map.flyTo({center:c, zoom:Math.max(map.getZoom(),12)});
+    }
+  } catch(e) {
+    document.getElementById('panel-body').innerHTML = `<div style="color:#E74C3C;font-size:11px">Error loading asset: ${e.message}</div>`;
+  }
+}
+
+function renderPanel(a, obs) {
+  const risk = a.risk_tier||a.ai_risk_tier||'unknown';
+  const score = a.risk_score ? parseFloat(a.risk_score).toFixed(1) : 'N/A';
+  const shap = a.shap_values && typeof a.shap_values==='object' ? a.shap_values : {};
+
+  const shapHtml = Object.entries(shap).slice(0,5).map(([k,v])=>`
+    <div style="margin-bottom:5px">
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:#8BAABF">
+        <span>${k.replace(/_/g,' ')}</span><span>${parseFloat(v).toFixed(1)}</span>
+      </div>
+      <div class="shap-bar"><div class="shap-fill" style="width:${Math.min(100,parseFloat(v))}%"></div></div>
+    </div>`).join('');
+
+  // Group obs by metric for chart
+  const metrics = [...new Set(obs.map(o=>o.metric))].slice(0,2);
+  const latestObs = obs.slice(0,10).reverse();
+
+  document.getElementById('panel-body').innerHTML = `
+    <div class="stat-row">
+      <div class="stat-box" style="border-color:${riskColor(risk)}">
+        <div class="stat-val" style="color:${riskColor(risk)}">${score}</div>
+        <div class="stat-lbl">Risk Score</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" style="font-size:13px;text-transform:uppercase;color:${riskColor(risk)}">${risk}</div>
+        <div class="stat-lbl">Risk Tier</div>
+      </div>
+    </div>
+    <div style="font-size:10px;color:#8BAABF;margin-bottom:8px">
+      <b style="color:#fff">${a.asset_class}</b> · ${a.region_code} · ${a.material||'N/A'}<br>
+      Install: ${a.install_year||'?'} · Ø${a.diameter_mm||'?'}mm · ${a.depth_m||'?'}m deep<br>
+      Last inspected: ${a.last_inspected||'Never'}<br>
+      ${a.anomaly_flag?'<span style="color:#F7941D">⚠ Anomaly detected</span>':'<span style="color:#00A896">✓ No anomalies</span>'}
+    </div>
+    ${shapHtml ? `<div style="margin-bottom:10px"><div style="font-size:10px;color:#8BAABF;margin-bottom:5px">Risk Drivers (SHAP)</div>${shapHtml}</div>` : ''}
+    ${obs.length ? `<div id="chart-container"><canvas id="obs-chart"></canvas></div>` : ''}
+    <div class="explain-box loading" id="explain-text">🤖 Generating LLM explanation from llama3.2...</div>
+    <button onclick="fetchExplanation('${a.asset_id}')" style="width:100%;padding:6px;background:#065A82;border:none;color:#fff;border-radius:4px;cursor:pointer;font-size:11px;margin-top:8px">Regenerate Explanation</button>
+  `;
+
+  // Draw chart
+  if(obs.length && metrics.length) {
+    const ctx = document.getElementById('obs-chart');
+    if(obsChart) obsChart.destroy();
+    const metric = metrics[0];
+    const filtered = obs.filter(o=>o.metric===metric).slice(-15);
+    obsChart = new Chart(ctx, {
+      type:'line',
+      data:{
+        labels: filtered.map((_,i)=>`-${filtered.length-i}d`),
+        datasets:[{
+          label: metric.replace(/_/g,' '),
+          data: filtered.map(o=>parseFloat(o.value).toFixed(2)),
+          borderColor:'#00A896', backgroundColor:'#00A89622',
+          tension:0.4, fill:true, pointRadius:2
+        }]
+      },
+      options:{
+        responsive:true,
+        plugins:{legend:{labels:{color:'#8BAABF',font:{size:9}}}},
+        scales:{
+          x:{ticks:{color:'#8BAABF',font:{size:8}}},
+          y:{ticks:{color:'#8BAABF',font:{size:8}}}
+        }
+      }
+    });
+  }
+
+  // Auto-fetch explanation
+  fetchExplanation(a.asset_id);
+}
+
+async function fetchExplanation(assetId) {
+  const el = document.getElementById('explain-text');
+  if(!el) return;
+  el.textContent = '🤖 Generating explanation (llama3.2)...';
+  el.className = 'explain-box loading';
+  try {
+    const res = await fetch(`${API}/geoai/explain/${assetId}`);
+    const data = await res.json();
+    if(data.explanation) {
+      el.textContent = data.explanation;
+      el.className = 'explain-box';
+    } else {
+      el.textContent = 'No explanation available.';
+      el.className = 'explain-box';
+    }
+  } catch(e) {
+    el.textContent = `Explanation unavailable (${e.message})`;
+    el.className = 'explain-box';
+  }
+}
+
+function closePanel() {
+  document.getElementById('panel').style.display = 'none';
+  selectedId = null;
+}
+
+// ── GeoAI pipeline ────────────────────────────────────────────────
+async function runGeoAI() {
+  const btn = document.getElementById('run-ai-btn');
+  btn.textContent = '⏳ Running...'; btn.disabled = true;
+  document.getElementById('sb-status').textContent = 'Running GeoAI pipeline...';
+  try {
+    const res = await fetch(`${API}/geoai/run-sync`);
+    const data = await res.json();
+    document.getElementById('sb-status').textContent = `GeoAI done: ${data.scored} scored, ${data.queued} queued`;
+    await loadAssets();
+  } catch(e) {
+    document.getElementById('sb-status').textContent = `Pipeline error: ${e.message}`;
+  } finally {
+    btn.textContent = '⚡ Run GeoAI Pipeline'; btn.disabled = false;
+  }
+}
+
+// ── Inspection queue ──────────────────────────────────────────────
+async function loadQueue() {
+  const region = document.getElementById('region-filter').value;
+  let url = `${API}/geoai/inspection-queue?limit=100`;
+  if(region) url+=`&region=${region}`;
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    const queue = data.queue || [];
+    document.getElementById('asset-list').innerHTML =
+      `<div style="color:#00A896;font-size:11px;padding:8px;border-bottom:1px solid #1C3A52">
+        📋 Inspection Queue (${queue.length} pending)</div>` +
+      queue.map((q,i)=>`
+        <div class="asset-card" onclick="openPanel('${q.asset_id}','${(q.name||'').replace(/'/g,"\\'")}')">
+          <span class="risk-badge ${q.risk_tier||'unknown'}">#${q.priority_rank}</span>
+          <div class="asset-name">${q.name||q.asset_id}</div>
+          <div class="asset-meta">${q.asset_class} · Score: ${parseFloat(q.priority_score).toFixed(1)}</div>
+          ${(q.reason_codes||[]).map(r=>`<span style="font-size:9px;color:#F7941D;margin-right:4px">⚑ ${r}</span>`).join('')}
+        </div>`).join('');
+  } catch(e) {
+    alert(`Queue error: ${e.message}`);
+  }
+}
+
+function setRegion(r) {
+  document.getElementById('region-filter').value = r;
+  document.querySelectorAll('.region-btn').forEach(b=>b.classList.toggle('active', b.dataset.r===r));
+  loadAssets();
+}
+
+function riskColor(tier) {
+  return {critical:'#E74C3C',high:'#F7941D',medium:'#F1C40F',low:'#00A896'}[tier]||'#555';
+}
+</script>
+</body></html>

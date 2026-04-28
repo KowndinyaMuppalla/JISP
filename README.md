@@ -1,46 +1,69 @@
-# JISP – Jacobs Spatial Intelligence Platform
+# JISP — Jacobs Spatial Intelligence Platform
 
-JISP is a pre-field, cloud-native spatial intelligence platform.
+**Branch:** `feat/jisp-mvp`  
+**Stack:** FastAPI · PostgreSQL/PostGIS/TimescaleDB · GeoServer · Ollama (llama3.2) · MapLibre GL
 
-## Positioning
+## Quick Start
 
-- **Pre-field**: used BEFORE field execution to provide intelligence, prioritization, and reasoning.
-- **Cloud-native**: designed to run on standard containerized infrastructure.
-- **Standalone**: not a field execution system, not an offline-first platform (core), not a mobile backend, not a data warehouse.
+```bash
+# 1. Clone and switch to MVP branch
+git clone https://github.com/KowndinyaMuppalla/JISP.git && cd JISP
+git checkout feat/jisp-mvp
 
-## What JISP Is
+# 2. Copy env
+cp .env .env.local  # edit if needed
 
-- AI-first
-- Geospatial-native
-- Asset-centric
-- Time-aware
-- Explainable by design
+# 3. Start full stack (GeoServer + Ollama + DB + API + UI)
+docker compose -f docker/docker-compose.yml up -d
 
-## What JISP Is Not
+# 4. Wait ~3 min for Ollama to pull llama3.2 (~2GB)
+docker logs jisp_ollama -f
 
-- A field execution system
-- An offline-first platform (core)
-- A mobile backend
-- A data warehouse
-- A vendor-locked solution
+# 5. Seed sample data (180 water assets across US/UK/ANZ/APAC)
+docker compose -f docker/docker-compose.yml exec api python scripts/seed_sample_data.py
 
-> Offline-first capability is a **future extension only**. It must be possible to add later without modifying the JISP core.
+# 6. Configure GeoServer layers + VectorTiles
+docker compose -f docker/docker-compose.yml exec api python scripts/setup_geoserver.py
 
-## Approved Technology Stack
+# 7. Run GeoAI pipeline (scores all assets, builds inspection queue)
+curl -X GET http://localhost:8000/api/v1/geoai/run-sync
+```
 
-- **Language**: Python
-- **Spatial & Time-Series Core**: PostgreSQL, PostGIS, TimescaleDB
-- **Geospatial Processing**: GDAL/OGR, GeoPandas, Rasterio, xarray
-- **GeoAI**: scikit-learn, PySAL, HDBSCAN/DBSCAN, OpenGeoAI, OpenCL (via PyOpenCL or Numba)
-- **Explainability & Reasoning**: SHAP, Ollama, Llama 3.3
-- **APIs**: FastAPI, Pydantic
-- **Visualization**: MapLibre GL JS, Streamlit
-- **Containerization (local only)**: Docker, Docker Compose, Docker Desktop
+## Access
 
-## Repository Layout
+| Service     | URL                              |
+|-------------|----------------------------------|
+| Web Map UI  | http://localhost:3000            |
+| API Docs    | http://localhost:8000/docs       |
+| GeoServer   | http://localhost:8080/geoserver  |
+| Ollama      | http://localhost:11434           |
 
-See the top-level folders for the canonical structure. Each folder has a single, strict responsibility (see `docs/architecture/solution-architecture.md`).
+## API Endpoints
 
-## Status
+```
+GET  /health
+GET  /api/v1/assets?region=US&asset_class=PIPE_W&risk_tier=critical
+GET  /api/v1/assets/{id}
+POST /api/v1/assets
+GET  /api/v1/assets/{id}/observations
+GET  /api/v1/geoai/run-sync
+GET  /api/v1/geoai/inspection-queue
+GET  /api/v1/geoai/explain/{id}        ← LLM explanation via llama3.2
+POST /api/v1/import/upload             ← ZIP/SHP/GPKG/GeoJSON
+POST /api/v1/explain                   ← Manual explain (existing)
+```
 
-Scaffold only. See `docs/adr/001-standalone-ai-first.md` for core architectural decisions.
+## Architecture
+
+```
+Data Sources (EPA/USGS/OS/BOM/LINZ/OSM/CSV)
+    ↓ Ingestion Adapters (Python)
+PostgreSQL + PostGIS + TimescaleDB
+    ↓ GeoServer → Vector Tile PBF
+MapLibre GL Web Map ← → FastAPI
+    ↓                      ↓
+Asset CRUD         GeoAI Pipeline
+Risk Scoring       Anomaly Detection
+Inspection Queue   SHAP Attribution
+                   LLaMA 3.2 Explanation
+```

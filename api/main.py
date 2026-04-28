@@ -1,80 +1,39 @@
-"""JISP FastAPI entrypoint and application factory.
-
-Current scope:
-- System endpoints: /health
-- Reasoning endpoints: /explain (LLaMA 3.3 explanation-only)
-
-No database integration yet (STEP 4+).
-
-Router modules:
-- reasoning: POST /explain — transform GeoAI findings to plain-language explanations
-
-Architecture:
-    JISP API (/health, /explain)
-        ├── Reasoning Layer (via reasoning_routes)
-        │   ├── ollama_client: Calls Ollama /api/generate
-        │   └── reasoning_service: Template → LLaMA → Explanation
-        └── (Future: GeoAI Layer, Asset Layer, Timeseries Layer)
-
-OpenAPI:
-    Available at /docs (Swagger UI) and /openapi.json
-"""
-
-import logging
-
+"""JISP FastAPI — MVP entry point"""
+import logging, os
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-from api.routes import reasoning as reasoning_routes
+from api.routes import reasoning, assets, geoai, timeseries, upload
 
+logging.basicConfig(level=os.getenv("LOG_LEVEL","INFO"),
+    format="%(asctime)s %(levelname)s %(name)s — %(message)s")
+logger = logging.getLogger("jisp.api")
 
-# Configure module logger
-logger = logging.getLogger(__name__)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logger.info("JISP API starting — model: %s", os.getenv("OLLAMA_MODEL","llama3.2"))
+    yield
+    logger.info("JISP API shutting down")
 
-# FastAPI application
 app = FastAPI(
     title="JISP API",
-    description=(
-        "Jacobs Spatial Intelligence Platform — pre-field, AI-first, "
-        "geospatial-native, explainable by design. "
-        "\n\n"
-        "**Current Scope:** Reasoning layer (LLaMA 3.3 explanations) for GeoAI findings. "
-        "No prediction, no scoring — explanation only."
-    ),
-    version="0.0.1",
-    docs_url="/docs",
-    openapi_url="/openapi.json",
-    contact={
-        "name": "JISP Development",
-        "url": "https://github.com/jacobs-spatial/jisp",
-    },
+    description="Jacobs Spatial Intelligence Platform — MVP",
+    version="1.0.0",
+    lifespan=lifespan,
+    docs_url="/docs", redoc_url="/redoc",
 )
 
+app.add_middleware(CORSMiddleware,
+    allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
-@app.get(
-    "/health",
-    tags=["system"],
-    summary="Health check",
-    description="Verify the JISP API is running and healthy.",
-    responses={200: {"description": "Service is healthy"}},
-)
-def health() -> dict[str, str]:
-    """System health endpoint.
+app.include_router(reasoning.router, prefix="/api/v1", tags=["Reasoning"])
+app.include_router(assets.router,    prefix="/api/v1", tags=["Assets"])
+app.include_router(geoai.router,     prefix="/api/v1", tags=["GeoAI"])
+app.include_router(timeseries.router,prefix="/api/v1", tags=["Timeseries"])
+app.include_router(upload.router,    prefix="/api/v1", tags=["Import"])
 
-    Returns:
-        Dictionary with service status, name, and version.
-    """
-    return {
-        "status": "ok",
-        "service": "jisp-api",
-        "version": app.version,
-    }
-
-
-# Include routers
-app.include_router(
-    reasoning_routes.router,
-    prefix="",
-    tags=["reasoning"],
-)
-
-logger.info("JISP API initialized", extra={"version": app.version})
+@app.get("/health", tags=["System"])
+async def health():
+    return {"status": "ok", "service": "jisp-api", "version": "1.0.0",
+            "model": os.getenv("OLLAMA_MODEL","llama3.2")}

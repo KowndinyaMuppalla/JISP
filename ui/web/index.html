@@ -36,10 +36,10 @@
     don't serve stale stylesheets between deploys. Match the value
     across every file below; bump on each release.
   -->
-  <link rel="stylesheet" href="./src/styles/tokens.css?v=5" />
-  <link rel="stylesheet" href="./src/styles/layout.css?v=5" />
-  <link rel="stylesheet" href="./src/styles/panels.css?v=5" />
-  <link rel="stylesheet" href="./src/styles/map.css?v=5" />
+  <link rel="stylesheet" href="./src/styles/tokens.css?v=6" />
+  <link rel="stylesheet" href="./src/styles/layout.css?v=6" />
+  <link rel="stylesheet" href="./src/styles/panels.css?v=6" />
+  <link rel="stylesheet" href="./src/styles/map.css?v=6" />
 </head>
 <body>
   <!-- Map canvas — full bleed, behind every panel. -->
@@ -351,6 +351,21 @@
     </div>
   </noscript>
 
-  <script type="module" src="./src/main.js?v=5"></script>
+  <!--
+    Live API wiring.
+    - apiBaseUrl points at the JISP FastAPI service (mvp default: 8000).
+    - apiMode "auto" probes /health once; falls back to mocks if the
+      backend isn't reachable. Set "live" to force live calls or "mock"
+      to force in-memory mocks regardless of network state.
+    Override per-deployment by replacing this block (or by setting
+    window.JISP_CONFIG from a server-rendered template).
+  -->
+  <script>
+    window.JISP_CONFIG = {
+      apiBaseUrl: "http://localhost:8000",
+      apiMode:    "auto",
+    };
+  </script>
+  <script type="module" src="./src/main.js?v=6"></script>
 </body>
 </html>

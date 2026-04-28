@@ -29,10 +29,28 @@ async function main() {
   const assetPanel = new AssetPanel({ apiClient: api });
   assetPanel.mount();
 
+  /** @type {{features: import("./api/types.js").AssetFeature[]}} */
+  let lastClusterZones = { features: [] };
+
   const layerPanel = new LayerPanel({
-    onChange: (state) => {
+    onChange: async (state) => {
       jispMap.setFilters(state);
       jispMap.setClusterVisibility(state.clusters);
+
+      // Recompute KPI strip from the filtered asset list.
+      const filtered = await api.listAssets({
+        regions: state.regions,
+        classes: state.classes,
+        highRiskOnly: state.highRiskOnly,
+      });
+      _updateKpis({
+        assets:   filtered.features.length,
+        highRisk: filtered.features.filter(
+          (f) => (f.properties.risk_score ?? 0) >= 0.7
+        ).length,
+        hotspots: state.clusters ? lastClusterZones.features.length : 0,
+        regions:  state.regions.length,
+      });
     },
     onRegionJump: (code) => jispMap.flyToRegion(/** @type any */(code)),
   });
@@ -88,16 +106,72 @@ async function main() {
     $("#status-cursor").textContent = fmtLonLat(e.lngLat.lng, e.lngLat.lat);
   });
 
-  // Initial counts for the layer panel
+  // Initial counts for the layer panel + KPI strip
   const initial = await api.listAssets();
-  const clusterZones = await api.listClusterZones();
+  lastClusterZones = await api.listClusterZones();
   const counts = _countByCategory(initial.features);
   layerPanel.setCounts({
     regions: counts.regions,
     classes: counts.classes,
-    clusters: clusterZones.features.length,
+    clusters: lastClusterZones.features.length,
   });
   $("#status-count").textContent = String(initial.features.length);
+
+  _updateKpis({
+    assets:    initial.features.length,
+    highRisk:  initial.features.filter((f) => (f.properties.risk_score ?? 0) >= 0.7).length,
+    hotspots:  lastClusterZones.features.length,
+    regions:   Object.keys(counts.regions).length,
+  });
+  _setModelStatus(api.isLive ? "llama3.3 · live" : "llama3.3 · mock");
+  _setLastSync();
+}
+
+/* ---------------------------------------------------------------
+ * KPI strip: count-up animation + status text
+ * ------------------------------------------------------------- */
+
+/** @param {{assets:number,highRisk:number,hotspots:number,regions:number}} m */
+function _updateKpis(m) {
+  _animateCount("kpi-assets",   m.assets);
+  _animateCount("kpi-highrisk", m.highRisk);
+  _animateCount("kpi-hotspots", m.hotspots);
+  _animateCount("kpi-regions",  m.regions);
+}
+
+/** Smooth integer count-up to a target value over ~600ms. */
+function _animateCount(elementId, target) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  const start  = parseInt(el.dataset.target ?? "0", 10) || 0;
+  const delta  = target - start;
+  if (delta === 0) { el.textContent = String(target); return; }
+  const duration = 600;
+  const begin = performance.now();
+  const step = (now) => {
+    const t = Math.min(1, (now - begin) / duration);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = String(Math.round(start + delta * eased));
+    if (t < 1) requestAnimationFrame(step);
+    else el.dataset.target = String(target);
+  };
+  requestAnimationFrame(step);
+}
+
+function _setModelStatus(text) {
+  const el = document.getElementById("kpi-model");
+  if (el) el.textContent = text;
+}
+
+function _setLastSync() {
+  const el = document.getElementById("kpi-updated");
+  if (!el) return;
+  const update = () => {
+    el.textContent = `last sync ${new Date().toLocaleTimeString(undefined,
+      { hour: "2-digit", minute: "2-digit", second: "2-digit" })}`;
+  };
+  update();
+  setInterval(update, 30_000);
 }
 
 /** @param {boolean} isLive */

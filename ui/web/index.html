@@ -7,14 +7,16 @@
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <title>JISP — Jacobs Spatial Intelligence Platform</title>
+  <title>Jacobs Spatial Intelligence Platform — JISP</title>
+  <meta name="description"
+        content="Jacobs Spatial Intelligence Platform — pre-field, AI-first, geospatial-native, explainable by design." />
 
-  <!-- Source Sans Pro — Streamlit's default body font. -->
+  <!-- Inter (UI/display) + JetBrains Mono (codes / numerics). -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500&family=Source+Sans+Pro:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
   />
 
   <!-- MapLibre GL JS via CDN. Pinned for reproducibility.
@@ -34,10 +36,10 @@
     don't serve stale stylesheets between deploys. Match the value
     across every file below; bump on each release.
   -->
-  <link rel="stylesheet" href="./src/styles/tokens.css?v=2" />
-  <link rel="stylesheet" href="./src/styles/layout.css?v=2" />
-  <link rel="stylesheet" href="./src/styles/panels.css?v=2" />
-  <link rel="stylesheet" href="./src/styles/map.css?v=2" />
+  <link rel="stylesheet" href="./src/styles/tokens.css?v=3" />
+  <link rel="stylesheet" href="./src/styles/layout.css?v=3" />
+  <link rel="stylesheet" href="./src/styles/panels.css?v=3" />
+  <link rel="stylesheet" href="./src/styles/map.css?v=3" />
 </head>
 <body>
   <!-- Map canvas — full bleed, behind every panel. -->
@@ -50,12 +52,27 @@
     <div class="map-loading__hint" id="map-loading-hint"></div>
   </div>
 
-  <!-- Top bar: brand, search, region indicator, import. -->
+  <!-- Top bar: brand lockup, search, region indicator, import. -->
   <header class="top-bar" role="banner">
-    <div class="brand">
-      <span class="brand__mark" aria-hidden="true">◇</span>
-      <span class="brand__name">JISP</span>
-      <span class="brand__sub">Spatial Intelligence</span>
+    <div class="brand" aria-label="Jacobs Spatial Intelligence Platform">
+      <a class="brand__jacobs"
+         href="https://www.jacobs.com"
+         target="_blank"
+         rel="noopener noreferrer"
+         aria-label="Jacobs">
+        <span class="brand__jacobs-text">Jacobs</span>
+        <span class="brand__jacobs-r" aria-hidden="true">&reg;</span>
+      </a>
+      <span class="brand__divider" aria-hidden="true"></span>
+      <div class="brand__product">
+        <div class="brand__product-name">
+          JISP
+          <span class="brand__product-badge">v0.1</span>
+        </div>
+        <div class="brand__product-full">
+          Jacobs Spatial Intelligence Platform
+        </div>
+      </div>
     </div>
 
     <div class="top-bar__center">
@@ -92,6 +109,45 @@
       </button>
     </div>
   </header>
+
+  <!-- Live KPI strip — executive at-a-glance metrics. -->
+  <section class="kpi-strip" aria-label="Live platform metrics">
+    <div class="kpi">
+      <div class="kpi__value" id="kpi-assets" data-target="0">0</div>
+      <div class="kpi__label">
+        <span class="kpi__icon" aria-hidden="true">●</span>
+        Assets tracked
+      </div>
+    </div>
+    <div class="kpi">
+      <div class="kpi__value kpi__value--warn" id="kpi-highrisk" data-target="0">0</div>
+      <div class="kpi__label">High-risk condition</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi__value" id="kpi-hotspots" data-target="0">0</div>
+      <div class="kpi__label">Cluster hotspots</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi__value" id="kpi-regions" data-target="0">0</div>
+      <div class="kpi__label">Regions live</div>
+    </div>
+    <div class="kpi kpi--meta">
+      <div class="kpi__pulse" aria-hidden="true">
+        <span class="kpi__pulse-dot"></span>
+        <span class="kpi__pulse-ring"></span>
+      </div>
+      <div>
+        <div class="kpi__meta-line">Reasoning</div>
+        <div class="kpi__meta-sub" id="kpi-model">llama3.3 · standby</div>
+      </div>
+    </div>
+    <div class="kpi kpi--meta kpi--right">
+      <div>
+        <div class="kpi__meta-line">Pipeline</div>
+        <div class="kpi__meta-sub" id="kpi-updated">last sync —</div>
+      </div>
+    </div>
+  </section>
 
   <!-- Left rail: layer toggles per region + class. -->
   <aside class="panel panel--left" id="layer-panel" aria-label="Layers">
@@ -262,6 +318,6 @@
     </div>
   </noscript>
 
-  <script type="module" src="./src/main.js?v=2"></script>
+  <script type="module" src="./src/main.js?v=3"></script>
 </body>
 </html>

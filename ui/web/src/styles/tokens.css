@@ -1,68 +1,77 @@
-/* JISP design tokens — Streamlit-style light theme.
-   Mirrors Streamlit's default config:
-     primaryColor             = #FF4B4B
-     backgroundColor          = #FFFFFF
-     secondaryBackgroundColor = #F0F2F6
-     textColor                = #262730
-     font                     = "sans serif" (Source Sans Pro)
+/* JISP design tokens — Jacobs corporate / executive theme.
+   Light surfaces + Jacobs black wordmark + electric-blue accent.
+   Typography: Inter (UI) + Source Sans Pro (legacy support).
 */
 
 :root {
   /* ----- Surfaces ----- */
   --bg-base:        #FFFFFF;            /* page background                       */
-  --bg-canvas:      #FFFFFF;            /* map background (matches light basemap)*/
-  --bg-surface:     #FFFFFF;            /* solid panels (no glass blur)          */
-  --bg-surface-2:   #F0F2F6;            /* nested cards / popovers / sidebar     */
-  --bg-elevated:    #E6EAF1;            /* hovered items                         */
-  --bg-input:       #F0F2F6;
+  --bg-canvas:      #FAFBFC;            /* map background (matches light basemap)*/
+  --bg-surface:     #FFFFFF;            /* solid panels                          */
+  --bg-surface-2:   #F5F7FA;            /* nested cards / popovers / sidebar     */
+  --bg-elevated:    #EEF2F7;            /* hovered items                         */
+  --bg-input:       #F5F7FA;
+  --bg-hero:        linear-gradient(135deg, #FAFBFC 0%, #F0F4FA 100%);
 
   /* ----- Borders ----- */
-  --border-subtle:  rgba(49, 51, 63, 0.10);
-  --border-soft:    rgba(49, 51, 63, 0.18);
-  --border-strong:  rgba(49, 51, 63, 0.30);
+  --border-subtle:  rgba(15, 23, 42, 0.06);
+  --border-soft:    rgba(15, 23, 42, 0.10);
+  --border-strong:  rgba(15, 23, 42, 0.20);
 
   /* ----- Text ----- */
-  --fg-primary:     #262730;            /* Streamlit textColor                   */
-  --fg-secondary:   #4A4D5C;
-  --fg-tertiary:    #808495;
+  --fg-primary:     #0A0A0F;            /* Jacobs near-black                     */
+  --fg-secondary:   #475569;            /* slate-600                             */
+  --fg-tertiary:    #94A3B8;            /* slate-400                             */
   --fg-inverse:     #FFFFFF;
 
-  /* ----- Brand / accent — Streamlit signature red/coral ----- */
-  --accent:         #FF4B4B;
-  --accent-bright:  #FF6E6E;
-  --accent-dim:     rgba(255, 75, 75, 0.12);
-  --accent-glow:    rgba(255, 75, 75, 0.22);
+  /* ----- Brand / accent — Jacobs digital ----- */
+  --jacobs-black:   #0A0A0F;
+  --accent:         #0066FF;            /* Jacobs electric blue                  */
+  --accent-bright:  #2D7CFF;
+  --accent-deep:    #003BB8;            /* hover / active                        */
+  --accent-cyan:    #00C2FF;            /* futuristic highlight                  */
+  --accent-dim:     rgba(0, 102, 255, 0.10);
+  --accent-glow:    rgba(0, 102, 255, 0.22);
+  --accent-gradient: linear-gradient(135deg, #0066FF 0%, #00C2FF 100%);
 
-  /* ----- Risk ramp (kept; tuned for legibility on light basemap) ----- */
-  --risk-0:         #21BA45;            /* excellent  */
-  --risk-1:         #5DCB7B;            /* good       */
-  --risk-2:         #F0AD4E;            /* fair       */
-  --risk-3:         #F08A3C;            /* poor       */
-  --risk-4:         #DC3545;            /* critical   */
+  /* ----- Risk ramp — desaturated for executive feel ----- */
+  --risk-0:         #16A34A;            /* excellent  — emerald-600              */
+  --risk-1:         #65A30D;            /* good       — lime-600                 */
+  --risk-2:         #CA8A04;            /* fair       — yellow-600               */
+  --risk-3:         #EA580C;            /* poor       — orange-600               */
+  --risk-4:         #DC2626;            /* critical   — red-600                  */
 
-  /* Region accent dots (Tableau-10 inspired) */
-  --region-us:      #1F77B4;
-  --region-uk:      #9467BD;
-  --region-anz:     #FF7F0E;
-  --region-apac:    #E377C2;
+  /* Region accent dots (Jacobs-tonal blues) */
+  --region-us:      #0066FF;
+  --region-uk:      #6366F1;
+  --region-anz:     #0EA5E9;
+  --region-apac:    #06B6D4;
 
-  /* ----- Typography — Streamlit uses Source Sans Pro ----- */
-  --font-sans:      "Source Sans Pro", "Source Sans 3", system-ui, -apple-system,
+  /* ----- Typography ----- */
+  --font-display:   "Inter", "Inter Variable", system-ui, -apple-system, sans-serif;
+  --font-sans:      "Inter", "Source Sans Pro", system-ui, -apple-system,
                     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono:      "Source Code Pro", ui-monospace, "JetBrains Mono", "Fira Code",
+  --font-mono:      "JetBrains Mono", "Source Code Pro", ui-monospace,
                     "SF Mono", Menlo, Consolas, monospace;
 
-  --fs-xs:          12px;
-  --fs-sm:          13px;
-  --fs-md:          14px;
-  --fs-lg:          15px;
-  --fs-xl:          17px;
-  --fs-2xl:         22px;
-  --fs-3xl:         32px;
+  --fs-xs:          11px;
+  --fs-sm:          12px;
+  --fs-md:          13px;
+  --fs-lg:          14px;
+  --fs-xl:          16px;
+  --fs-2xl:         20px;
+  --fs-3xl:         28px;
+  --fs-4xl:         36px;
 
   --fw-regular:     400;
   --fw-medium:      500;
   --fw-semibold:    600;
+  --fw-bold:        700;
+  --fw-black:       900;
+
+  --tracking-tight: -0.02em;
+  --tracking-tighter: -0.04em;
+  --tracking-wide:  0.08em;
 
   /* ----- Spacing (4px base) ----- */
   --space-1:        4px;
@@ -75,27 +84,31 @@
 
   /* ----- Radii ----- */
   --radius-sm:      6px;
-  --radius-md:      8px;
-  --radius-lg:      12px;
-  --radius-xl:      16px;
+  --radius-md:      10px;
+  --radius-lg:      14px;
+  --radius-xl:      18px;
+  --radius-pill:    999px;
 
-  /* ----- Shadows — soft, like Streamlit's elevation ----- */
-  --shadow-sm:      0 1px 2px rgba(0,0,0,0.06);
-  --shadow-md:      0 4px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.04);
-  --shadow-lg:      0 12px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
-  --shadow-glow:    0 0 0 3px var(--accent-dim);
+  /* ----- Shadows — soft, layered, executive ----- */
+  --shadow-sm:      0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md:      0 4px 14px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.04);
+  --shadow-lg:      0 18px 40px rgba(15, 23, 42, 0.14), 0 4px 12px rgba(15, 23, 42, 0.06);
+  --shadow-glow:    0 0 0 4px var(--accent-dim);
+  --shadow-inner:   inset 0 1px 0 rgba(255, 255, 255, 0.6);
 
   /* ----- Layout ----- */
-  --topbar-h:       56px;
+  --topbar-h:       72px;
+  --kpibar-h:       54px;
   --statusbar-h:    32px;
   --left-w:         300px;
-  --right-w:        380px;
+  --right-w:        400px;
   --panel-gap:      14px;
 
   --transition-fast: 120ms cubic-bezier(.2,.8,.2,1);
-  --transition-med:  200ms cubic-bezier(.2,.8,.2,1);
+  --transition-med:  220ms cubic-bezier(.2,.8,.2,1);
+  --transition-slow: 420ms cubic-bezier(.2,.8,.2,1);
 
-  --backdrop:       none;               /* Streamlit panels are solid, not glass */
+  --backdrop:       saturate(140%) blur(12px);
 }
 
 /* Reduced motion */
@@ -103,5 +116,6 @@
   :root {
     --transition-fast: 0ms;
     --transition-med:  0ms;
+    --transition-slow: 0ms;
   }
 }

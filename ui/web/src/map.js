@@ -104,7 +104,7 @@ const RISK_COLOR_EXPR = [
   0.8, "#e64545",
 ];
 
-const SELECTED_COLOR = "#FF4B4B";
+const SELECTED_COLOR = "#0066FF";
 
 
 export class JispMap {
@@ -193,14 +193,14 @@ export class JispMap {
     m.addSource("assets",        { type: "geojson", data: assets, promoteId: "id" });
     m.addSource("cluster-zones", { type: "geojson", data: zones,  promoteId: "id" });
 
-    // ---- Cluster zones (lowest layer) — Streamlit red ----
+    // ---- Cluster zones (lowest layer) — risk-red overlay ----
     m.addLayer({
       id: "cluster-zones-fill",
       type: "fill",
       source: "cluster-zones",
       paint: {
-        "fill-color":   "#FF4B4B",
-        "fill-opacity": 0.12,
+        "fill-color":   "#DC2626",
+        "fill-opacity": 0.10,
       },
     });
     m.addLayer({
@@ -208,9 +208,9 @@ export class JispMap {
       type: "line",
       source: "cluster-zones",
       paint: {
-        "line-color":     "#FF4B4B",
-        "line-opacity":   0.65,
-        "line-width":     1.6,
+        "line-color":     "#DC2626",
+        "line-opacity":   0.55,
+        "line-width":     1.5,
         "line-dasharray": [3, 2],
       },
     });

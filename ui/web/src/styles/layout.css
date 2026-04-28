@@ -50,15 +50,13 @@ code, kbd { font-family: var(--font-mono); }
   height: var(--topbar-h);
   z-index: 30;
   display: grid;
-  grid-template-columns: minmax(220px, 1fr) minmax(280px, 2fr) minmax(220px, 1fr);
+  grid-template-columns: minmax(360px, auto) minmax(280px, 2fr) minmax(220px, auto);
   align-items: center;
-  gap: var(--space-4);
-  padding: 0 var(--space-4);
+  gap: var(--space-5);
+  padding: 0 var(--space-5);
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  backdrop-filter: var(--backdrop);
-  -webkit-backdrop-filter: var(--backdrop);
   box-shadow: var(--shadow-md);
 }
 
@@ -70,37 +68,188 @@ code, kbd { font-family: var(--font-mono); }
   gap: var(--space-2);
 }
 
+/* ---------- Brand lockup: Jacobs ® | JISP ---------- */
 .brand {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-4);
+  min-height: 48px;
+}
+.brand__jacobs {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 2px;
+  text-decoration: none;
+  color: var(--jacobs-black);
+  transition: opacity var(--transition-fast);
+}
+.brand__jacobs:hover { opacity: 0.75; }
+.brand__jacobs-text {
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: 26px;
+  letter-spacing: var(--tracking-tighter);
+  line-height: 1;
+  color: var(--jacobs-black);
+}
+.brand__jacobs-r {
+  margin-top: 2px;
+  font-size: 9px;
   font-weight: var(--fw-semibold);
-  letter-spacing: 0.02em;
-}
-.brand__mark {
-  display: inline-grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: var(--accent);
-  color: #FFFFFF;
-  font-size: 18px;
-  font-weight: 700;
-  box-shadow: 0 2px 6px var(--accent-glow);
-}
-.brand__name { font-size: var(--fs-xl); }
-.brand__sub  {
-  margin-left: var(--space-1);
   color: var(--fg-tertiary);
+  letter-spacing: 0;
+}
+.brand__divider {
+  width: 1px;
+  height: 32px;
+  background: var(--border-soft);
+}
+.brand__product { display: grid; row-gap: 2px; }
+.brand__product-name {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-primary);
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.brand__product-badge {
+  -webkit-text-fill-color: var(--fg-tertiary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: var(--fw-medium);
+  padding: 1px 6px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface-2);
+  letter-spacing: 0;
+}
+.brand__product-full {
   font-size: var(--fs-sm);
-  font-weight: var(--fw-regular);
+  color: var(--fg-secondary);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.01em;
+}
+
+/* ---------- KPI strip ---------- */
+.kpi-strip {
+  position: fixed;
+  top: calc(var(--topbar-h) + var(--panel-gap) * 2);
+  left: var(--panel-gap);
+  right: var(--panel-gap);
+  height: var(--kpibar-h);
+  z-index: 28;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  padding: 0 var(--space-3);
+  background: var(--bg-hero);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.kpi {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding: 0 var(--space-5);
+  position: relative;
+  min-width: 0;
+}
+.kpi:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 16%;
+  bottom: 16%;
+  width: 1px;
+  background: var(--border-subtle);
+}
+.kpi__value {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-black);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-primary);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.kpi__value--warn { color: var(--risk-4); }
+.kpi__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: var(--fw-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--fg-tertiary);
+}
+.kpi__icon { color: var(--accent); font-size: 8px; }
+
+.kpi--meta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-3);
+  margin-left: auto;
+}
+.kpi--meta + .kpi--meta { margin-left: 0; }
+.kpi--right { padding-right: var(--space-4); }
+.kpi__meta-line {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--fg-tertiary);
+  font-weight: var(--fw-semibold);
+}
+.kpi__meta-sub {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--fg-primary);
+  font-weight: var(--fw-medium);
+}
+
+/* Live pulse */
+.kpi__pulse {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  display: grid;
+  place-items: center;
+}
+.kpi__pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--risk-0);
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.18);
+}
+.kpi__pulse-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--risk-0);
+  opacity: 0.55;
+  animation: kpi-pulse 1.6s ease-out infinite;
+}
+@keyframes kpi-pulse {
+  0%   { transform: scale(0.6); opacity: 0.7; }
+  100% { transform: scale(2.2); opacity: 0; }
 }
 
 /* ---------- Side panels ---------- */
 .panel {
   position: fixed;
-  top: calc(var(--topbar-h) + var(--panel-gap) * 2);
+  top: calc(var(--topbar-h) + var(--kpibar-h) + var(--panel-gap) * 3);
   bottom: calc(var(--statusbar-h) + var(--panel-gap) * 2);
   z-index: 20;
   width: var(--left-w);
@@ -109,8 +258,6 @@ code, kbd { font-family: var(--font-mono); }
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  backdrop-filter: var(--backdrop);
-  -webkit-backdrop-filter: var(--backdrop);
   box-shadow: var(--shadow-md);
   overflow: hidden;
   transition: transform var(--transition-med), opacity var(--transition-med);
@@ -181,13 +328,11 @@ code, kbd { font-family: var(--font-mono); }
 .modal__dialog {
   position: relative;
   width: min(560px, calc(100% - 32px));
-  background: var(--bg-surface-2);
+  background: var(--bg-surface);
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   overflow: hidden;
-  backdrop-filter: var(--backdrop);
-  -webkit-backdrop-filter: var(--backdrop);
 }
 .modal__head {
   display: flex;

@@ -1,10 +1,11 @@
 # JISP — Frontend (`ui/web/`)
 
-Streamlit-style MapLibre console for the Jacobs Spatial Intelligence Platform.
+Executive MapLibre console for the **Jacobs Spatial Intelligence
+Platform** (JISP).
 
-Light theme matching Streamlit's default (`primaryColor #FF4B4B`,
-`backgroundColor #FFFFFF`, Source Sans Pro). No build step — pure ES
-modules + MapLibre GL JS via CDN.
+Jacobs corporate light theme: black wordmark + electric-blue
+accent (`#0066FF`), Inter typography, soft layered shadows, live KPI
+strip. No build step — pure ES modules + MapLibre GL JS via CDN.
 
 ## Running locally
 

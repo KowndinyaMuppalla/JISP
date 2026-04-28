@@ -1,0 +1,92 @@
+{
+  "asset_condition": {
+    "template": "{name} in {region_name} currently scores {risk_score} ({condition}). The strongest contributors are its {install_year} install date and {material} construction. Observed condition is consistent with peer assets of similar vintage in this network. Recommended next action: schedule a condition inspection within the next 90 days; review upstream pressure trends for the past 30 days. This is a descriptive explanation of the model's output \u2014 not a prediction of failure.",
+    "drivers": [
+      {
+        "feature": "install_year",
+        "value": -0.18,
+        "normalized": 0.92
+      },
+      {
+        "feature": "material:cast_iron",
+        "value": 0.12,
+        "normalized": 0.62
+      },
+      {
+        "feature": "diameter_mm",
+        "value": 0.06,
+        "normalized": 0.31
+      },
+      {
+        "feature": "soil_corrosivity",
+        "value": 0.04,
+        "normalized": 0.21
+      },
+      {
+        "feature": "ground_movement",
+        "value": 0.02,
+        "normalized": 0.1
+      }
+    ]
+  },
+  "flood_proximity": {
+    "template": "{name} sits within a 100-year flood envelope. Distance to the modelled inundation centroid is short enough that a Q100 event would likely overtop the access road. This is an observational spatial fact derived from the published flood layer.",
+    "drivers": [
+      {
+        "feature": "distance_to_floodway_m",
+        "value": -0.22,
+        "normalized": 0.95
+      },
+      {
+        "feature": "elevation_m",
+        "value": 0.08,
+        "normalized": 0.42
+      },
+      {
+        "feature": "land_cover:impervious",
+        "value": 0.05,
+        "normalized": 0.25
+      }
+    ]
+  },
+  "anomaly": {
+    "template": "Pressure on {name} dropped 18% over a 24-hour window \u2014 outside the asset's 90-day envelope. Adjacent sensors showed a coincident rise. Pattern is consistent with a leak event upstream; inspection of the linked main is suggested.",
+    "drivers": [
+      {
+        "feature": "z_score_pressure_24h",
+        "value": -0.31,
+        "normalized": 0.99
+      },
+      {
+        "feature": "neighbour_correlation",
+        "value": 0.14,
+        "normalized": 0.65
+      },
+      {
+        "feature": "diurnal_residual",
+        "value": 0.07,
+        "normalized": 0.3
+      }
+    ]
+  },
+  "cluster": {
+    "template": "{name} sits inside a high-risk hotspot identified by HDBSCAN over the latest condition surface. The cluster contains multiple peer assets with similar risk drivers, suggesting a shared root cause (vintage, material, or environmental).",
+    "drivers": [
+      {
+        "feature": "cluster_membership",
+        "value": 0.24,
+        "normalized": 1.0
+      },
+      {
+        "feature": "neighbour_mean_score",
+        "value": 0.18,
+        "normalized": 0.78
+      },
+      {
+        "feature": "vintage_homogeneity",
+        "value": 0.09,
+        "normalized": 0.36
+      }
+    ]
+  }
+}

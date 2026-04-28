@@ -36,11 +36,22 @@ export class AssetPanel {
     const score = p.risk_score ?? 0;
     $("#asset-risk-score").textContent = fmtScore(score);
     $("#asset-risk-class").textContent = (p.risk_condition_class ?? "—").toUpperCase();
-    /** @type {HTMLElement} */
-    ($("#asset-risk-fill")).style.width = `${Math.round(score * 100)}%`;
+
+    // Risk ring: animate stroke-dashoffset from full circumference to
+    // (1 - score) * circumference. Circumference = 2 * π * r where r=42.
+    const ring = /** @type {SVGCircleElement|null} */ (
+      document.getElementById("asset-risk-ring")
+    );
+    if (ring) {
+      const C = 2 * Math.PI * 42;
+      ring.style.strokeDasharray  = String(C);
+      ring.style.strokeDashoffset = String(C * (1 - score));
+    }
+
     $("#asset-panel").dataset.risk = p.risk_condition_class ?? "";
 
     this._renderAttributes(p);
+    this._renderSparkline(p.id).catch((err) => console.warn("[sparkline]", err));
 
     // Reset any previous explanation
     $("#explain-body").hidden = true;
@@ -50,7 +61,66 @@ export class AssetPanel {
 
     const panel = $("#asset-panel");
     panel.hidden = false;
+    panel.setAttribute("data-state", "open");
+    // Re-trigger the entry animation by toggling the attribute.
+    void panel.offsetWidth;
     document.body.dataset.assetPanel = "open";
+  }
+
+  /**
+   * Pulls 30 days of pressure observations and renders an inline SVG
+   * sparkline. The sparkline auto-rescales to fit the SVG viewBox.
+   * @param {string} assetId
+   */
+  async _renderSparkline(assetId) {
+    const obs = await this.api.observations(assetId, { metric: "pressure_psi" });
+    const points = obs.points;
+    if (!points.length) return;
+
+    const W = 320, H = 60, PAD = 4;
+    const values = points.map((p) => p.value);
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const range = (max - min) || 1;
+
+    const xs = points.map((_, i) => PAD + (i / (points.length - 1)) * (W - PAD * 2));
+    const ys = values.map((v) => H - PAD - ((v - min) / range) * (H - PAD * 2));
+
+    const linePath = xs.map((x, i) => `${i === 0 ? "M" : "L"}${x.toFixed(1)},${ys[i].toFixed(1)}`).join(" ");
+    const areaPath = `${linePath} L${xs[xs.length - 1].toFixed(1)},${H} L${xs[0].toFixed(1)},${H} Z`;
+
+    const lineEl = /** @type {SVGPathElement} */ (document.getElementById("sparkline-line"));
+    const areaEl = /** @type {SVGPathElement} */ (document.getElementById("sparkline-area"));
+    const dotEl  = /** @type {SVGCircleElement} */ (document.getElementById("sparkline-dot"));
+    if (lineEl) {
+      lineEl.setAttribute("d", linePath);
+      // Reset draw-on animation so it re-plays on every asset selection.
+      const total = lineEl.getTotalLength?.() ?? 1000;
+      lineEl.style.strokeDasharray  = String(total);
+      lineEl.style.strokeDashoffset = String(total);
+      requestAnimationFrame(() => {
+        lineEl.style.transition = "stroke-dashoffset 700ms cubic-bezier(.2,.8,.2,1)";
+        lineEl.style.strokeDashoffset = "0";
+      });
+    }
+    if (areaEl) areaEl.setAttribute("d", areaPath);
+    if (dotEl) {
+      dotEl.setAttribute("cx", xs[xs.length - 1].toFixed(1));
+      dotEl.setAttribute("cy", ys[ys.length - 1].toFixed(1));
+    }
+
+    // Stat strip: latest reading + delta vs. first observation.
+    const last = values[values.length - 1];
+    const first = values[0];
+    const delta = last - first;
+    const deltaPct = (delta / first) * 100;
+    const cur = document.getElementById("obs-current");
+    const del = document.getElementById("obs-delta");
+    if (cur) cur.textContent = last.toFixed(1);
+    if (del) {
+      del.textContent = `${delta >= 0 ? "+" : ""}${deltaPct.toFixed(1)}%`;
+      del.dataset.trend = delta >= 0 ? "up" : "down";
+    }
   }
 
   close() {

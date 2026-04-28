@@ -283,20 +283,41 @@
   color: var(--fg-tertiary);
 }
 
+/* ---------- Risk card with SVG ring ---------- */
 .risk-card {
   display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto auto;
-  align-items: end;
+  grid-template-columns: 96px 1fr;
+  align-items: center;
   column-gap: var(--space-5);
-  row-gap: var(--space-2);
   padding: var(--space-4);
   background: var(--bg-hero);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
 }
+.risk-ring {
+  width: 96px;
+  height: 96px;
+  display: block;
+}
+.risk-ring__track,
+.risk-ring__progress {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+.risk-ring__track {
+  stroke: rgba(15, 23, 42, 0.08);
+}
+.risk-ring__progress {
+  stroke: var(--risk-2);
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset var(--transition-slow),
+              stroke              var(--transition-med);
+  filter: drop-shadow(0 0 6px currentColor);
+}
+.risk-card__body { display: grid; gap: 4px; }
 .risk-card__score {
-  grid-row: span 2;
   font-family: var(--font-display);
   font-size: var(--fs-4xl);
   font-weight: var(--fw-black);
@@ -320,27 +341,90 @@
   width: 8px; height: 8px; border-radius: 50%;
   background: currentColor;
 }
-.risk-card__bar {
-  height: 6px;
-  border-radius: 3px;
-  background: rgba(15, 23, 42, 0.08);
-  overflow: hidden;
-}
-.risk-card__fill {
-  height: 100%;
-  width: 0%;
-  background: var(--risk-2);
-  border-radius: 3px;
-  transition: width var(--transition-slow), background var(--transition-med);
-  box-shadow: 0 0 12px currentColor;
+.risk-card__hint {
+  font-size: var(--fs-xs);
+  color: var(--fg-tertiary);
 }
 
-/* Risk class colors via data attribute on .panel--right */
-.panel--right[data-risk="excellent"] .risk-card__fill { background: var(--risk-0); }
-.panel--right[data-risk="good"]      .risk-card__fill { background: var(--risk-1); }
-.panel--right[data-risk="fair"]      .risk-card__fill { background: var(--risk-2); }
-.panel--right[data-risk="poor"]      .risk-card__fill { background: var(--risk-3); }
-.panel--right[data-risk="critical"]  .risk-card__fill { background: var(--risk-4); }
+/* Risk class colors propagate to ring stroke + class label */
+.panel--right[data-risk="excellent"] .risk-ring__progress { stroke: var(--risk-0); }
+.panel--right[data-risk="good"]      .risk-ring__progress { stroke: var(--risk-1); }
+.panel--right[data-risk="fair"]      .risk-ring__progress { stroke: var(--risk-2); }
+.panel--right[data-risk="poor"]      .risk-ring__progress { stroke: var(--risk-3); }
+.panel--right[data-risk="critical"]  .risk-ring__progress { stroke: var(--risk-4); }
+.panel--right[data-risk="excellent"] .risk-card__class    { color: var(--risk-0); }
+.panel--right[data-risk="good"]      .risk-card__class    { color: var(--risk-1); }
+.panel--right[data-risk="fair"]      .risk-card__class    { color: var(--risk-2); }
+.panel--right[data-risk="poor"]      .risk-card__class    { color: var(--risk-3); }
+.panel--right[data-risk="critical"]  .risk-card__class    { color: var(--risk-4); }
+
+/* ---------- Sparkline (30-day pressure) ---------- */
+.obs-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+  gap: var(--space-3);
+}
+.obs-stat {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: var(--font-display);
+}
+.obs-stat__value {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  font-variant-numeric: tabular-nums;
+  color: var(--fg-primary);
+  letter-spacing: var(--tracking-tight);
+}
+.obs-stat__unit {
+  font-size: var(--fs-xs);
+  color: var(--fg-tertiary);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+.obs-stat__delta {
+  margin-left: var(--space-2);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+  color: var(--fg-tertiary);
+}
+.obs-stat__delta[data-trend="up"]   { color: var(--risk-0); }
+.obs-stat__delta[data-trend="down"] { color: var(--risk-3); }
+
+.sparkline {
+  width: 100%;
+  height: 60px;
+  display: block;
+  overflow: visible;
+}
+.sparkline__line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* Animated draw-on */
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: spark-draw 700ms cubic-bezier(.2,.8,.2,1) forwards;
+}
+.sparkline__area {
+  opacity: 0;
+  animation: spark-fade 700ms cubic-bezier(.2,.8,.2,1) 200ms forwards;
+}
+.sparkline__dot {
+  fill: var(--accent);
+  stroke: #FFFFFF;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 4px var(--accent-glow));
+}
+@keyframes spark-draw { to { stroke-dashoffset: 0; } }
+@keyframes spark-fade { to { opacity: 1; } }
 
 /* ---------- KV list ---------- */
 .kv {

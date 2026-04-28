@@ -36,10 +36,10 @@
     don't serve stale stylesheets between deploys. Match the value
     across every file below; bump on each release.
   -->
-  <link rel="stylesheet" href="./src/styles/tokens.css?v=3" />
-  <link rel="stylesheet" href="./src/styles/layout.css?v=3" />
-  <link rel="stylesheet" href="./src/styles/panels.css?v=3" />
-  <link rel="stylesheet" href="./src/styles/map.css?v=3" />
+  <link rel="stylesheet" href="./src/styles/tokens.css?v=4" />
+  <link rel="stylesheet" href="./src/styles/layout.css?v=4" />
+  <link rel="stylesheet" href="./src/styles/panels.css?v=4" />
+  <link rel="stylesheet" href="./src/styles/map.css?v=4" />
 </head>
 <body>
   <!-- Map canvas — full bleed, behind every panel. -->
@@ -221,10 +221,20 @@
 
     <section class="panel__section">
       <div class="risk-card">
-        <div class="risk-card__score" id="asset-risk-score">—</div>
-        <div class="risk-card__class" id="asset-risk-class">—</div>
-        <div class="risk-card__bar">
-          <div class="risk-card__fill" id="asset-risk-fill"></div>
+        <!-- SVG risk ring — animated stroke-dasharray reflects the score.
+             radius=42, circumference=2πr ≈ 263.89 → set as stroke-dasharray
+             on .risk-ring__progress and we animate stroke-dashoffset. -->
+        <svg class="risk-ring" viewBox="0 0 100 100" aria-hidden="true">
+          <circle class="risk-ring__track" cx="50" cy="50" r="42" />
+          <circle class="risk-ring__progress" id="asset-risk-ring"
+                  cx="50" cy="50" r="42"
+                  stroke-dasharray="263.89"
+                  stroke-dashoffset="263.89" />
+        </svg>
+        <div class="risk-card__body">
+          <div class="risk-card__score" id="asset-risk-score">—</div>
+          <div class="risk-card__class" id="asset-risk-class">—</div>
+          <div class="risk-card__hint">Condition risk score · 0 – 1 scale</div>
         </div>
       </div>
     </section>
@@ -232,6 +242,29 @@
     <section class="panel__section">
       <h3 class="panel__section-title">Attributes</h3>
       <dl class="kv" id="asset-attributes"></dl>
+    </section>
+
+    <section class="panel__section panel__section--observations">
+      <div class="obs-head">
+        <h3 class="panel__section-title">Pressure · last 30 days</h3>
+        <div class="obs-stat">
+          <span class="obs-stat__value" id="obs-current">—</span>
+          <span class="obs-stat__unit">psi</span>
+          <span class="obs-stat__delta" id="obs-delta">—</span>
+        </div>
+      </div>
+      <svg class="sparkline" id="asset-sparkline" viewBox="0 0 320 60"
+           preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="spark-gradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="var(--accent)" stop-opacity="0.32" />
+            <stop offset="100%" stop-color="var(--accent)" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+        <path class="sparkline__area"  id="sparkline-area"  d="" fill="url(#spark-gradient)" />
+        <path class="sparkline__line"  id="sparkline-line"  d="" />
+        <circle class="sparkline__dot" id="sparkline-dot"   r="3" cx="0" cy="0" />
+      </svg>
     </section>
 
     <section class="panel__section">
@@ -318,6 +351,6 @@
     </div>
   </noscript>
 
-  <script type="module" src="./src/main.js?v=3"></script>
+  <script type="module" src="./src/main.js?v=4"></script>
 </body>
 </html>

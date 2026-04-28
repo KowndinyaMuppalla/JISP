@@ -4,6 +4,36 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+/* ---------- Entry animations ----------
+   Each chrome element fades + lifts in on first paint. The reveal
+   sequence (top-bar → KPI strip → side panels → status bar) reads as
+   a confident, deliberate boot rather than a single dump.            */
+@keyframes jisp-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes jisp-rise-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes jisp-slide-left {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes jisp-slide-right {
+  from { opacity: 0; transform: translateX(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.top-bar    { animation: jisp-rise-down  420ms cubic-bezier(.2,.8,.2,1) both;       animation-delay:   0ms; }
+.kpi-strip  { animation: jisp-rise-down  420ms cubic-bezier(.2,.8,.2,1) both;       animation-delay: 120ms; }
+.panel--left{ animation: jisp-slide-left 420ms cubic-bezier(.2,.8,.2,1) both;       animation-delay: 220ms; }
+.status-bar { animation: jisp-rise        420ms cubic-bezier(.2,.8,.2,1) both;       animation-delay: 320ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .top-bar, .kpi-strip, .panel--left, .status-bar { animation: none; }
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -267,6 +297,9 @@ code, kbd { font-family: var(--font-mono); }
 .panel--right {
   right: var(--panel-gap);
   width: var(--right-w);
+}
+.panel--right[data-state="open"] {
+  animation: jisp-slide-right 320ms cubic-bezier(.2,.8,.2,1) both;
 }
 .panel[hidden] {
   display: flex;            /* keep layout for slide-out */

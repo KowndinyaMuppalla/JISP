@@ -143,10 +143,13 @@ function _countByCategory(features) {
 
 main().catch((err) => {
   console.error("[JISP] bootstrap failed:", err);
+  document.getElementById("map-loading")?.remove();
   document.body.insertAdjacentHTML("beforeend",
     `<pre style="position:fixed;top:80px;left:30px;right:30px;padding:18px;
        background:#190b0b;color:#ffb4b4;border:1px solid #4d1a1a;border-radius:10px;
-       font:12px/1.5 ui-monospace,monospace;z-index:200">${String(err.stack ?? err)}</pre>`);
+       font:12px/1.5 ui-monospace,monospace;z-index:200;white-space:pre-wrap">${
+       String(err.stack ?? err)
+     }</pre>`);
 });
 
 // Sanity touch so the bundler doesn't drop the import.

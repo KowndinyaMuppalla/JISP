@@ -2,6 +2,32 @@
 
 .maplibregl-canvas { outline: none; }
 
+/* Loading overlay — sits above the empty map until 'load' fires. */
+.map-loading {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: var(--space-3);
+  background: var(--bg-canvas);
+  color: var(--fg-secondary);
+  font-size: var(--fs-md);
+  pointer-events: none;
+}
+.map-loading__spinner {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--border-soft);
+  border-top-color: var(--accent);
+  animation: jisp-spin 0.9s linear infinite;
+}
+.map-loading__text { color: var(--fg-primary); font-weight: var(--fw-medium); }
+.map-loading__hint { color: var(--fg-tertiary); font-size: var(--fs-sm); }
+@keyframes jisp-spin { to { transform: rotate(360deg); } }
+
 /* Hide MapLibre's default attribution control's pin look — keep the text. */
 .maplibregl-ctrl-attrib {
   background: rgba(10, 14, 20, 0.65) !important;

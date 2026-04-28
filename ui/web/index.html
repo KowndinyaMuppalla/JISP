@@ -6,12 +6,17 @@
   <meta name="color-scheme" content="dark" />
   <title>JISP — Jacobs Spatial Intelligence Platform</title>
 
-  <!-- MapLibre GL JS via CDN. Pinned for reproducibility. -->
+  <!-- MapLibre GL JS via CDN. Pinned for reproducibility.
+       Loaded synchronously so window.maplibregl is ready before main.js runs. -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"
     crossorigin="anonymous"
   />
+  <script
+    src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"
+    crossorigin="anonymous"
+  ></script>
 
   <link rel="stylesheet" href="./src/styles/tokens.css" />
   <link rel="stylesheet" href="./src/styles/layout.css" />
@@ -21,6 +26,13 @@
 <body>
   <!-- Map canvas — full bleed, behind every panel. -->
   <div id="map" aria-label="JISP map canvas"></div>
+
+  <!-- Loading indicator — removed once the map fires 'load'. -->
+  <div id="map-loading" class="map-loading">
+    <div class="map-loading__spinner" aria-hidden="true"></div>
+    <div class="map-loading__text">Loading map…</div>
+    <div class="map-loading__hint" id="map-loading-hint"></div>
+  </div>
 
   <!-- Top bar: brand, search, region indicator, import. -->
   <header class="top-bar" role="banner">

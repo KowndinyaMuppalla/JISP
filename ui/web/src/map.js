@@ -18,25 +18,73 @@
 
 import "./api/types.js";
 
-const MAPLIBRE_URL = "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js";
-
-/** @type {Promise<typeof import("maplibre-gl")> | null} */
-let _maplibrePromise = null;
+/**
+ * Wait for window.maplibregl to be defined.
+ * MapLibre is loaded via a synchronous <script> tag in index.html,
+ * so this almost always resolves on the first tick. We poll briefly
+ * to handle the rare case where the network is still pulling the bundle.
+ */
 function loadMaplibre() {
-  if (_maplibrePromise) return _maplibrePromise;
-  _maplibrePromise = new Promise((resolve, reject) => {
-    const script = document.createElement("script");
-    script.src = MAPLIBRE_URL;
-    script.crossOrigin = "anonymous";
-    script.onload = () => resolve(/** @type any */(globalThis).maplibregl);
-    script.onerror = (e) => reject(e);
-    document.head.appendChild(script);
+  return new Promise((resolve, reject) => {
+    const start = performance.now();
+    const tick = () => {
+      const ml = /** @type any */ (globalThis).maplibregl;
+      if (ml) return resolve(ml);
+      if (performance.now() - start > 8000) {
+        return reject(new Error(
+          "MapLibre GL JS failed to load. Check the network tab for " +
+          "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js — " +
+          "your network may be blocking unpkg.com."
+        ));
+      }
+      setTimeout(tick, 50);
+    };
+    tick();
   });
-  return _maplibrePromise;
 }
 
-/** Dark, label-light vector basemap from CARTO (free for non-commercial / fair use). */
-const BASEMAP_STYLE = "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
+/**
+ * Dark raster basemap (CARTO Dark Matter via raster tiles).
+ * Inlined as a JSON style so we don't depend on a separate style.json
+ * fetch — raster image tiles are CORS-friendlier than vector style fetches
+ * and survive most corporate proxies.
+ *
+ * If even this is blocked, the map will still show the dark background
+ * layer and your asset overlays — only the basemap imagery is missing.
+ */
+const BASEMAP_STYLE = {
+  version: 8,
+  glyphs: "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
+  sources: {
+    "carto-dark": {
+      type: "raster",
+      tiles: [
+        "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+        "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+        "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+        "https://d.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+      ],
+      tileSize: 256,
+      maxzoom: 19,
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OSM</a>' +
+        ' &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>',
+    },
+  },
+  layers: [
+    {
+      id: "background",
+      type: "background",
+      paint: { "background-color": "#0a0e14" },
+    },
+    {
+      id: "carto-dark",
+      type: "raster",
+      source: "carto-dark",
+      paint: { "raster-opacity": 0.95 },
+    },
+  ],
+};
 
 /** Per-region camera presets (bbox in WGS84). */
 export const REGION_BOUNDS = {
@@ -76,9 +124,25 @@ export class JispMap {
   }
 
   async init() {
+    const hint = document.getElementById("map-loading-hint");
+    const setHint = (msg) => { if (hint) hint.textContent = msg; };
+
+    setHint("waiting for MapLibre…");
     const maplibregl = await loadMaplibre();
     this._maplibre = maplibregl;
 
+    const container = document.getElementById(this.opts.container);
+    if (!container) throw new Error(`Map container #${this.opts.container} not found`);
+    const rect = container.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) {
+      // Bail loudly — otherwise MapLibre renders nothing silently.
+      throw new Error(
+        `Map container #${this.opts.container} has zero size (${rect.width}×${rect.height}). ` +
+        "Check styles/layout.css — #map should be position:fixed; inset:0."
+      );
+    }
+
+    setHint("creating map…");
     this.map = new maplibregl.Map({
       container: this.opts.container,
       style: BASEMAP_STYLE,
@@ -94,7 +158,18 @@ export class JispMap {
     this.map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
     this.map.addControl(new maplibregl.ScaleControl({ unit: "metric" }), "bottom-left");
 
-    this.map.on("load", () => this._onLoad());
+    // Surface tile errors instead of failing silently.
+    this.map.on("error", (e) => {
+      // Tile load errors are expected if the user is offline; downgrade to console.
+      console.warn("[JISP map]", e?.error ?? e);
+    });
+
+    this.map.on("load", () => {
+      const overlay = document.getElementById("map-loading");
+      if (overlay) overlay.remove();
+      this._onLoad();
+    });
+
     this.map.on("moveend", () => {
       if (!this.opts.onCameraChange || !this.map) return;
       const b = this.map.getBounds();

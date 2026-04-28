@@ -1,95 +1,107 @@
-# JISP local-only stack for Docker Desktop.
-#
-# Step 4 scope: run JISP API + Ollama with GPU acceleration.
-#   - `ollama`       : Ollama server (GPU-enabled via NVIDIA Container Toolkit)
-#   - `ollama-init`  : one-shot sidecar that pulls `llama3.3` on first boot
-#   - `api`          : JISP FastAPI service (built from docker/api.Dockerfile)
-#
-# `db` and `geoai` Dockerfiles exist in this folder per the approved
-# structure; their compose services will be added in a later step.
-#
-# Run from the repository root:
-#     docker compose -f docker/docker-compose.yml up --build
-#
-# Environment overrides are read from a `.env` at the repo root
-# (see `.env.example`). The model pull is 40+ GB on first boot; subsequent
-# starts reuse the `ollama-data` named volume.
-#
-# GPU NOTE
-# --------
-# The `ollama` service declares an NVIDIA GPU reservation via the
-# `deploy.resources.reservations.devices` block below. This requires
-# NVIDIA Container Toolkit installed on the host. On machines without
-# an NVIDIA GPU, comment out that block to fall back to CPU-only
-# execution (not recommended per the JISP spec, but unblocks dev).
+networks:
+  jisp_net:
+    driver: bridge
+
+volumes:
+  pgdata:
+  geoserver_data:
+  ollama_models:
 
 services:
 
-  ollama:
-    image: ollama/ollama:latest
-    container_name: jisp-ollama
-    ports:
-      - "11434:11434"
+  db:
+    image: timescale/timescaledb-ha:pg15-latest
+    container_name: jisp_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       ${POSTGRES_DB:-jisp}
+      POSTGRES_USER:     ${POSTGRES_USER:-jisp}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-jisp_secret}
     volumes:
-      - ollama-data:/root/.ollama
+      - pgdata:/home/postgres/pgdata/data
+      - ../spatial/db/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+    ports:
+      - "5432:5432"
     healthcheck:
-      test: ["CMD", "ollama", "list"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-jisp} -d ${POSTGRES_DB:-jisp}"]
       interval: 10s
       timeout: 5s
       retries: 10
-      start_period: 30s
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
-    restart: unless-stopped
+    networks: [jisp_net]
 
-  # One-shot pull of the reasoning model. Exits 0 after the pull
-  # completes. The API waits for this to finish before starting so the
-  # first /explain call has a real model to talk to.
-  ollama-init:
-    image: ollama/ollama:latest
-    container_name: jisp-ollama-init
-    depends_on:
-      ollama:
-        condition: service_healthy
+  geoserver:
+    image: kartoza/geoserver:2.24.2
+    container_name: jisp_geoserver
+    restart: unless-stopped
     environment:
-      OLLAMA_HOST: http://ollama:11434
-    entrypoint: ["/bin/sh", "-c"]
-    command:
-      - |
-        MODEL="${JISP_OLLAMA_MODEL:-llama3.3}"
-        echo "[jisp] pulling $$MODEL ..."
-        ollama pull "$$MODEL"
-        echo "[jisp] $$MODEL ready"
-    restart: "no"
+      GEOSERVER_ADMIN_USER:     ${GEOSERVER_USER:-admin}
+      GEOSERVER_ADMIN_PASSWORD: ${GEOSERVER_PASS:-geoserver}
+      GEOSERVER_DATA_DIR:       /opt/geoserver/data_dir
+      INITIAL_MEMORY:           "512m"
+      MAXIMUM_MEMORY:           "1g"
+      STABLE_EXTENSIONS:        "vectortiles-plugin"
+    volumes:
+      - geoserver_data:/opt/geoserver/data_dir
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/geoserver/web/ | grep -q 200 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    networks: [jisp_net]
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: jisp_ollama
+    restart: unless-stopped
+    volumes:
+      - ollama_models:/root/.ollama
+    ports:
+      - "11434:11434"
+    entrypoint: ["/bin/sh", "-c", "ollama serve & sleep 8 && ollama pull llama3.2 && wait"]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:11434/api/tags | grep -q llama3.2 || exit 1"]
+      interval: 30s
+      timeout: 20s
+      retries: 20
+    networks: [jisp_net]
 
   api:
     build:
       context: ..
       dockerfile: docker/api.Dockerfile
-    container_name: jisp-api
+    container_name: jisp_api
+    restart: unless-stopped
+    env_file: ../.env
+    environment:
+      DATABASE_URL:   postgresql://${POSTGRES_USER:-jisp}:${POSTGRES_PASSWORD:-jisp_secret}@db:5432/${POSTGRES_DB:-jisp}
+      OLLAMA_HOST:    http://ollama:11434
+      OLLAMA_MODEL:   llama3.2
+      GEOSERVER_URL:  http://geoserver:8080/geoserver
+      GEOSERVER_USER: ${GEOSERVER_USER:-admin}
+      GEOSERVER_PASS: ${GEOSERVER_PASS:-geoserver}
+    volumes:
+      - ..:/app
     ports:
       - "8000:8000"
-    environment:
-      JISP_OLLAMA_HOST: http://ollama:11434
-      JISP_OLLAMA_MODEL: ${JISP_OLLAMA_MODEL:-llama3.3}
-      JISP_OLLAMA_TIMEOUT_SECONDS: ${JISP_OLLAMA_TIMEOUT_SECONDS:-60}
     depends_on:
-      ollama:
+      db:
         condition: service_healthy
-      ollama-init:
-        condition: service_completed_successfully
-    healthcheck:
-      test: ["CMD", "python3", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3).status == 200 else 1)"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-    restart: unless-stopped
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
+    networks: [jisp_net]
 
-volumes:
-  ollama-data:
+  ui:
+    image: nginx:alpine
+    container_name: jisp_ui
+    restart: unless-stopped
+    volumes:
+      - ../ui/map:/usr/share/nginx/html:ro
+      - ../ui/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "3000:80"
+    depends_on: [api]
+    networks: [jisp_net]

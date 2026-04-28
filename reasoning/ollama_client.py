@@ -1,98 +1,59 @@
-"""Thin HTTP client for a local Ollama server.
-
-Responsibility (strict): single-shot text generation against Ollama's
-`POST /api/generate`. The caller supplies a fully-rendered prompt; this
-module does no prompt composition and no template loading.
-
-Design choices:
-- Single-shot only (`stream: false`). Streaming can be added later if
-  the UI layer needs it.
-- `urllib` from the stdlib — no new runtime dependency.
-- Typed error surface (`OllamaUnavailableError`) so the API layer can
-  map failures to a clean 503.
-"""
-
-from __future__ import annotations
-
-import json
-import os
-import urllib.error
-import urllib.request
+"""Ollama HTTP client — JISP (llama3.2)"""
+import json, os, urllib.request, urllib.error, time
 from dataclasses import dataclass
 
+OLLAMA_HOST    = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+OLLAMA_MODEL   = os.getenv("OLLAMA_MODEL", "llama3.2")
+OLLAMA_TIMEOUT = int(os.getenv("OLLAMA_TIMEOUT", "120"))
 
-DEFAULT_OLLAMA_HOST = "http://localhost:11434"
-DEFAULT_OLLAMA_MODEL = "llama3.3"
-DEFAULT_TIMEOUT_SECONDS = 60.0
+class OllamaUnavailableError(Exception): pass
 
-
-class OllamaUnavailableError(RuntimeError):
-    """Raised when Ollama is unreachable or returns an unusable response."""
-
-
-@dataclass(frozen=True)
+@dataclass
 class OllamaConfig:
-    host: str
-    model: str
-    timeout_seconds: float = DEFAULT_TIMEOUT_SECONDS
+    host: str = None
+    model: str = None
+    timeout: int = None
+
+    def __post_init__(self):
+        if self.host    is None: self.host    = OLLAMA_HOST
+        if self.model   is None: self.model   = OLLAMA_MODEL
+        if self.timeout is None: self.timeout = OLLAMA_TIMEOUT
 
     @classmethod
     def from_env(cls) -> "OllamaConfig":
-        return cls(
-            host=os.environ.get("JISP_OLLAMA_HOST", DEFAULT_OLLAMA_HOST),
-            model=os.environ.get("JISP_OLLAMA_MODEL", DEFAULT_OLLAMA_MODEL),
-            timeout_seconds=float(
-                os.environ.get(
-                    "JISP_OLLAMA_TIMEOUT_SECONDS",
-                    DEFAULT_TIMEOUT_SECONDS,
-                )
-            ),
-        )
+        return cls(host=OLLAMA_HOST, model=OLLAMA_MODEL, timeout=OLLAMA_TIMEOUT)
 
+@dataclass
+class OllamaResponse:
+    text: str
+    model: str
+    done: bool
 
-def generate(prompt: str, config: OllamaConfig | None = None) -> str:
-    """Single-shot completion via Ollama's `/api/generate`.
+def generate(prompt: str, model: str | None = None, timeout: int | None = None,
+             config: OllamaConfig | None = None, max_retries: int = 2) -> str:
+    cfg  = config or OllamaConfig.from_env()
+    url  = f"{cfg.host}/api/generate"
+    body = json.dumps({"model": model or cfg.model, "prompt": prompt, "stream": False}).encode()
+    
+    for attempt in range(max_retries + 1):
+        try:
+            req  = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"})
+            with urllib.request.urlopen(req, timeout=timeout or cfg.timeout) as r:
+                data = json.loads(r.read())
+                return data["response"]
+        except (urllib.error.URLError, urllib.error.HTTPError, EOFError) as e:
+            if attempt < max_retries:
+                time.sleep(1 + attempt)
+                continue
+            raise OllamaUnavailableError(f"Ollama failed after {max_retries + 1} attempts at {cfg.host}: {e}") from e
+        except json.JSONDecodeError as e:
+            raise OllamaUnavailableError(f"Invalid Ollama response: {e}") from e
 
-    Raises:
-        OllamaUnavailableError: when the server is unreachable, returns a
-            non-2xx status, or returns an unexpected response body.
-    """
-    cfg = config or OllamaConfig.from_env()
-    url = cfg.host.rstrip("/") + "/api/generate"
-    body = json.dumps(
-        {"model": cfg.model, "prompt": prompt, "stream": False}
-    ).encode("utf-8")
-    request = urllib.request.Request(
-        url,
-        data=body,
-        headers={"Content-Type": "application/json"},
-        method="POST",
-    )
-
+def health_check() -> bool:
     try:
-        with urllib.request.urlopen(request, timeout=cfg.timeout_seconds) as response:
-            raw = response.read().decode("utf-8")
-    except urllib.error.HTTPError as e:
-        raise OllamaUnavailableError(
-            f"Ollama at {cfg.host} returned HTTP {e.code}: {e.reason}"
-        ) from e
-    except urllib.error.URLError as e:
-        raise OllamaUnavailableError(
-            f"Ollama at {cfg.host} unreachable: {e.reason}"
-        ) from e
-    except TimeoutError as e:
-        raise OllamaUnavailableError(
-            f"Ollama at {cfg.host} timed out after {cfg.timeout_seconds}s"
-        ) from e
-
-    try:
-        payload = json.loads(raw)
-    except json.JSONDecodeError as e:
-        raise OllamaUnavailableError("Ollama returned a non-JSON response") from e
-
-    text = payload.get("response")
-    if not isinstance(text, str):
-        raise OllamaUnavailableError(
-            "Ollama response missing a string 'response' field"
-        )
-    return text
+        req = urllib.request.Request(f"{OLLAMA_HOST}/api/tags")
+        with urllib.request.urlopen(req, timeout=5) as r:
+            data = json.loads(r.read())
+            return any("llama3.2" in m.get("name","") for m in data.get("models",[]))
+    except Exception:
+        return False

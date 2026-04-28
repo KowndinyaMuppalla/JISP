@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light" />
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Jacobs Spatial Intelligence Platform — JISP</title>
+  <meta name="description"
+        content="Jacobs Spatial Intelligence Platform — pre-field, AI-first, geospatial-native, explainable by design." />
+
+  <!-- Inter (UI/display) + JetBrains Mono (codes / numerics). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
+  />
+
+  <!-- MapLibre GL JS via CDN. Pinned for reproducibility.
+       Loaded synchronously so window.maplibregl is ready before main.js runs. -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"
+    crossorigin="anonymous"
+  />
+  <script
+    src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"
+    crossorigin="anonymous"
+  ></script>
+
+  <!--
+    Cache-busting `?v=` markers — bump when CSS/JS changes so browsers
+    don't serve stale stylesheets between deploys. Match the value
+    across every file below; bump on each release.
+  -->
+  <link rel="stylesheet" href="./src/styles/tokens.css?v=5" />
+  <link rel="stylesheet" href="./src/styles/layout.css?v=5" />
+  <link rel="stylesheet" href="./src/styles/panels.css?v=5" />
+  <link rel="stylesheet" href="./src/styles/map.css?v=5" />
+</head>
+<body>
+  <!-- Map canvas — full bleed, behind every panel. -->
+  <div id="map" aria-label="JISP map canvas"></div>
+
+  <!-- Loading indicator — removed once the map fires 'load'. -->
+  <div id="map-loading" class="map-loading">
+    <div class="map-loading__spinner" aria-hidden="true"></div>
+    <div class="map-loading__text">Loading map…</div>
+    <div class="map-loading__hint" id="map-loading-hint"></div>
+  </div>
+
+  <!-- Top bar: brand lockup, search, region indicator, import. -->
+  <header class="top-bar" role="banner">
+    <div class="brand" aria-label="Jacobs Spatial Intelligence Platform">
+      <a class="brand__jacobs"
+         href="https://www.jacobs.com"
+         target="_blank"
+         rel="noopener noreferrer"
+         aria-label="Jacobs">
+        <span class="brand__jacobs-text">Jacobs</span>
+        <span class="brand__jacobs-r" aria-hidden="true">&reg;</span>
+      </a>
+      <span class="brand__divider" aria-hidden="true"></span>
+      <div class="brand__product">
+        <div class="brand__product-name">
+          JISP
+          <span class="brand__product-badge">v0.1</span>
+        </div>
+        <div class="brand__product-full">
+          Jacobs Spatial Intelligence Platform
+        </div>
+      </div>
+    </div>
+
+    <div class="top-bar__center">
+      <label class="search" aria-label="Search assets">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+          <path d="M10 4a6 6 0 1 1-4.24 10.24A6 6 0 0 1 10 4Zm9 16-4.35-4.35"
+                fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" />
+        </svg>
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Search asset code, name…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <kbd>/</kbd>
+      </label>
+      <div class="search-results" id="search-results" hidden></div>
+    </div>
+
+    <div class="top-bar__right">
+      <button class="btn btn--ghost" id="region-jump-btn" type="button">
+        <span class="dot dot--us"></span>
+        <span id="region-jump-label">United States</span>
+      </button>
+      <button class="btn btn--primary" id="import-btn" type="button">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+          <path d="M12 4v12m0 0 4-4m-4 4-4-4M4 20h16"
+                fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Import
+      </button>
+    </div>
+  </header>
+
+  <!-- Live KPI strip — executive at-a-glance metrics. -->
+  <section class="kpi-strip" aria-label="Live platform metrics">
+    <div class="kpi">
+      <div class="kpi__value" id="kpi-assets" data-target="0">0</div>
+      <div class="kpi__label">
+        <span class="kpi__icon" aria-hidden="true">●</span>
+        Assets tracked
+      </div>
+    </div>
+    <div class="kpi">
+      <div class="kpi__value kpi__value--warn" id="kpi-highrisk" data-target="0">0</div>
+      <div class="kpi__label">High-risk condition</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi__value" id="kpi-hotspots" data-target="0">0</div>
+      <div class="kpi__label">Cluster hotspots</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi__value" id="kpi-regions" data-target="0">0</div>
+      <div class="kpi__label">Regions live</div>
+    </div>
+    <div class="kpi kpi--meta">
+      <div class="kpi__pulse" aria-hidden="true">
+        <span class="kpi__pulse-dot"></span>
+        <span class="kpi__pulse-ring"></span>
+      </div>
+      <div>
+        <div class="kpi__meta-line">Reasoning</div>
+        <div class="kpi__meta-sub" id="kpi-model">llama3.2 · standby</div>
+      </div>
+    </div>
+    <div class="kpi kpi--meta kpi--right">
+      <div>
+        <div class="kpi__meta-line">Pipeline</div>
+        <div class="kpi__meta-sub" id="kpi-updated">last sync —</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Left rail: layer toggles per region + class. -->
+  <aside class="panel panel--left" id="layer-panel" aria-label="Layers">
+    <header class="panel__header">
+      <h2 class="panel__title">Layers</h2>
+      <button class="icon-btn" id="layer-collapse" type="button" aria-label="Collapse panel">
+        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+          <path d="m15 6-6 6 6 6" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    </header>
+
+    <section class="panel__section">
+      <h3 class="panel__section-title">Regions</h3>
+      <ul class="toggle-list" id="region-toggles"></ul>
+    </section>
+
+    <section class="panel__section">
+      <h3 class="panel__section-title">Asset classes</h3>
+      <ul class="toggle-list" id="class-toggles"></ul>
+    </section>
+
+    <section class="panel__section">
+      <h3 class="panel__section-title">Overlays</h3>
+      <ul class="toggle-list">
+        <li>
+          <label class="toggle">
+            <input type="checkbox" id="overlay-clusters" checked />
+            <span class="toggle__track"></span>
+            <span class="toggle__label">Cluster zones</span>
+            <span class="toggle__count" id="overlay-clusters-count">0</span>
+          </label>
+        </li>
+        <li>
+          <label class="toggle">
+            <input type="checkbox" id="overlay-highrisk" />
+            <span class="toggle__track"></span>
+            <span class="toggle__label">High-risk only</span>
+          </label>
+        </li>
+      </ul>
+    </section>
+
+    <footer class="panel__footer">
+      <div class="legend">
+        <span class="legend__title">Risk score</span>
+        <div class="legend__bar" aria-hidden="true"></div>
+        <div class="legend__scale">
+          <span>0.0</span><span>0.5</span><span>1.0</span>
+        </div>
+      </div>
+    </footer>
+  </aside>
+
+  <!-- Right rail: asset detail + explanation. Hidden until selection. -->
+  <aside class="panel panel--right" id="asset-panel" aria-label="Asset detail" hidden>
+    <header class="panel__header">
+      <div class="asset-panel__heading">
+        <span class="asset-panel__class" id="asset-class">—</span>
+        <h2 class="panel__title" id="asset-name">—</h2>
+        <span class="asset-panel__code" id="asset-code">—</span>
+      </div>
+      <button class="icon-btn" id="asset-close" type="button" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+          <path d="M6 6l12 12M6 18 18 6" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+    </header>
+
+    <section class="panel__section">
+      <div class="risk-card">
+        <!-- SVG risk ring — animated stroke-dasharray reflects the score.
+             radius=42, circumference=2πr ≈ 263.89 → set as stroke-dasharray
+             on .risk-ring__progress and we animate stroke-dashoffset. -->
+        <svg class="risk-ring" viewBox="0 0 100 100" aria-hidden="true">
+          <circle class="risk-ring__track" cx="50" cy="50" r="42" />
+          <circle class="risk-ring__progress" id="asset-risk-ring"
+                  cx="50" cy="50" r="42"
+                  stroke-dasharray="263.89"
+                  stroke-dashoffset="263.89" />
+        </svg>
+        <div class="risk-card__body">
+          <div class="risk-card__score" id="asset-risk-score">—</div>
+          <div class="risk-card__class" id="asset-risk-class">—</div>
+          <div class="risk-card__hint">Condition risk score · 0 – 1 scale</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel__section">
+      <h3 class="panel__section-title">Attributes</h3>
+      <dl class="kv" id="asset-attributes"></dl>
+    </section>
+
+    <section class="panel__section panel__section--observations">
+      <div class="obs-head">
+        <h3 class="panel__section-title">Pressure · last 30 days</h3>
+        <div class="obs-stat">
+          <span class="obs-stat__value" id="obs-current">—</span>
+          <span class="obs-stat__unit">psi</span>
+          <span class="obs-stat__delta" id="obs-delta">—</span>
+        </div>
+      </div>
+      <svg class="sparkline" id="asset-sparkline" viewBox="0 0 320 60"
+           preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="spark-gradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="var(--accent)" stop-opacity="0.32" />
+            <stop offset="100%" stop-color="var(--accent)" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+        <path class="sparkline__area"  id="sparkline-area"  d="" fill="url(#spark-gradient)" />
+        <path class="sparkline__line"  id="sparkline-line"  d="" />
+        <circle class="sparkline__dot" id="sparkline-dot"   r="3" cx="0" cy="0" />
+      </svg>
+    </section>
+
+    <section class="panel__section">
+      <div class="explain-block">
+        <div class="explain-block__head">
+          <h3 class="panel__section-title">Explanation</h3>
+          <span class="badge" id="explain-model">llama3.2</span>
+        </div>
+        <button class="btn btn--primary btn--block" id="explain-btn" type="button">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <path d="M12 2 14.39 8.26 21 9l-5 4.74L17.18 21 12 17.27 6.82 21 8 13.74 3 9l6.61-.74L12 2Z"
+                  fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linejoin="round" />
+          </svg>
+          Generate explanation
+        </button>
+        <div class="explain-block__body" id="explain-body" hidden>
+          <p class="explain-block__text" id="explain-text"></p>
+          <h4 class="panel__section-title panel__section-title--inline">Top drivers</h4>
+          <ul class="shap-bars" id="explain-shap"></ul>
+          <div class="explain-block__meta" id="explain-meta"></div>
+        </div>
+      </div>
+    </section>
+  </aside>
+
+  <!-- Bottom status strip. -->
+  <footer class="status-bar" role="status" aria-live="polite">
+    <span class="status-bar__cell">
+      <span class="status-bar__label">Assets</span>
+      <strong id="status-count">—</strong>
+    </span>
+    <span class="status-bar__cell">
+      <span class="status-bar__label">Mode</span>
+      <strong id="status-mode" class="badge badge--mock">MOCK API</strong>
+    </span>
+    <span class="status-bar__cell">
+      <span class="status-bar__label">Tiles</span>
+      <strong id="status-tiles">basemap</strong>
+    </span>
+    <span class="status-bar__cell status-bar__cell--right">
+      <span class="status-bar__label">Cursor</span>
+      <code id="status-cursor">—</code>
+    </span>
+  </footer>
+
+  <!-- Import dropzone modal. Hidden until trigger. -->
+  <div class="modal" id="import-modal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="import-title">
+      <header class="modal__head">
+        <h2 id="import-title">Import assets</h2>
+        <button class="icon-btn" data-close type="button" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+            <path d="M6 6l12 12M6 18 18 6" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </header>
+      <div class="dropzone" id="dropzone" tabindex="0">
+        <svg viewBox="0 0 24 24" width="40" height="40" aria-hidden="true">
+          <path d="M12 16V4m0 0L8 8m4-4 4 4M4 20h16"
+                fill="none" stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <p>Drag &amp; drop a <strong>GeoPackage, Shapefile zip, or GeoJSON</strong> here</p>
+        <p class="dropzone__hint">or <button class="link" id="dropzone-browse" type="button">browse files</button></p>
+        <input id="dropzone-input" type="file"
+               accept=".gpkg,.zip,.shp,.geojson,.json" hidden />
+      </div>
+      <ul class="upload-list" id="upload-list"></ul>
+      <footer class="modal__foot">
+        <span class="muted">
+          Endpoint: <code>POST /api/v1/import/upload</code>
+          <span class="badge badge--mock">stub</span>
+        </span>
+      </footer>
+    </div>
+  </div>
+
+  <noscript>
+    <div style="padding:2rem;color:#fff;background:#0a0e14;font:14px system-ui">
+      JISP requires JavaScript to render the MapLibre canvas.
+    </div>
+  </noscript>
+
+  <script type="module" src="./src/main.js?v=5"></script>
+</body>
+</html>

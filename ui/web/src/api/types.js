@@ -30,6 +30,9 @@
  * @property {Object<string, unknown>} [attributes]
  * @property {number|null} [risk_score]          - 0..1
  * @property {ConditionClass|null} [risk_condition_class]
+ * @property {"low"|"medium"|"high"|"critical"|null} [risk_tier]
+ *           - mvp /api/v1/assets returns this; the client maps it to
+ *             risk_condition_class for downstream UI compat.
  * @property {string|null} [risk_computed_at]
  * @property {string} source
  */

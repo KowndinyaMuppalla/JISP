@@ -40,25 +40,36 @@ from a server-rendered template):
 
 The status-bar badge ("MOCK API" / "LIVE API") reflects the resolved mode.
 
-### Endpoints to implement on the backend
+### Backend contract — aligned with `feat/jisp-mvp`
 
-The API client (`src/api/client.js`) has one TODO marker per endpoint —
-grep for `TODO(api)` and implement them in this order:
+The client (`src/api/client.js`) targets the routes shipped on the
+`feat/jisp-mvp` branch. Adapter methods inside the client convert the
+backend's flat-row responses to the GeoJSON shape the panels consume,
+so the rest of the front-end is decoupled from the wire format.
 
-| Endpoint                                              | Purpose                              |
-| ----------------------------------------------------- | ------------------------------------ |
-| `GET    /health`                                      | Liveness probe (already exists).     |
-| `GET    /api/v1/assets`                               | List/filter assets (GeoJSON).        |
-| `GET    /api/v1/assets/{id}`                          | Asset detail.                        |
-| `GET    /api/v1/assets/search?q=`                     | Top-bar search.                      |
-| `GET    /api/v1/cluster-zones?active=true`            | HDBSCAN hotspot polygons.            |
-| `POST   /explain`                                     | Reasoning (already partially exists).|
-| `POST   /api/v1/import/upload`                        | File upload (zip/gpkg/shp/geojson).  |
-| `GET    /api/v1/assets/{id}/observations`             | Time-series readings.                |
-| `WS     /ws/assets/{id}/stream`                       | Real-time push.                      |
+| Endpoint                                                       | Used for                          |
+| -------------------------------------------------------------- | --------------------------------- |
+| `GET  /health`                                                 | Mode probe.                       |
+| `GET  /api/v1/assets?region=&asset_class=&risk_tier=&bbox=`    | Map + KPI strip.                  |
+| `GET  /api/v1/assets/{asset_id}`                               | Asset detail panel.               |
+| `GET  /api/v1/assets/{asset_id}/observations`                  | 30-day sparkline.                 |
+| `GET  /api/v1/assets/{asset_id}/latest`                        | Real-time stream (polled).        |
+| `GET  /api/v1/geoai/inspection-queue`                          | Hotspot / queue overlay.          |
+| `POST /api/v1/explain`                                         | Right-rail "Generate explanation".|
+| `POST /api/v1/import/upload`                                   | Drag-and-drop dropzone.           |
+
+Notes
+- mvp accepts a single `region` and a single `asset_class` per request;
+  the multi-select layer panel only forwards the filter when exactly
+  one value is selected (otherwise the call is unfiltered).
+- `risk_tier` (`low`/`medium`/`high`/`critical`) is mapped to the UI's
+  `risk_condition_class` (`good`/`fair`/`poor`/`critical`) in the
+  client adapter — see `RISK_TIER_TO_CONDITION` in `client.js`.
+- mvp has no polygon hotspot table or WebSocket stream yet; the client
+  returns an empty FeatureCollection in live mode for cluster zones,
+  and falls back to polling `/assets/{id}/latest` for the stream.
 
 Schemas the front-end expects are in `src/api/types.js` (JSDoc).
-They mirror the Pydantic models in `api/schemas/payloads.py`.
 
 ## Layout map
 

@@ -123,7 +123,7 @@ async function main() {
     hotspots:  lastClusterZones.features.length,
     regions:   Object.keys(counts.regions).length,
   });
-  _setModelStatus(api.isLive ? "llama3.3 · live" : "llama3.3 · mock");
+  _setModelStatus(api.isLive ? "llama3.2 · live" : "llama3.2 · mock");
   _setLastSync();
 }
 

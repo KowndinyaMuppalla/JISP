@@ -155,7 +155,7 @@ export async function mockExplain(req) {
     explanation,
     drivers: t.drivers,
     meta: {
-      model: "llama3.3 (mock)",
+      model: "llama3.2 (mock)",
       latency_ms: elapsed,
       tokens_in: 184,
       tokens_out: 96,

@@ -1,131 +1,91 @@
--- JISP migration 005: per-region PostGIS views
+-- JISP migration 005: per-region + risk-enriched views
 --
--- Thin region filters over `assets` joined with reference tables and
--- the latest risk_score. These views are the surface MapLibre + the
--- API expose to the front-end and to GeoServer (each one becomes a
--- published vector-tile layer).
+-- Aligned with feat/jisp-mvp:spatial/db/schema.sql.
+-- Six views: one per operational region (US, UK, ANZ, APAC), one
+-- joining the latest risk_score per asset, and one expanding the
+-- inspection_queue with the joined asset record.
 --
 -- Views inherit the spatial index of the underlying table — no extra
 -- indexes are needed here.
 
 BEGIN;
 
-DROP VIEW IF EXISTS jisp_us_assets   CASCADE;
-DROP VIEW IF EXISTS jisp_uk_assets   CASCADE;
-DROP VIEW IF EXISTS jisp_anz_assets  CASCADE;
-DROP VIEW IF EXISTS jisp_apac_assets CASCADE;
-DROP VIEW IF EXISTS jisp_all_assets  CASCADE;
+DROP VIEW IF EXISTS v_inspection_queue_full CASCADE;
+DROP VIEW IF EXISTS v_assets_with_risk      CASCADE;
+DROP VIEW IF EXISTS v_assets_apac           CASCADE;
+DROP VIEW IF EXISTS v_assets_anz            CASCADE;
+DROP VIEW IF EXISTS v_assets_uk             CASCADE;
+DROP VIEW IF EXISTS v_assets_us             CASCADE;
 
 -- ---------------------------------------------------------------
--- Base view: every asset enriched with class/material/risk metadata.
+-- Per-region active-asset views
 -- ---------------------------------------------------------------
-CREATE VIEW jisp_all_assets AS
+CREATE OR REPLACE VIEW v_assets_us AS
+    SELECT * FROM assets WHERE region_code = 'US' AND is_active = TRUE;
+
+CREATE OR REPLACE VIEW v_assets_uk AS
+    SELECT * FROM assets WHERE region_code = 'UK' AND is_active = TRUE;
+
+CREATE OR REPLACE VIEW v_assets_anz AS
+    SELECT * FROM assets WHERE region_code = 'ANZ' AND is_active = TRUE;
+
+CREATE OR REPLACE VIEW v_assets_apac AS
+    SELECT * FROM assets WHERE region_code = 'APAC' AND is_active = TRUE;
+
+COMMENT ON VIEW v_assets_us   IS 'Active US assets — published as a GeoServer vector-tile layer.';
+COMMENT ON VIEW v_assets_uk   IS 'Active UK assets — published as a GeoServer vector-tile layer.';
+COMMENT ON VIEW v_assets_anz  IS 'Active Australia + New Zealand assets — vector-tile layer.';
+COMMENT ON VIEW v_assets_apac IS 'Active APAC (non-AU/NZ) assets — vector-tile layer.';
+
+
+-- ---------------------------------------------------------------
+-- Latest-risk join — every active asset enriched with the most recent
+-- risk_score row (NULLs where no score has been computed yet).
+-- ---------------------------------------------------------------
+CREATE OR REPLACE VIEW v_assets_with_risk AS
 SELECT
-    a.id,
-    a.asset_code,
-    a.region_code,
-    r.name              AS region_name,
-    a.class_code,
-    ac.name             AS class_name,
-    ac.domain           AS class_domain,
-    ac.geometry_type    AS class_geometry_type,
-    a.material_code,
-    m.name              AS material_name,
-    m.family            AS material_family,
-    m.typical_life_yr   AS material_typical_life_yr,
-    a.name,
-    a.install_date,
-    a.install_year,
-    a.diameter_mm,
-    a.length_m,
-    a.attributes,
-    a.source,
-    a.source_id,
-    a.ingested_at,
-    a.updated_at,
-    rs.score            AS risk_score,
-    rs.condition_class  AS risk_condition_class,
-    rs.computed_at      AS risk_computed_at,
-    rs.model_version    AS risk_model_version,
-    a.geom
+    a.*,
+    rs.risk_score,
+    rs.risk_tier      AS ai_risk_tier,
+    rs.anomaly_flag,
+    rs.scored_at
 FROM assets a
-JOIN regions       r  ON r.region_code  = a.region_code
-JOIN asset_classes ac ON ac.class_code  = a.class_code
-LEFT JOIN materials m ON m.material_code = a.material_code
-LEFT JOIN risk_scores rs
-       ON rs.asset_id = a.id
-      AND rs.is_latest = TRUE;
+LEFT JOIN LATERAL (
+    SELECT risk_score, risk_tier, anomaly_flag, scored_at
+    FROM   risk_scores
+    WHERE  asset_id = a.asset_id
+    ORDER  BY scored_at DESC
+    LIMIT  1
+) rs ON TRUE
+WHERE a.is_active = TRUE;
 
-COMMENT ON VIEW jisp_all_assets IS
-    'Base read-model view: every asset + class/material/latest-risk join. '
-    'Per-region views are filters on top of this view.';
-
-
--- ---------------------------------------------------------------
--- Per-region views (one published GeoServer layer each)
--- ---------------------------------------------------------------
-CREATE VIEW jisp_us_assets AS
-SELECT * FROM jisp_all_assets WHERE region_code = 'us';
-
-COMMENT ON VIEW jisp_us_assets IS
-    'JISP US assets — published as GeoServer vector-tile layer jisp:us_assets.';
-
-CREATE VIEW jisp_uk_assets AS
-SELECT * FROM jisp_all_assets WHERE region_code = 'uk';
-
-COMMENT ON VIEW jisp_uk_assets IS
-    'JISP UK assets — published as GeoServer vector-tile layer jisp:uk_assets.';
-
-CREATE VIEW jisp_anz_assets AS
-SELECT * FROM jisp_all_assets WHERE region_code IN ('anz_au','anz_nz');
-
-COMMENT ON VIEW jisp_anz_assets IS
-    'JISP Australia + New Zealand assets — vector-tile layer jisp:anz_assets.';
-
-CREATE VIEW jisp_apac_assets AS
-SELECT * FROM jisp_all_assets WHERE region_code = 'apac';
-
-COMMENT ON VIEW jisp_apac_assets IS
-    'JISP APAC (non-AU/NZ) assets — vector-tile layer jisp:apac_assets.';
+COMMENT ON VIEW v_assets_with_risk IS
+    'Active assets joined with their most recent risk_scores row. The '
+    'GeoAI map overlay reads from this view.';
 
 
 -- ---------------------------------------------------------------
--- High-risk subset — used directly by the inspection planner UI.
+-- Inspection queue — joined with the asset record so the planner UI
+-- has everything it needs in one fetch.
 -- ---------------------------------------------------------------
-DROP VIEW IF EXISTS jisp_high_risk_assets CASCADE;
-
-CREATE VIEW jisp_high_risk_assets AS
-SELECT *
-FROM jisp_all_assets
-WHERE risk_score IS NOT NULL
-  AND risk_score >= 0.7;
-
-COMMENT ON VIEW jisp_high_risk_assets IS
-    'Assets with latest RF condition score >= 0.7. Drives MapLibre '
-    'high-risk overlay + the default inspection_queue feed.';
-
-
--- ---------------------------------------------------------------
--- Latest cluster zones — published per-region for the hotspot layer.
--- ---------------------------------------------------------------
-DROP VIEW IF EXISTS jisp_active_cluster_zones CASCADE;
-
-CREATE VIEW jisp_active_cluster_zones AS
+CREATE OR REPLACE VIEW v_inspection_queue_full AS
 SELECT
-    cz.id,
-    cz.computed_at,
-    cz.model_version,
-    cz.region_code,
-    cz.cluster_id,
-    cz.num_assets,
-    cz.mean_score,
-    cz.persistence,
-    cz.attributes,
-    cz.geom
-FROM cluster_zones cz
-WHERE cz.is_latest = TRUE;
+    iq.*,
+    a.name,
+    a.asset_class,
+    a.geometry,
+    a.region_code     AS asset_region_code,
+    a.condition_score,
+    a.last_inspected,
+    a.material,
+    a.install_year
+FROM inspection_queue iq
+JOIN assets a ON a.asset_id = iq.asset_id
+WHERE iq.status = 'pending'
+ORDER BY iq.priority_rank;
 
-COMMENT ON VIEW jisp_active_cluster_zones IS
-    'Most recent HDBSCAN hotspot polygons. One vector-tile layer.';
+COMMENT ON VIEW v_inspection_queue_full IS
+    'Open inspection queue rows joined with the underlying asset record. '
+    'Drives the inspection-planner UI in the front-end.';
 
 COMMIT;

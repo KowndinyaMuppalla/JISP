@@ -58,16 +58,18 @@ services:
     image: ollama/ollama:latest
     container_name: jisp_ollama
     restart: unless-stopped
+    environment:
+      OLLAMA_DEBUG: "1"
     volumes:
       - ollama_models:/root/.ollama
     ports:
       - "11434:11434"
-    entrypoint: ["/bin/sh", "-c", "ollama serve & sleep 8 && ollama pull llama3.2 && wait"]
+    entrypoint: ["/bin/sh", "-c", "ollama serve & sleep 15 && (ollama pull llama3.2 || ollama pull llama2) && wait"]
     healthcheck:
-      test: ["CMD-SHELL", "curl -sf http://localhost:11434/api/tags | grep -q llama3.2 || exit 1"]
+      test: ["CMD-SHELL", "curl -sf http://localhost:11434/api/tags || exit 1"]
       interval: 30s
       timeout: 20s
-      retries: 20
+      retries: 30
     networks: [jisp_net]
 
   api:

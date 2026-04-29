@@ -1,5 +1,5 @@
 """Ollama HTTP client — JISP (llama3.2)"""
-import json, os, urllib.request, urllib.error, time
+import json, os, urllib.request, urllib.error, time, http.client
 from dataclasses import dataclass
 
 OLLAMA_HOST    = os.getenv("OLLAMA_HOST", "http://localhost:11434")
@@ -30,7 +30,7 @@ class OllamaResponse:
     done: bool
 
 def generate(prompt: str, model: str | None = None, timeout: int | None = None,
-             config: OllamaConfig | None = None, max_retries: int = 2) -> str:
+             config: OllamaConfig | None = None, max_retries: int = 3) -> str:
     cfg  = config or OllamaConfig.from_env()
     url  = f"{cfg.host}/api/generate"
     body = json.dumps({"model": model or cfg.model, "prompt": prompt, "stream": False}).encode()
@@ -41,9 +41,11 @@ def generate(prompt: str, model: str | None = None, timeout: int | None = None,
             with urllib.request.urlopen(req, timeout=timeout or cfg.timeout) as r:
                 data = json.loads(r.read())
                 return data["response"]
-        except (urllib.error.URLError, urllib.error.HTTPError, EOFError) as e:
+        except (urllib.error.URLError, urllib.error.HTTPError, EOFError, 
+                http.client.RemoteDisconnected, ConnectionResetError, BrokenPipeError) as e:
             if attempt < max_retries:
-                time.sleep(1 + attempt)
+                wait_time = (2 ** attempt)  # exponential backoff: 1s, 2s, 4s
+                time.sleep(wait_time)
                 continue
             raise OllamaUnavailableError(f"Ollama failed after {max_retries + 1} attempts at {cfg.host}: {e}") from e
         except json.JSONDecodeError as e:

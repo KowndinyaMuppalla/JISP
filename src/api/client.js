@@ -4,9 +4,8 @@
  * Mode:
  *   - `mock`  : Calls in-memory mocks (./mocks.js).
  *   - `live`  : Calls real fetch endpoints under config.baseUrl.
- *   - `auto`  : Probes the data endpoint once; on success uses live,
- *               otherwise falls back to mocks. Only goes live if the
- *               response shape matches what the frontend expects.
+ *   - `auto`  : Tries `${baseUrl}/health` once at construction; on success
+ *               uses live, otherwise falls back to mocks.
  *
  * To plug the real backend in:
  *   1. Set window.JISP_CONFIG.apiBaseUrl = "http://localhost:8000".
@@ -38,25 +37,23 @@ export class ApiClient {
   /** Whether the client is currently using the live backend. */
   get isLive() { return this._live; }
 
-  /**
-   * Probe the actual data endpoint (not just /health) so we only go live
-   * when the full stack - API + DB - is working and returns the right shape.
-   */
+  /** Force a probe of `${baseUrl}/health`. Idempotent. */
   async probe() {
     if (this.mode === "mock") { this._live = false; return; }
-    if (this.mode === "live") { this._live = true; return; }
+    if (this.mode === "live") {
+      // Trust caller — assume live without probing.
+      this._live = true;
+      return;
+    }
     if (this._probe) return this._probe;
     this._probe = (async () => {
       if (!this.baseUrl) { this._live = false; return; }
       try {
-        const ctrl  = new AbortController();
-        const timer = setTimeout(() => ctrl.abort(), 3000);
-        const res   = await fetch(`${this.baseUrl}/api/v1/assets?limit=1`, { signal: ctrl.signal });
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 1500);
+        const res = await fetch(`${this.baseUrl}/health`, { signal: ctrl.signal });
         clearTimeout(timer);
-        if (!res.ok) { this._live = false; return; }
-        const data = await res.json();
-        // Only go live if the response is the GeoJSON FeatureCollection shape the frontend expects.
-        this._live = Array.isArray(data?.features);
+        this._live = res.ok;
       } catch {
         this._live = false;
       }
@@ -66,7 +63,7 @@ export class ApiClient {
 
   // ---------- internal fetch helper ----------
   async _fetch(path, init) {
-    const ctrl  = new AbortController();
+    const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), DEFAULT_TIMEOUT_MS);
     try {
       const res = await fetch(`${this.baseUrl}${path}`, { ...init, signal: ctrl.signal });
@@ -92,18 +89,13 @@ export class ApiClient {
    */
   async listAssets(filters = {}) {
     if (!this._live) return mocks.mockListAssets(filters);
-    try {
-      const qs = new URLSearchParams();
-      filters.regions?.forEach((r) => qs.append("regions", r));
-      filters.classes?.forEach((c) => qs.append("classes", c));
-      if (filters.bbox)         qs.set("bbox", filters.bbox.join(","));
-      if (filters.highRiskOnly) qs.set("high_risk_only", "true");
-      if (filters.limit)        qs.set("limit", String(filters.limit));
-      return await this._fetch(`/api/v1/assets?${qs.toString()}`);
-    } catch (err) {
-      console.warn("[JISP] listAssets live failed, falling back to mock:", err);
-      return mocks.mockListAssets(filters);
-    }
+    const qs = new URLSearchParams();
+    filters.regions?.forEach((r) => qs.append("regions", r));
+    filters.classes?.forEach((c) => qs.append("classes", c));
+    if (filters.bbox)        qs.set("bbox", filters.bbox.join(","));
+    if (filters.highRiskOnly) qs.set("high_risk_only", "true");
+    if (filters.limit)        qs.set("limit", String(filters.limit));
+    return this._fetch(`/api/v1/assets?${qs.toString()}`);
   }
 
   /**
@@ -114,12 +106,7 @@ export class ApiClient {
    */
   async getAsset(id) {
     if (!this._live) return mocks.mockGetAsset(id);
-    try {
-      return await this._fetch(`/api/v1/assets/${encodeURIComponent(id)}`);
-    } catch (err) {
-      console.warn("[JISP] getAsset live failed, falling back to mock:", err);
-      return mocks.mockGetAsset(id);
-    }
+    return this._fetch(`/api/v1/assets/${encodeURIComponent(id)}`);
   }
 
   /**
@@ -129,12 +116,7 @@ export class ApiClient {
    */
   async listClusterZones() {
     if (!this._live) return mocks.mockListClusterZones();
-    try {
-      return await this._fetch(`/api/v1/cluster-zones?active=true`);
-    } catch (err) {
-      console.warn("[JISP] listClusterZones live failed, falling back to mock:", err);
-      return mocks.mockListClusterZones();
-    }
+    return this._fetch(`/api/v1/cluster-zones?active=true`);
   }
 
   /**
@@ -145,12 +127,7 @@ export class ApiClient {
    */
   async searchAssets(q) {
     if (!this._live) return mocks.mockSearchAssets(q);
-    try {
-      return await this._fetch(`/api/v1/assets/search?q=${encodeURIComponent(q)}`);
-    } catch (err) {
-      console.warn("[JISP] searchAssets live failed, falling back to mock:", err);
-      return mocks.mockSearchAssets(q);
-    }
+    return this._fetch(`/api/v1/assets/search?q=${encodeURIComponent(q)}`);
   }
 
   /**
@@ -161,16 +138,11 @@ export class ApiClient {
    */
   async explain(req) {
     if (!this._live) return mocks.mockExplain(req);
-    try {
-      return await this._fetch(`/explain`, {
-        method:  "POST",
-        headers: { "content-type": "application/json" },
-        body:    JSON.stringify(req),
-      });
-    } catch (err) {
-      console.warn("[JISP] explain live failed, falling back to mock:", err);
-      return mocks.mockExplain(req);
-    }
+    return this._fetch(`/explain`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(req),
+    });
   }
 
   /**
@@ -181,14 +153,9 @@ export class ApiClient {
    */
   async upload(file) {
     if (!this._live) return mocks.mockUpload(file);
-    try {
-      const fd = new FormData();
-      fd.append("file", file);
-      return await this._fetch(`/api/v1/import/upload`, { method: "POST", body: fd });
-    } catch (err) {
-      console.warn("[JISP] upload live failed, falling back to mock:", err);
-      return mocks.mockUpload(file);
-    }
+    const fd = new FormData();
+    fd.append("file", file);
+    return this._fetch(`/api/v1/import/upload`, { method: "POST", body: fd });
   }
 
   /**
@@ -199,16 +166,11 @@ export class ApiClient {
    */
   async observations(id, opts = {}) {
     if (!this._live) return mocks.mockObservations(id, opts);
-    try {
-      const qs = new URLSearchParams();
-      if (opts.metric) qs.set("metric", opts.metric);
-      if (opts.from)   qs.set("from", opts.from);
-      if (opts.to)     qs.set("to", opts.to);
-      return await this._fetch(`/api/v1/assets/${encodeURIComponent(id)}/observations?${qs.toString()}`);
-    } catch (err) {
-      console.warn("[JISP] observations live failed, falling back to mock:", err);
-      return mocks.mockObservations(id, opts);
-    }
+    const qs = new URLSearchParams();
+    if (opts.metric) qs.set("metric", opts.metric);
+    if (opts.from)   qs.set("from", opts.from);
+    if (opts.to)     qs.set("to", opts.to);
+    return this._fetch(`/api/v1/assets/${encodeURIComponent(id)}/observations?${qs.toString()}`);
   }
 
   /**
@@ -220,11 +182,12 @@ export class ApiClient {
    */
   subscribeStream(id, onPoint) {
     if (!this._live) {
+      // Mock: emit one synthetic point every 4s.
       const t = setInterval(() => {
         onPoint({
-          time:  new Date().toISOString(),
+          time: new Date().toISOString(),
           value: +(60 + Math.random() * 12).toFixed(2),
-          unit:  "psi",
+          unit: "psi",
         });
       }, 4000);
       return () => clearInterval(t);

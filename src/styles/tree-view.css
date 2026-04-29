@@ -1,0 +1,291 @@
+/* Tree-view component — Section 1 (Region → Groups → Classes) +
+   Section 2 (individual class items). Light theme, Jacobs blue accents. */
+
+/* ── Section 1: tree container ──────────────────────────────────────── */
+.tree-view {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+}
+
+/* Region header */
+.tree-view__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-4) var(--space-3);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface-2);
+  font-weight: var(--fw-semibold);
+  color: var(--fg-primary);
+}
+
+.tree-view__region-name {
+  margin: 0;
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  color: var(--fg-primary);
+  letter-spacing: 0.01em;
+}
+
+/* Scrollable group list */
+.tree-view__list {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  overflow-y: auto;
+  max-height: 300px;
+  display: grid;
+  gap: var(--space-1);
+}
+
+.tree-view__list::-webkit-scrollbar       { width: 5px; }
+.tree-view__list::-webkit-scrollbar-track { background: transparent; }
+.tree-view__list::-webkit-scrollbar-thumb { background: var(--border-soft); border-radius: 3px; }
+.tree-view__list::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+
+/* ── Group (Infrastructure / Water bodies / Monitoring) ─────────────── */
+.tree-view__group {
+  display: grid;
+  gap: 2px;
+}
+
+.tree-view__group-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2) var(--space-1) var(--space-1);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--fg-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  user-select: none;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.tree-view__group-header:hover {
+  background: var(--bg-elevated);
+  color: var(--fg-secondary);
+}
+
+/* Caret: ▾ = expanded (default), rotated -90° = collapsed */
+.tree-view__caret {
+  display: inline-block;
+  font-size: 11px;
+  color: var(--fg-tertiary);
+  line-height: 1;
+  transition: transform var(--transition-fast);
+  user-select: none;
+  flex-shrink: 0;
+}
+.tree-view__group-header--collapsed .tree-view__caret {
+  transform: rotate(-90deg);
+}
+
+/* Sublist (class rows under a group) */
+.tree-view__sublist {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 var(--space-3);
+  display: grid;
+  gap: 2px;
+  max-height: 1000px;
+  overflow: hidden;
+  transition: max-height var(--transition-med), opacity var(--transition-med);
+}
+.tree-view__sublist--hidden {
+  max-height: 0;
+  opacity: 0;
+}
+
+/* ── Class row ───────────────────────────────────────────────────────── */
+.tree-view__class-item {
+  display: grid;
+}
+
+.tree-view__class-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 5px var(--space-2) 5px 2px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--fg-primary);
+  user-select: none;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  border: 1px solid transparent;
+}
+.tree-view__class-header:hover {
+  background: var(--bg-elevated);
+  border-color: var(--border-subtle);
+}
+.tree-view__class-header--selected {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent-deep);
+}
+.tree-view__class-header--selected .tree-view__class-label {
+  color: var(--accent-deep);
+  font-weight: var(--fw-semibold);
+}
+.tree-view__class-header--selected .tree-view__class-chevron {
+  color: var(--accent);
+}
+
+.tree-view__class-checkbox {
+  cursor: pointer;
+  accent-color: var(--accent);
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.tree-view__class-label {
+  color: var(--fg-primary);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tree-view__count {
+  font-size: var(--fs-xs);
+  color: var(--fg-tertiary);
+  padding: 1px 6px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--fw-medium);
+  flex-shrink: 0;
+}
+
+.tree-view__class-chevron {
+  font-size: var(--fs-md);
+  color: var(--fg-tertiary);
+  flex-shrink: 0;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  line-height: 1;
+}
+.tree-view__class-header:hover .tree-view__class-chevron {
+  color: var(--fg-secondary);
+  transform: translateX(2px);
+}
+
+/* ── Section 2: Class items panel ────────────────────────────────────── */
+.panel__section--items {
+  padding: 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.class-items-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4) var(--space-2);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface-2);
+  gap: var(--space-2);
+}
+
+.class-items-title {
+  margin: 0;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-tertiary);
+}
+
+.class-items-list {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  display: grid;
+  gap: 3px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.class-items-list::-webkit-scrollbar       { width: 5px; }
+.class-items-list::-webkit-scrollbar-track { background: transparent; }
+.class-items-list::-webkit-scrollbar-thumb { background: var(--border-soft); border-radius: 3px; }
+
+/* Individual asset item */
+.class-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: 6px var(--space-2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+  user-select: none;
+}
+.class-item:hover {
+  background: var(--bg-elevated);
+  border-color: var(--border-subtle);
+}
+.class-item[data-selected="true"] {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+}
+.class-item--empty {
+  color: var(--fg-tertiary);
+  font-size: var(--fs-sm);
+  font-style: italic;
+  cursor: default;
+  justify-content: center;
+}
+.class-item--empty:hover { background: none; border-color: transparent; }
+
+.class-item__main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.class-item__code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--fg-primary);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.class-item[data-selected="true"] .class-item__code {
+  color: var(--accent-deep);
+}
+
+.class-item__name {
+  font-size: var(--fs-xs);
+  color: var(--fg-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Risk score chip */
+.class-item__risk {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  padding: 2px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+.class-item__risk.risk--low    { color: var(--risk-0); background: rgba(22, 163, 74, 0.10);  }
+.class-item__risk.risk--medium { color: var(--risk-2); background: rgba(202, 138, 4, 0.12);  }
+.class-item__risk.risk--high   { color: var(--risk-4); background: rgba(220, 38, 38, 0.12);  }

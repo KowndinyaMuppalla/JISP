@@ -36,10 +36,11 @@
     don't serve stale stylesheets between deploys. Match the value
     across every file below; bump on each release.
   -->
-  <link rel="stylesheet" href="./src/styles/tokens.css?v=3" />
-  <link rel="stylesheet" href="./src/styles/layout.css?v=3" />
-  <link rel="stylesheet" href="./src/styles/panels.css?v=3" />
-  <link rel="stylesheet" href="./src/styles/map.css?v=3" />
+  <link rel="stylesheet" href="./src/styles/tokens.css?v=4" />
+  <link rel="stylesheet" href="./src/styles/layout.css?v=4" />
+  <link rel="stylesheet" href="./src/styles/panels.css?v=4" />
+  <link rel="stylesheet" href="./src/styles/tree-view.css?v=4" />
+  <link rel="stylesheet" href="./src/styles/map.css?v=4" />
 </head>
 <body>
   <!-- Map canvas — full bleed, behind every panel. -->
@@ -161,16 +162,24 @@
       </button>
     </header>
 
-    <section class="panel__section">
-      <h3 class="panel__section-title">Regions</h3>
-      <ul class="toggle-list" id="region-toggles"></ul>
+    <!-- Section 1: Region tree → asset-class groups → class rows -->
+    <div id="tree-view-container"></div>
+
+    <!-- Section 2: Individual assets for the selected class (hidden until class selected) -->
+    <section class="panel__section panel__section--items" id="class-items-container" hidden>
+      <div class="class-items-header">
+        <h3 class="panel__section-title class-items-title" id="class-items-title">Assets</h3>
+        <button class="icon-btn" id="class-items-close" type="button" aria-label="Close asset list">
+          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+            <path d="M6 6l12 12M6 18 18 6" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+      <ul class="class-items-list" id="class-items-list"></ul>
     </section>
 
-    <section class="panel__section">
-      <h3 class="panel__section-title">Asset classes</h3>
-      <ul class="toggle-list" id="class-toggles"></ul>
-    </section>
-
+    <!-- Section 3: Overlays -->
     <section class="panel__section">
       <h3 class="panel__section-title">Overlays</h3>
       <ul class="toggle-list">
@@ -187,6 +196,14 @@
             <input type="checkbox" id="overlay-highrisk" />
             <span class="toggle__track"></span>
             <span class="toggle__label">High-risk only</span>
+          </label>
+        </li>
+        <li>
+          <label class="toggle">
+            <input type="checkbox" id="overlay-uploaded" />
+            <span class="toggle__track"></span>
+            <span class="toggle__label">Uploaded files</span>
+            <span class="toggle__count" id="overlay-uploaded-count">0</span>
           </label>
         </li>
       </ul>
@@ -318,6 +335,9 @@
     </div>
   </noscript>
 
-  <script type="module" src="./src/main.js?v=3"></script>
+  <script>
+    window.JISP_CONFIG = { apiBaseUrl: "http://localhost:8000", apiMode: "auto" };
+  </script>
+  <script type="module" src="./src/main.js?v=4"></script>
 </body>
 </html>

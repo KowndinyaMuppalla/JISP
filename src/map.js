@@ -28,7 +28,7 @@ function loadMaplibre() {
   return new Promise((resolve, reject) => {
     const start = performance.now();
     const tick = () => {
-      const ml = /** @type any */ (globalThis).maplibregl;
+      const ml = /** @type {any} */ (globalThis).maplibregl;
       if (ml) return resolve(ml);
       if (performance.now() - start > 8000) {
         return reject(new Error(
@@ -403,7 +403,7 @@ export class JispMap {
   flyToRegion(code) {
     if (!this.map) return;
     const b = REGION_BOUNDS[code]; if (!b) return;
-    this.map.fitBounds(/** @type any */(b), { padding: 60, duration: 800 });
+    this.map.fitBounds(/** @type {any} */(b), { padding: 60, duration: 800 });
   }
 
   /** @param {[number, number]} lngLat @param {number} [zoom] */

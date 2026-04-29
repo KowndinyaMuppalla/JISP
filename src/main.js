@@ -53,6 +53,19 @@ async function main() {
       });
     },
     onRegionJump: (code) => jispMap.flyToRegion(/** @type any */(code)),
+    apiClient: api,
+    useTreeView: true,  // Enable hierarchical tree-view
+    onItemSelect: (itemId, properties, geometry) => {
+      // Fly to the asset and show its detail panel.
+      const center = geometry ? _featureCentre({ geometry, properties }) : null;
+      if (center) jispMap.flyTo(center, 14);
+      jispMap.setSelected(itemId);
+      assetPanel.show({
+        type: "Feature",
+        geometry: geometry || { type: "Point", coordinates: [0, 0] },
+        properties,
+      });
+    },
   });
   layerPanel.mount();
 
@@ -84,14 +97,14 @@ async function main() {
   });
   await jispMap.init();
 
-  // Region jump button → cycles regions
+  // Region jump button → cycles regions + loads tree-view for that region
   const regions = ["us", "uk", "anz_au", "anz_nz", "apac"];
   const labels = {
     us: "United States", uk: "United Kingdom",
     anz_au: "Australia", anz_nz: "New Zealand", apac: "Asia Pacific",
   };
   let regionIdx = 0;
-  $("#region-jump-btn").addEventListener("click", () => {
+  $("#region-jump-btn").addEventListener("click", async () => {
     regionIdx = (regionIdx + 1) % regions.length;
     const r = regions[regionIdx];
     jispMap.flyToRegion(/** @type any */(r));
@@ -99,6 +112,9 @@ async function main() {
     /** @type {HTMLElement} */
     ($("#region-jump-btn").querySelector(".dot")).className =
       `dot dot--${r === "anz_au" || r === "anz_nz" ? "anz" : r}`;
+    
+    // Switch tree-view to new region
+    await layerPanel.switchRegion(r);
   });
 
   // Cursor lon/lat in the status bar
@@ -106,7 +122,9 @@ async function main() {
     $("#status-cursor").textContent = fmtLonLat(e.lngLat.lng, e.lngLat.lat);
   });
 
-  // Initial counts for the layer panel + KPI strip
+  // Initial setup: load first region into tree-view and populate counts
+  await layerPanel.switchRegion("us");
+  
   const initial = await api.listAssets();
   lastClusterZones = await api.listClusterZones();
   const counts = _countByCategory(initial.features);

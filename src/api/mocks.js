@@ -197,7 +197,7 @@ export async function mockObservations(assetId, opts = {}) {
 
   const base = 65;
   const amp  = 8;
-  const stride = (end - start) / 200;
+  const stride = (end.getTime() - start.getTime()) / 200;
   for (let t = start.getTime(); t <= end.getTime(); t += stride) {
     const day = (t - start) / 86400_000;
     const seasonal = amp * Math.sin(day / 7);

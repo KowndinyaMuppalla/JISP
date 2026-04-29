@@ -24,7 +24,7 @@ def test_asset_risk():
     }
     
     try:
-        resp = requests.post(f"{BASE_URL}/explain", json=payload, timeout=30)
+        resp = requests.post(f"{BASE_URL}/api/v1/explain", json=payload, timeout=30)
         print(f"Status: {resp.status_code}")
         
         if resp.status_code == 200:
@@ -33,14 +33,14 @@ def test_asset_risk():
             print(f"Template: {result['template']}")
             print(f"Model: {result['model']}")
             print(f"Explanation (first 150 chars):\n{result['explanation'][:150]}...")
-            print("✅ Test 1 PASSED")
+            print("OK Test 1 PASSED")
             return True
         else:
-            print(f"❌ Unexpected status: {resp.status_code}")
+            print(f"Unexpected status: {resp.status_code}")
             print(f"Response: {resp.text}")
             return False
     except Exception as e:
-        print(f"❌ Test 1 FAILED: {e}")
+        print(f"Test 1 FAILED: {e}")
         return False
 
 
@@ -64,7 +64,7 @@ def test_flood_change():
     }
     
     try:
-        resp = requests.post(f"{BASE_URL}/explain", json=payload, timeout=30)
+        resp = requests.post(f"{BASE_URL}/api/v1/explain", json=payload, timeout=30)
         print(f"Status: {resp.status_code}")
         
         if resp.status_code == 200:
@@ -72,14 +72,14 @@ def test_flood_change():
             print(f"Subject: {result['subject']}")
             print(f"Template: {result['template']}")
             print(f"Explanation (first 150 chars):\n{result['explanation'][:150]}...")
-            print("✅ Test 2 PASSED")
+            print("OK Test 2 PASSED")
             return True
         else:
-            print(f"❌ Unexpected status: {resp.status_code}")
+            print(f"Unexpected status: {resp.status_code}")
             print(f"Response: {resp.text}")
             return False
     except Exception as e:
-        print(f"❌ Test 2 FAILED: {e}")
+        print(f"Test 2 FAILED: {e}")
         return False
 
 
@@ -103,7 +103,7 @@ def test_anomaly():
     }
     
     try:
-        resp = requests.post(f"{BASE_URL}/explain", json=payload, timeout=30)
+        resp = requests.post(f"{BASE_URL}/api/v1/explain", json=payload, timeout=30)
         print(f"Status: {resp.status_code}")
         
         if resp.status_code == 200:
@@ -111,14 +111,14 @@ def test_anomaly():
             print(f"Subject: {result['subject']}")
             print(f"Template: {result['template']}")
             print(f"Explanation (first 150 chars):\n{result['explanation'][:150]}...")
-            print("✅ Test 3 PASSED")
+            print("OK Test 3 PASSED")
             return True
         else:
-            print(f"❌ Unexpected status: {resp.status_code}")
+            print(f"Unexpected status: {resp.status_code}")
             print(f"Response: {resp.text}")
             return False
     except Exception as e:
-        print(f"❌ Test 3 FAILED: {e}")
+        print(f"Test 3 FAILED: {e}")
         return False
 
 
@@ -136,13 +136,13 @@ def test_health():
             print(f"Health Status: {result['status']}")
             print(f"Service: {result['service']}")
             print(f"Version: {result['version']}")
-            print("✅ Health check PASSED")
+            print("OK Health check PASSED")
             return True
         else:
-            print(f"❌ Health check FAILED: {resp.status_code}")
+            print(f"Health check FAILED: {resp.status_code}")
             return False
     except Exception as e:
-        print(f"❌ Health check FAILED: {e}")
+        print(f"Health check FAILED: {e}")
         return False
 
 
@@ -163,7 +163,7 @@ if __name__ == "__main__":
     print("=" * 60)
     
     for test_name, passed in results.items():
-        status = "✅ PASS" if passed else "❌ FAIL"
+        status = "OK PASS" if passed else "FAIL"
         print(f"{test_name:20} {status}")
     
     total_passed = sum(1 for v in results.values() if v)
@@ -172,6 +172,6 @@ if __name__ == "__main__":
     print(f"\nTotal: {total_passed}/{total_tests} tests passed")
     
     if total_passed == total_tests:
-        print("\n🎉 ALL TESTS PASSED - GEOAI INTEGRATION VERIFIED!")
+        print("\nAll TESTS PASSED - GEOAI INTEGRATION VERIFIED!")
     else:
-        print(f"\n⚠️  {total_tests - total_passed} test(s) failed")
+        print(f"\n{total_tests - total_passed} test(s) failed")

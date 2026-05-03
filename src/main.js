@@ -17,11 +17,11 @@ import { $ } from "./util/dom.js";
 import { fmtLonLat } from "./util/format.js";
 
 const cfg = /** @type {{apiBaseUrl?:string,apiMode?:"auto"|"live"|"mock"}} */ (
-  /** @type any */ (window).JISP_CONFIG ?? {}
+  /** @type any */ (window).JISP_CONFIG ?? { apiBaseUrl: "http://localhost:8000", apiMode: "live" }
 );
 
 async function main() {
-  const api = new ApiClient({ baseUrl: cfg.apiBaseUrl, mode: cfg.apiMode ?? "auto" });
+  const api = new ApiClient({ baseUrl: cfg.apiBaseUrl || "http://localhost:8000", mode: cfg.apiMode || "live" });
   await api.probe();
   _renderApiModeBadge(api.isLive);
 
@@ -54,9 +54,8 @@ async function main() {
     },
     onRegionJump: (code) => jispMap.flyToRegion(/** @type any */(code)),
     apiClient: api,
-    useTreeView: true,  // Enable hierarchical tree-view
+    useTreeView: true,
     onItemSelect: (itemId, properties, geometry) => {
-      // Fly to the asset and show its detail panel.
       const center = geometry ? _featureCentre({ geometry, properties }) : null;
       if (center) jispMap.flyTo(center, 14);
       jispMap.setSelected(itemId);
@@ -109,23 +108,17 @@ async function main() {
     const r = regions[regionIdx];
     jispMap.flyToRegion(/** @type any */(r));
     $("#region-jump-label").textContent = labels[r];
-    /** @type {HTMLElement} */
     ($("#region-jump-btn").querySelector(".dot")).className =
       `dot dot--${r === "anz_au" || r === "anz_nz" ? "anz" : r}`;
-    
-    // Switch tree-view to new region
     await layerPanel.switchRegion(r);
   });
 
-  // Cursor lon/lat in the status bar
   jispMap.map?.on("mousemove", (e) => {
     $("#status-cursor").textContent = fmtLonLat(e.lngLat.lng, e.lngLat.lat);
   });
 
-  // Initial setup: load first region into tree-view and populate counts
-  await layerPanel.switchRegion("us");
-  
-  const initial = await api.listAssets();
+  // Load initial data
+  const initial = await api.listAssets({});
   lastClusterZones = await api.listClusterZones();
   const counts = _countByCategory(initial.features);
   layerPanel.setCounts({
@@ -143,11 +136,10 @@ async function main() {
   });
   _setModelStatus(api.isLive ? "llama3.3 · live" : "llama3.3 · mock");
   _setLastSync();
-}
 
-/* ---------------------------------------------------------------
- * KPI strip: count-up animation + status text
- * ------------------------------------------------------------- */
+  // Initialize tree-view for first region
+  await layerPanel.switchRegion("us");
+}
 
 /** @param {{assets:number,highRisk:number,hotspots:number,regions:number}} m */
 function _updateKpis(m) {
@@ -157,7 +149,6 @@ function _updateKpis(m) {
   _animateCount("kpi-regions",  m.regions);
 }
 
-/** Smooth integer count-up to a target value over ~600ms. */
 function _animateCount(elementId, target) {
   const el = document.getElementById(elementId);
   if (!el) return;
@@ -192,7 +183,6 @@ function _setLastSync() {
   setInterval(update, 30_000);
 }
 
-/** @param {boolean} isLive */
 function _renderApiModeBadge(isLive) {
   const el = $("#status-mode");
   if (isLive) {
@@ -204,7 +194,6 @@ function _renderApiModeBadge(isLive) {
   }
 }
 
-/** @param {import("./api/types.js").AssetFeature} f */
 function _featureCentre(f) {
   switch (f.geometry.type) {
     case "Point":      return /** @type any */ (f.geometry.coordinates);
@@ -222,7 +211,6 @@ function _featureCentre(f) {
   }
 }
 
-/** @param {import("./api/types.js").AssetFeature[]} features */
 function _countByCategory(features) {
   const regions = {}, classes = {};
   for (const f of features) {
@@ -244,5 +232,4 @@ main().catch((err) => {
      }</pre>`);
 });
 
-// Sanity touch so the bundler doesn't drop the import.
 void REGION_BOUNDS;

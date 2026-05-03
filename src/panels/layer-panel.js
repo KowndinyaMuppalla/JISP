@@ -63,7 +63,7 @@ export class LayerPanel {
 
   mount() {
     if (this.treeView) {
-      this.treeView.mount();
+      this.treeView.mount("tree-view-container");
     } else {
       this._mountRegions();
       this._mountClasses();
@@ -109,8 +109,12 @@ export class LayerPanel {
     if (this.treeView) {
       const sec = document.getElementById("class-items-container");
       if (sec) sec.hidden = true;
-      await this.treeView.loadRegion(regionCode);
-      this._emit();
+      try {
+        await this.treeView.loadRegion(regionCode);
+        this._emit();
+      } catch (err) {
+        console.error("[LayerPanel] Failed to load region:", err);
+      }
     }
   }
 

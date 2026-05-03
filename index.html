@@ -31,16 +31,11 @@
     crossorigin="anonymous"
   ></script>
 
-  <!--
-    Cache-busting `?v=` markers — bump when CSS/JS changes so browsers
-    don't serve stale stylesheets between deploys. Match the value
-    across every file below; bump on each release.
-  -->
-  <link rel="stylesheet" href="./src/styles/tokens.css?v=4" />
-  <link rel="stylesheet" href="./src/styles/layout.css?v=4" />
-  <link rel="stylesheet" href="./src/styles/panels.css?v=4" />
-  <link rel="stylesheet" href="./src/styles/tree-view.css?v=4" />
-  <link rel="stylesheet" href="./src/styles/map.css?v=4" />
+  <link rel="stylesheet" href="./src/styles/tokens.css?v=10" />
+  <link rel="stylesheet" href="./src/styles/layout.css?v=10" />
+  <link rel="stylesheet" href="./src/styles/panels.css?v=10" />
+  <link rel="stylesheet" href="./src/styles/tree-view.css?v=10" />
+  <link rel="stylesheet" href="./src/styles/map.css?v=10" />
 </head>
 <body>
   <!-- Map canvas — full bleed, behind every panel. -->
@@ -150,7 +145,7 @@
     </div>
   </section>
 
-  <!-- Left rail: layer toggles per region + class. -->
+  <!-- Left rail: hierarchical tree-view panel. -->
   <aside class="panel panel--left" id="layer-panel" aria-label="Layers">
     <header class="panel__header">
       <h2 class="panel__title">Layers</h2>
@@ -162,17 +157,16 @@
       </button>
     </header>
 
-    <!-- Section 1: Region tree → asset-class groups → class rows -->
+    <!-- Section 1: Hierarchical tree-view (Region → Classes → Items) -->
     <div id="tree-view-container"></div>
 
-    <!-- Section 2: Individual assets for the selected class (hidden until class selected) -->
+    <!-- Section 2: Individual assets for selected class -->
     <section class="panel__section panel__section--items" id="class-items-container" hidden>
       <div class="class-items-header">
-        <h3 class="panel__section-title class-items-title" id="class-items-title">Assets</h3>
-        <button class="icon-btn" id="class-items-close" type="button" aria-label="Close asset list">
+        <h3 class="panel__section-title" id="class-items-title">Assets</h3>
+        <button class="icon-btn" id="class-items-close" type="button" aria-label="Close">
           <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-            <path d="M6 6l12 12M6 18 18 6" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" />
+            <path d="M6 6l12 12M6 18 18 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
           </svg>
         </button>
       </div>
@@ -220,7 +214,7 @@
     </footer>
   </aside>
 
-  <!-- Right rail: asset detail + explanation. Hidden until selection. -->
+  <!-- Right rail: asset detail + explanation. -->
   <aside class="panel panel--right" id="asset-panel" aria-label="Asset detail" hidden>
     <header class="panel__header">
       <div class="asset-panel__heading">
@@ -230,8 +224,7 @@
       </div>
       <button class="icon-btn" id="asset-close" type="button" aria-label="Close">
         <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-          <path d="M6 6l12 12M6 18 18 6" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" />
+          <path d="M6 6l12 12M6 18 18 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
         </svg>
       </button>
     </header>
@@ -260,8 +253,7 @@
         <button class="btn btn--primary btn--block" id="explain-btn" type="button">
           <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
             <path d="M12 2 14.39 8.26 21 9l-5 4.74L17.18 21 12 17.27 6.82 21 8 13.74 3 9l6.61-.74L12 2Z"
-                  fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linejoin="round" />
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
           </svg>
           Generate explanation
         </button>
@@ -295,7 +287,7 @@
     </span>
   </footer>
 
-  <!-- Import dropzone modal. Hidden until trigger. -->
+  <!-- Import modal. -->
   <div class="modal" id="import-modal" hidden>
     <div class="modal__backdrop" data-close></div>
     <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="import-title">
@@ -303,21 +295,18 @@
         <h2 id="import-title">Import assets</h2>
         <button class="icon-btn" data-close type="button" aria-label="Close">
           <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-            <path d="M6 6l12 12M6 18 18 6" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" />
+            <path d="M6 6l12 12M6 18 18 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
           </svg>
         </button>
       </header>
       <div class="dropzone" id="dropzone" tabindex="0">
         <svg viewBox="0 0 24 24" width="40" height="40" aria-hidden="true">
           <path d="M12 16V4m0 0L8 8m4-4 4 4M4 20h16"
-                fill="none" stroke="currentColor" stroke-width="1.6"
-                stroke-linecap="round" stroke-linejoin="round" />
+                fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
         <p>Drag &amp; drop a <strong>GeoPackage, Shapefile zip, or GeoJSON</strong> here</p>
         <p class="dropzone__hint">or <button class="link" id="dropzone-browse" type="button">browse files</button></p>
-        <input id="dropzone-input" type="file"
-               accept=".gpkg,.zip,.shp,.geojson,.json" hidden />
+        <input id="dropzone-input" type="file" accept=".gpkg,.zip,.shp,.geojson,.json" hidden />
       </div>
       <ul class="upload-list" id="upload-list"></ul>
       <footer class="modal__foot">
@@ -331,13 +320,13 @@
 
   <noscript>
     <div style="padding:2rem;color:#fff;background:#0a0e14;font:14px system-ui">
-      JISP requires JavaScript to render the MapLibre canvas.
+      JISP requires JavaScript.
     </div>
   </noscript>
 
   <script>
     window.JISP_CONFIG = { apiBaseUrl: "http://localhost:8000", apiMode: "auto" };
   </script>
-  <script type="module" src="./src/main.js?v=4"></script>
+  <script type="module" src="./src/main.js?v=10"></script>
 </body>
 </html>
